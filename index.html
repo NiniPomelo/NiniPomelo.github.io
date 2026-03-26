@@ -1,19 +1,98 @@
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>YuYou Chou VR Portfolio</title>
+
+<title>YuYou Chou | VR Developer</title>
 
 <style>
+
 body{
+margin:0;
+font-family:Arial;
 background:black;
 color:white;
-text-align:center;
-font-family:Arial;
 }
 
-h1{
-font-size:60px;
-margin-top:100px;
+/* 首頁區 */
+.hero{
+height:100vh;
+display:flex;
+flex-direction:column;
+justify-content:center;
+align-items:center;
+background:linear-gradient(180deg,#050505,#111);
+text-align:center;
+}
+
+.hero h1{
+font-size:70px;
+letter-spacing:3px;
+}
+
+.hero h2{
+color:#00ffff;
+font-weight:normal;
+}
+
+/* 按鈕 */
+
+.btn{
+margin-top:20px;
+padding:15px 35px;
+border:2px solid #00ffff;
+color:#00ffff;
+text-decoration:none;
+font-size:18px;
+transition:0.3s;
+}
+
+.btn:hover{
+background:#00ffff;
+color:black;
+}
+
+/* 作品區 */
+
+.projects{
+padding:80px;
+text-align:center;
+}
+
+.projects h2{
+font-size:40px;
+margin-bottom:50px;
+}
+
+.card-container{
+display:flex;
+justify-content:center;
+gap:40px;
+flex-wrap:wrap;
+}
+
+.card{
+background:#111;
+padding:30px;
+width:260px;
+border-radius:10px;
+transition:0.3s;
+border:1px solid #333;
+}
+
+.card:hover{
+transform:translateY(-10px);
+border:1px solid #00ffff;
+}
+
+.card h3{
+color:#00ffff;
+}
+
+footer{
+text-align:center;
+padding:40px;
+color:gray;
 }
 
 </style>
@@ -22,9 +101,47 @@ margin-top:100px;
 
 <body>
 
+<section class="hero">
+
 <h1>YuYou Chou</h1>
-<h2>VR Developer</h2>
-<p>Welcome to my VR Portfolio</p>
+
+<h2>VR Game Developer</h2>
+
+<a class="btn" href="#projects">View My Projects</a>
+
+</section>
+
+
+<section class="projects" id="projects">
+
+<h2>VR Projects</h2>
+
+<div class="card-container">
+
+<div class="card">
+<h3>VR Tree Cutting</h3>
+<p>Players chop trees using VR axe mechanics.</p>
+</div>
+
+<div class="card">
+<h3>VR Inventory</h3>
+<p>Grab items using Quest controller interaction.</p>
+</div>
+
+<div class="card">
+<h3>VR Survival</h3>
+<p>Explore a survival world and collect resources.</p>
+</div>
+
+</div>
+
+</section>
+
+<footer>
+
+<p>© 2026 YuYou Chou</p>
+
+</footer>
 
 </body>
 </html>
