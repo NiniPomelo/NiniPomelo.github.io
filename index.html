@@ -26,8 +26,11 @@
             cursor: crosshair; scroll-behavior: smooth;
         }
 
-        /* --- 1. 背景：數據點雲與掃描線 --- */
-        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        /* --- 1. 背景層級設定 --- */
+        #canvas-container { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background: #000; /* 確保底色是純黑 */
+        }
         .vignette {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
             background: radial-gradient(circle, transparent 40%, #000 100%);
@@ -39,7 +42,7 @@
         }
         @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
 
-        /* --- 2. 核心交互：黑洞引力按鈕 --- */
+        /* --- 2. 導覽列 --- */
         nav {
             position: fixed; left: 50%; top: 40px; transform: translateX(-50%);
             display: flex; gap: 15px; z-index: 1000; padding: 10px;
@@ -53,7 +56,6 @@
             transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* 黑洞漩渦層 */
         .nav-link::before {
             content: ''; position: absolute; top: 50%; left: 50%;
             width: 0; height: 0; border-radius: 50%;
@@ -73,8 +75,8 @@
             100% { transform: translate(-50%, -50%) rotate(360deg) scale(1.2); }
         }
 
-        /* --- 3. 頁面排版：非線性介面 --- */
-        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
+        /* --- 3. 頁面排版 --- */
+        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; position: relative; }
 
         .glitch-title {
             font-family: 'Syncopate', sans-serif; font-size: clamp(50px, 15vw, 180px);
@@ -86,7 +88,6 @@
             font-size: 12px; letter-spacing: 10px; color: var(--accent);
         }
 
-        /* 影片視窗：大跨度懸浮 */
         .viewport-unit {
             width: 100%; aspect-ratio: 21/9; background: var(--glass);
             border: 1px solid var(--border); position: relative; margin-top: 50px;
@@ -95,15 +96,12 @@
         }
         .viewport-label {
             position: absolute; top: 10px; right: 20px; font-size: 10px; color: var(--primary);
-            display: flex; align-items: center; gap: 8px;
+            display: flex; align-items: center; gap: 8px; z-index: 10;
         }
         .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1s infinite; }
         @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
 
-        /* 作品集：錯落照片牆 */
-        .archive-grid {
-            display: grid; grid-template-columns: repeat(12, 1fr); gap: 15px; margin-top: 100px;
-        }
+        .archive-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 15px; margin-top: 100px; }
         .archive-item {
             position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
             transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
@@ -116,10 +114,9 @@
         .item-sm { grid-column: span 4; height: 500px; }
         .item-md { grid-column: span 6; height: 400px; }
 
-        /* --- 4. 聯絡資訊：數位傳送門 --- */
         .portal-contact {
             text-align: center; padding: 150px 0; border: 1px dashed var(--border);
-            margin: 100px 0; position: relative;
+            margin: 100px 0; position: relative; background: rgba(0,0,0,0.5);
         }
         .portal-contact a {
             font-size: clamp(20px, 6vw, 80px); color: #fff; text-decoration: none; font-weight: 800;
@@ -148,7 +145,6 @@
     <a href="#contact" class="nav-link">SIGNAL</a>
 </nav>
 
-<!-- Section 1: Hero -->
 <section id="hero">
     <div class="glitch-title" data-sal="slide-up" data-sal-duration="1200">
         <span>YUYOU</span>
@@ -156,12 +152,11 @@
     </div>
     <p style="max-width: 450px; margin-top: 50px; line-height: 2; font-size: 14px; opacity: 0.6; border-left: 2px solid var(--primary); padding-left: 20px;">
         [VR_ARCHITECT_PORTFOLIO_V10]<br>
-        致力於利用空間運算 (Spatial Computing) 打破數位與現實的邊界。
+        致力於利用空間運算 (Spatial Computing) 打破數位與現實的邊界。<br>
         在引力、光影與代碼的交點處，我構建世界。
     </p>
 </section>
 
-<!-- Section 2: Viewport (Video) -->
 <section id="work">
     <h2 style="font-family: 'Syncopate'; font-size: 12px; letter-spacing: 5px;">// FEATURED_SHOWREEL</h2>
     <div class="viewport-unit" data-sal="zoom-out">
@@ -172,7 +167,6 @@
     </div>
 </section>
 
-<!-- Section 3: Archive (Photos) -->
 <section id="archive">
     <h2 style="font-family: 'Syncopate'; font-size: 12px; letter-spacing: 5px; margin-bottom: 40px;">// RECOVERED_FRAGMENTS</h2>
     <div class="archive-grid">
@@ -191,7 +185,6 @@
     </div>
 </section>
 
-<!-- Section 4: Signal (Contact) -->
 <section id="contact">
     <div class="portal-contact" data-sal="zoom-in">
         <p style="color: var(--primary); font-size: 10px; letter-spacing: 5px;">[ INITIATING UPLINK ]</p>
@@ -205,145 +198,100 @@
     <span>LOC: 25.0330° N, 121.5654° E</span>
 </footer>
 
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<!-- 引入 SAL 動態庫 -->
 <script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
 
-<script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
 <script>
-    /* --- 核心：動態神經網絡背景 (Canvas 2D 優化版) --- */
-    const canvasContainer = document.getElementById('canvas-container');
+    /* --- 核心背景：互動式數位矩陣 --- */
+    const container = document.getElementById('canvas-container');
     const canvas = document.createElement('canvas');
     const ctx = canvas.getContext('2d');
-    canvasContainer.appendChild(canvas);
+    container.appendChild(canvas);
 
-    let particles = [];
-    let w, h;
-    const mouse = { x: null, y: null, radius: 180 };
+    let w, h, columns;
+    const fontSize = 16;
+    let drops = [];
+    const charList = "ABCDEF0123456789<>[]{}/+*#%&ｦｱｳｴｵｶｷｸｹｺｻｼｽｾｿﾀﾁﾂﾃﾄﾅﾆﾇﾈﾉﾊﾋﾌﾍﾎﾏﾐﾑﾒﾓﾔﾕﾖﾗﾘﾙﾚﾛﾜﾝ";
+    const mouse = { x: -1000, y: -1000, radius: 150 };
 
-    function resize() {
+    function initCanvas() {
         w = canvas.width = window.innerWidth;
         h = canvas.height = window.innerHeight;
+        columns = Math.floor(w / fontSize);
+        drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = Math.random() * -100;
+        }
     }
 
-    class Particle {
-        constructor() {
-            this.x = Math.random() * w;
-            this.y = Math.random() * h;
-            this.size = Math.random() * 2 + 0.5;
-            this.baseX = this.x;
-            this.baseY = this.y;
-            this.density = (Math.random() * 30) + 1;
-            this.color = 'rgba(0, 255, 255, 0.8)';
-        }
-        draw() {
-            ctx.fillStyle = this.color;
-            ctx.beginPath();
-            ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2);
-            ctx.closePath();
-            ctx.fill();
-        }
-        update() {
-            // 滑鼠排斥邏輯
-            let dx = mouse.x - this.x;
-            let dy = mouse.y - this.y;
-            let distance = Math.sqrt(dx * dx + dy * dy);
-            let forceDirectionX = dx / distance;
-            let forceDirectionY = dy / distance;
-            let maxDistance = mouse.radius;
-            let force = (maxDistance - distance) / maxDistance;
-            let directionX = forceDirectionX * force * this.density;
-            let directionY = forceDirectionY * force * this.density;
+    function drawMatrix() {
+        // 拖影效果
+        ctx.fillStyle = "rgba(0, 0, 0, 0.08)";
+        ctx.fillRect(0, 0, w, h);
 
+        ctx.font = fontSize + "px 'JetBrains Mono'";
+
+        for (let i = 0; i < drops.length; i++) {
+            const x = i * fontSize;
+            const y = drops[i] * fontSize;
+
+            // 計算滑鼠距離
+            const dx = x - mouse.x;
+            const dy = y - mouse.y;
+            const distance = Math.sqrt(dx * dx + dy * dy);
+
+            // 接近滑鼠時變色
             if (distance < mouse.radius) {
-                this.x -= directionX;
-                this.y -= directionY;
-                this.color = '#ff0033'; // 靠近滑鼠變紅 (Accent Color)
+                ctx.fillStyle = "#ff0033"; 
             } else {
-                if (this.x !== this.baseX) {
-                    let dx = this.x - this.baseX;
-                    this.x -= dx / 15;
-                }
-                if (this.y !== this.baseY) {
-                    let dy = this.y - this.baseY;
-                    this.y -= dy / 15;
-                }
-                this.color = 'rgba(0, 255, 255, 0.5)';
+                ctx.fillStyle = "#00ffff";
             }
-        }
-    }
 
-    function init() {
-        particles = [];
-        // 根據螢幕密度調整粒子數
-        const numberOfParticles = (w * h) / 9000;
-        for (let i = 0; i < numberOfParticles; i++) {
-            particles.push(new Particle());
-        }
-    }
+            const text = charList.charAt(Math.floor(Math.random() * charList.length));
+            ctx.fillText(text, x, y);
 
-    function animate() {
-        ctx.clearRect(0, 0, w, h);
-        for (let i = 0; i < particles.length; i++) {
-            particles[i].update();
-            particles[i].draw();
-            
-            // 繪製連線 (神經網絡感)
-            for (let j = i; j < particles.length; j++) {
-                let dx = particles[i].x - particles[j].x;
-                let dy = particles[i].y - particles[j].y;
-                let distance = Math.sqrt(dx * dx + dy * dy);
-
-                if (distance < 100) {
-                    ctx.strokeStyle = `rgba(0, 255, 255, ${1 - distance/100})`;
-                    ctx.lineWidth = 0.5;
-                    ctx.beginPath();
-                    ctx.moveTo(particles[i].x, particles[i].y);
-                    ctx.lineTo(particles[j].x, particles[j].y);
-                    ctx.stroke();
-                }
+            if (y > h && Math.random() > 0.975) {
+                drops[i] = 0;
             }
+            drops[i]++;
         }
-        requestAnimationFrame(animate);
     }
 
-    // 事件監聽
     window.addEventListener('mousemove', (e) => {
         mouse.x = e.clientX;
         mouse.y = e.clientY;
     });
 
-    window.addEventListener('resize', () => {
-        resize();
-        init();
-    });
+    window.addEventListener('resize', initCanvas);
 
-    // 啟動背景
-    resize();
-    init();
-    animate();
+    // 啟動動畫
+    initCanvas();
+    setInterval(drawMatrix, 35);
 
-    /* --- 額外互動：導覽列文字亂碼特效 --- */
-    const letters = "ABCDEF0123456789<>[]{}/+*#%&";
+    /* --- 文字亂碼特效 --- */
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789@#$%&";
     document.querySelectorAll('.nav-link, .portal-contact a').forEach(link => {
         const originalText = link.innerText;
-        link.addEventListener('mouseenter', () => {
+        link.addEventListener('mouseover', () => {
             let iteration = 0;
             const interval = setInterval(() => {
                 link.innerText = originalText.split("").map((l, index) => {
-                    if (index < iteration) return originalText[index];
+                    if(index < iteration) return originalText[index];
                     return letters[Math.floor(Math.random() * letters.length)];
                 }).join("");
-                if (iteration >= originalText.length) clearInterval(interval);
-                iteration += 1 / 3;
+                if(iteration >= originalText.length) clearInterval(interval);
+                iteration += 1/3;
             }, 30);
         });
-        link.addEventListener('mouseleave', () => {
-            link.innerText = originalText;
+        link.addEventListener('mouseout', () => {
+            // 滑鼠移開時還原文字，避免停留在亂碼
+            setTimeout(() => { link.innerText = originalText; }, 500);
         });
     });
 
     // 初始化 SAL 捲動動畫
     sal({ threshold: 0.1 });
 </script>
+
 </body>
 </html>
