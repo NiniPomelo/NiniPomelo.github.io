@@ -3,9 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YuYou Chou | VR Architect | Pure_Flow_v5</title>
+    <title>YuYou Chou | VR Architect | Fluid_Identity_v6</title>
     
-    <!-- 引入動畫庫 CSS -->
     <link href="https://unpkg.com/sal.js@0.8.5/dist/sal.css" rel="stylesheet">
     
     <style>
@@ -13,87 +12,65 @@
             --primary: #00ffff;
             --secondary: #ff00ff;
             --bg-dark: #050505;
-            --card-bg: rgba(15, 15, 15, 0.85);
+            --card-bg: rgba(20, 20, 20, 0.8);
             --text-main: #ffffff;
-            --text-muted: #888888;
-            --neon-glow: 0 0 15px rgba(0, 255, 255, 0.6);
+            --neon-glow: 0 0 15px rgba(0, 255, 255, 0.5);
         }
 
         * { box-sizing: border-box; }
         html { scroll-behavior: smooth; cursor: crosshair; background-color: var(--bg-dark); }
-        body {
-            margin: 0;
-            font-family: 'Roboto Mono', 'SF Pro Display', monospace;
-            color: var(--text-main);
-            overflow-x: hidden;
-        }
+        body { margin: 0; font-family: 'Roboto Mono', monospace; color: var(--text-main); overflow-x: hidden; }
 
-        /* --- 背景與掃描線 --- */
-        #three-container {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            z-index: -1;
-        }
+        #three-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
 
-        .scanlines {
-            position: fixed; top: 0; left: 0;
-            width: 100%; height: 100%;
-            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.1) 50%);
-            background-size: 100% 4px;
-            z-index: 998; pointer-events: none; opacity: 0.3;
-        }
-
-        /* --- 磁吸導覽列 --- */
+        /* --- 1. 新版按鈕樣式：邊框流光 --- */
         nav {
-            position: fixed; top: 0; width: 100%;
-            display: flex; justify-content: center; gap: 15px;
-            padding: 25px 0; z-index: 1000;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(15px);
-            border-bottom: 1px solid rgba(0, 255, 255, 0.1);
+            position: fixed; top: 0; width: 100%; display: flex; justify-content: center; 
+            gap: 20px; padding: 25px 0; z-index: 1000;
+            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
         }
 
         .nav-btn {
-            padding: 10px 20px;
+            padding: 12px 24px;
             color: var(--primary);
             text-decoration: none;
-            font-size: 12px;
+            font-size: 11px;
             text-transform: uppercase;
             letter-spacing: 2px;
-            border: 1px solid rgba(0, 255, 255, 0.2);
-            background: rgba(0, 255, 255, 0.02);
             position: relative;
-            transition: 0.3s;
-            will-change: transform;
+            background: transparent;
+            transition: color 0.4s;
+            overflow: hidden; /* 為了背景填充效果 */
+            border: 1px solid rgba(0, 255, 255, 0.2);
         }
 
-        .nav-btn:hover {
-            background: rgba(0, 255, 255, 0.15);
-            color: #fff;
-            box-shadow: var(--neon-glow);
-            animation: glitch-anim 0.3s linear infinite;
+        /* 液態背景填充 */
+        .nav-btn::before {
+            content: '';
+            position: absolute; top: 100%; left: 0;
+            width: 100%; height: 100%;
+            background: var(--primary);
+            transition: top 0.4s cubic-bezier(0.19, 1, 0.22, 1);
+            z-index: -1;
         }
 
-        @keyframes glitch-anim {
-            0% { transform: translate(0); }
-            33% { transform: translate(-3px, 1px); text-shadow: 2px 0 var(--secondary); }
-            66% { transform: translate(3px, -1px); text-shadow: -2px 0 var(--primary); }
-            100% { transform: translate(0); }
-        }
+        .nav-btn:hover { color: #000; font-weight: bold; }
+        .nav-btn:hover::before { top: 0; }
 
-        /* --- 內容樣式 --- */
-        section { padding: 160px 10% 80px; max-width: 1300px; margin: auto; }
+        /* --- 2. 內容佈局 --- */
+        section { padding: 180px 10% 80px; max-width: 1200px; margin: auto; }
         .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .hero h1 { font-size: clamp(40px, 10vw, 110px); color: var(--primary); letter-spacing: 12px; margin: 0; }
+        .hero h1 { font-size: clamp(40px, 8vw, 90px); color: var(--primary); letter-spacing: 15px; margin: 0; }
         
         .card {
-            background: var(--card-bg); padding: 40px; border-radius: 12px;
-            border: 1px solid rgba(255, 255, 255, 0.05);
-            transition: 0.4s; transform-style: preserve-3d;
+            background: var(--card-bg); padding: 40px; border-radius: 4px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
         }
-        .card:hover { border-color: var(--primary); box-shadow: 0 0 40px rgba(0, 255, 255, 0.1); }
+        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
 
-        footer { text-align: center; padding: 60px; opacity: 0.4; font-size: 12px; }
+        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 10px; letter-spacing: 2px; }
 
         @media (max-width: 768px) { nav { gap: 5px; } .nav-btn { padding: 8px 12px; font-size: 10px; } }
     </style>
@@ -101,7 +78,6 @@
 <body>
 
 <div id="three-container"></div>
-<div class="scanlines"></div>
 
 <nav>
     <a class="nav-btn" href="#">Home</a>
@@ -112,67 +88,51 @@
 </nav>
 
 <section class="hero">
-    <h1 data-sal="zoom-out">YuYou Chou</h1>
-    <p style="letter-spacing: 8px; color: var(--text-muted);">VR ARCHITECT / INTERACTION DESIGNER</p>
+    <h1 data-sal="fade">YuYou Chou</h1>
+    <p style="letter-spacing: 10px; color: #666; margin-top: 20px;">VR ARCHITECT</p>
 </section>
 
 <section id="about">
-    <h2 data-sal="slide-right" style="color:var(--primary)">/ About</h2>
+    <h2 data-sal="slide-up">/ Identity</h2>
     <div class="card" data-sal="slide-up">
-        <p style="font-size: 20px;">
-            我是周佑宇。專精於 <strong>VR/AR 物理交互設計</strong>。背景網格會根據你的滑鼠位置產生引力反應，呈現科技與藝術的交織。
+        <p style="font-size: 18px; line-height: 1.8; color: #bbb;">
+            專注於創造沈浸式虛擬空間與物理互動。這份作品集展現了對數據與空間美學的追求，背景網格會隨著滑鼠優雅地起伏，模擬液態數據流的質感。
         </p>
     </div>
 </section>
 
-<section id="featured">
-    <h2 data-sal="slide-right" style="color:var(--primary)">/ Featured</h2>
-    <div class="card" data-sal="fade">
-        <div style="aspect-ratio:16/9; background:#000; border:1px solid var(--primary); margin-bottom:20px; overflow:hidden;">
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ" frameborder="0" allowfullscreen></iframe>
-        </div>
-        <h3>VR Physics Protocol</h3>
-        <p>高級物理碰撞與力學反饋實驗計畫。</p>
-    </div>
-</section>
-
-<section id="projects">
-    <h2 data-sal="slide-right" style="color:var(--primary)">/ Projects</h2>
-    <div style="display:grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap:30px;">
-        <div class="card" data-sal="flip-up"><h3>Spatial.Interaction</h3><p>VR 抓取系統優化。</p></div>
-        <div class="card" data-sal="flip-up" data-sal-delay="100"><h3>Haptic.Link</h3><p>觸覺反饋調節工具。</p></div>
-    </div>
-</section>
-
 <section id="contact" style="text-align: center;">
-    <h2 data-sal="slide-right" style="color:var(--primary)">/ Contact</h2>
-    <a href="mailto:n0966785408@gmail.com" style="font-size: 32px; color: var(--primary); text-decoration: none; font-weight: bold;">n0966785408@gmail.com</a>
+    <h2 data-sal="fade">/ Connection</h2>
+    <a href="mailto:n0966785408@gmail.com" style="font-size: 28px; color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary);">n0966785408@gmail.com</a>
 </section>
 
-<footer><p>© 2026 YuYou Chou | STABLE CONNECTION</p></footer>
+<footer><p>© 2026 YuYou Chou | SMOOTH INTERFACE ACTIVE</p></footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
 
 <script>
-    /* --- 1. Three.js 背景 (純滑鼠互動，移除滾動震盪) --- */
+    /* -----------------------------------------------------------
+       1. Three.js 背景：高斯平滑流體網格
+    ----------------------------------------------------------- */
     let scene, camera, renderer, terrain;
     let mouseX = 0, mouseY = 0;
+    let targetMouseX = 0, targetMouseY = 0;
 
     function initThree() {
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(0, 15, 35);
+        camera.position.set(0, 18, 30);
         camera.lookAt(0, 0, 0);
 
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setPixelRatio(window.devicePixelRatio);
+        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
         renderer.setSize(window.innerWidth, window.innerHeight);
         document.getElementById('three-container').appendChild(renderer.domElement);
 
-        const geometry = new THREE.PlaneGeometry(150, 150, 75, 75);
+        const geometry = new THREE.PlaneGeometry(160, 160, 80, 80);
         const material = new THREE.MeshBasicMaterial({
-            color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.15, blending: THREE.AdditiveBlending
+            color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.12
         });
 
         terrain = new THREE.Mesh(geometry, material);
@@ -185,23 +145,32 @@
 
     function animate() {
         requestAnimationFrame(animate);
-        const time = performance.now() * 0.001;
+        
+        // 滑鼠位置平滑過渡 (Easing)
+        mouseX += (targetMouseX - mouseX) * 0.05;
+        mouseY += (targetMouseY - mouseY) * 0.05;
+
+        const time = performance.now() * 0.0008;
         const positions = terrain.geometry.attributes.position.array;
         
-        const gX = mouseX * 80;
-        const gZ = -mouseY * 80;
+        const gX = mouseX * 90;
+        const gZ = -mouseY * 90;
 
         for (let i = 0; i < positions.length; i += 3) {
             const x = positions[i];
             const y = positions[i + 1];
-            const d = Math.sqrt(Math.pow(x - gX, 2) + Math.pow(y - gZ, 2));
-            const proximity = 1 / (d * 0.15 + 1);
 
-            // 只保留基礎波浪 + 滑鼠引力漣漪
-            positions[i + 2] = 
-                Math.sin(x * 0.12 + time) * 1.5 + 
-                Math.cos(y * 0.12 + time) * 1.5 + 
-                (Math.sin(d * 0.5 - time * 5) * proximity * 8); 
+            // 基礎波浪
+            let z = Math.sin(x * 0.1 + time) * 1.2 + Math.cos(y * 0.1 + time) * 1.2;
+
+            // 高斯平滑引力計算
+            const dist = Math.sqrt(Math.pow(x - gX, 2) + Math.pow(y - gZ, 2));
+            // sigma 決定了平滑範圍，數值越大，影響越廣越平緩
+            const sigma = 15; 
+            const ripple = Math.exp(-(dist * dist) / (2 * sigma * sigma)) * 10;
+            
+            // 疊加平滑後的漣漪
+            positions[i + 2] = z + (Math.sin(dist * 0.3 - time * 4) * ripple * 0.5); 
         }
 
         terrain.geometry.attributes.position.needsUpdate = true;
@@ -209,8 +178,8 @@
     }
 
     window.addEventListener('mousemove', (e) => {
-        mouseX = (e.clientX / window.innerWidth) - 0.5;
-        mouseY = (e.clientY / window.innerHeight) - 0.5;
+        targetMouseX = (e.clientX / window.innerWidth) - 0.5;
+        targetMouseY = (e.clientY / window.innerHeight) - 0.5;
     });
 
     window.addEventListener('resize', () => {
@@ -221,29 +190,9 @@
 
     initThree();
 
-    /* --- 2. UI 磁吸交互邏輯 --- */
-    const btns = document.querySelectorAll('.nav-btn');
-    btns.forEach(btn => {
-        btn.addEventListener('mousemove', (e) => {
-            const rect = btn.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) * 0.4;
-            const y = (e.clientY - rect.top - rect.height / 2) * 0.4;
-            btn.style.transform = `translate(${x}px, ${y}px)`;
-        });
-        btn.addEventListener('mouseleave', () => btn.style.transform = `translate(0, 0)`);
-    });
-
-    // 3D 卡片視差
-    document.querySelectorAll('.card').forEach(card => {
-        card.addEventListener('mousemove', (e) => {
-            const rect = card.getBoundingClientRect();
-            const x = (e.clientX - rect.left - rect.width / 2) / 20;
-            const y = (e.clientY - rect.top - rect.height / 2) / 20;
-            card.style.transform = `rotateY(${x}deg) rotateX(${-y}deg)`;
-        });
-        card.addEventListener('mouseleave', () => card.style.transform = `rotateY(0) rotateX(0)`);
-    });
-
+    /* -----------------------------------------------------------
+       2. 初始化其他功能
+    ----------------------------------------------------------- */
     sal({ threshold: 0.1, once: true });
 </script>
 
