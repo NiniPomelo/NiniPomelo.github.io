@@ -3,76 +3,360 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YuYou Chou | VR Architect | Fluid_Identity_v6</title>
-    
+    <title>YuYou Chou | VR Architect | digital_identity</title>
     <link href="https://unpkg.com/sal.js@0.8.5/dist/sal.css" rel="stylesheet">
     
     <style>
+        /* --- 1. 全域變數 & 霓虹定義 --- */
         :root {
             --primary: #00ffff;
+            --primary-rgb: 0, 255, 255;
             --secondary: #ff00ff;
-            --bg-dark: #050505;
-            --card-bg: rgba(20, 20, 20, 0.8);
+            --tech-blue: #0077ff;
+            
+            /* 極致發光效果定義 */
+            --neon-glow: 0 0 10px rgba(0, 255, 255, 0.7),
+                         0 0 20px rgba(0, 255, 255, 0.5);
+            --neon-text-glow: 0 0 15px rgba(0, 255, 255, 0.9);
+            
+            --bg-dark: #000000;
+            --card-bg: rgba(5, 5, 5, 0.7);
             --text-main: #ffffff;
-            --neon-glow: 0 0 15px rgba(0, 255, 255, 0.5);
+            --text-muted: #888888;
         }
 
-        * { box-sizing: border-box; }
-        html { scroll-behavior: smooth; cursor: crosshair; background-color: var(--bg-dark); }
-        body { margin: 0; font-family: 'Roboto Mono', monospace; color: var(--text-main); overflow-x: hidden; }
+        /* --- 2. 基本樣式 --- */
+        html {
+            scroll-behavior: smooth;
+            cursor: crosshair; /* 十字游標 */
+        }
 
-        #three-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
+        body {
+            margin: 0;
+            font-family: 'SF Pro Display', 'Roboto Mono', Menlo, Monaco, Consolas, -apple-system, sans-serif;
+            background: var(--bg-dark);
+            color: var(--text-main);
+            overflow-x: hidden;
+            line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
+        }
 
-        /* --- 1. 新版按鈕樣式：邊框流光 --- */
+        /* --- 3. 3D 背景 (Three.js 畫布) --- */
+        #three-container {
+            position: fixed;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
+            z-index: -1; /* 位於內容下方 */
+            opacity: 0.8;
+        }
+        
+        /* 螢幕掃描線疊加層 */
+        body::after {
+            content: "";
+            position: fixed;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
+            background-size: 100% 4px;
+            z-index: 999; /* 位於最上方，但透明 */
+            pointer-events: none;
+            opacity: 0.2;
+        }
+
+        /* --- 4. 導覽列 (毛玻璃 + 科幻底線) --- */
         nav {
-            position: fixed; top: 0; width: 100%; display: flex; justify-content: center; 
-            gap: 20px; padding: 25px 0; z-index: 1000;
-            background: rgba(0, 0, 0, 0.85); backdrop-filter: blur(10px);
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            position: fixed;
+            top: 0;
+            width: 100%;
+            display: flex;
+            justify-content: center;
+            gap: 5px;
+            padding: 20px 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 255, 255, 0.15);
         }
 
         .nav-btn {
-            padding: 12px 24px;
-            color: var(--primary);
+            padding: 8px 18px;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 11px;
+            font-size: 12px;
             text-transform: uppercase;
             letter-spacing: 2px;
+            transition: all 0.4s ease;
             position: relative;
-            background: transparent;
-            transition: color 0.4s;
-            overflow: hidden; /* 為了背景填充效果 */
-            border: 1px solid rgba(0, 255, 255, 0.2);
         }
 
-        /* 液態背景填充 */
-        .nav-btn::before {
-            content: '';
-            position: absolute; top: 100%; left: 0;
-            width: 100%; height: 100%;
-            background: var(--primary);
-            transition: top 0.4s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: -1;
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--primary);
+            text-shadow: var(--neon-text-glow);
         }
-
-        .nav-btn:hover { color: #000; font-weight: bold; }
-        .nav-btn:hover::before { top: 0; }
-
-        /* --- 2. 內容佈局 --- */
-        section { padding: 180px 10% 80px; max-width: 1200px; margin: auto; }
-        .hero { height: 100vh; display: flex; flex-direction: column; justify-content: center; align-items: center; }
-        .hero h1 { font-size: clamp(40px, 8vw, 90px); color: var(--primary); letter-spacing: 15px; margin: 0; }
         
-        .card {
-            background: var(--card-bg); padding: 40px; border-radius: 4px;
-            border: 1px solid rgba(255, 255, 255, 0.1);
-            transition: 0.5s cubic-bezier(0.2, 1, 0.3, 1);
+        /* 懸停時的科幻底線 */
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 1px;
+            bottom: 0; left: 50%;
+            background: var(--primary);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
-        .card:hover { border-color: var(--primary); transform: translateY(-10px); }
+        
+        .nav-btn:hover::after { width: 90%; box-shadow: var(--neon-glow); }
 
-        footer { text-align: center; padding: 60px; opacity: 0.3; font-size: 10px; letter-spacing: 2px; }
+        /* --- 5. Hero (增加沉浸感) --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.08) 0%, transparent 70%);
+        }
 
-        @media (max-width: 768px) { nav { gap: 5px; } .nav-btn { padding: 8px 12px; font-size: 10px; } }
+        .hero h1 {
+            font-size: clamp(40px, 12vw, 120px);
+            color: var(--primary);
+            text-shadow: var(--neon-text-glow);
+            margin: 0;
+            letter-spacing: 12px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* 在 Hero 標題前加入裝飾性代碼 */
+        .hero h1::before {
+            content: 'init::> ';
+            font-size: 0.3em;
+            letter-spacing: 1px;
+            color: rgba(0, 255, 255, 0.5);
+            position: absolute;
+            top: -15px; left: 0;
+        }
+
+        .hero h2 {
+            font-size: clamp(18px, 3.5vw, 28px);
+            color: var(--text-muted);
+            font-weight: 300;
+            margin-top: 25px;
+            letter-spacing: 4px;
+        }
+
+        /* --- 6. 通用 Section --- */
+        section {
+            padding: 180px 10% 80px;
+            max-width: 1400px;
+            margin: auto;
+            position: relative;
+        }
+
+        section h2 {
+            text-align: center;
+            font-size: 48px;
+            margin-bottom: 100px;
+            color: var(--primary);
+            text-shadow: var(--neon-text-glow);
+            letter-spacing: 6px;
+            text-transform: uppercase;
+            position: relative;
+        }
+        
+        /* 標題科幻線條裝飾 */
+        section h2::before, section h2::after {
+            content: '';
+            position: absolute;
+            width: 80px; height: 1px;
+            background: var(--primary);
+            top: 50%;
+            transform: translateY(-50%);
+            box-shadow: var(--neon-glow);
+        }
+        section h2::before { left: calc(50% - 180px); }
+        section h2::after { right: calc(50% - 180px); }
+
+        /* --- 7. Featured Project (裝飾性邊框) --- */
+        .featured-wrapper {
+            display: grid;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 50px;
+            align-items: center;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 255, 255, 0.15);
+            backdrop-filter: blur(15px);
+            box-shadow: 0 30px 60px rgba(0,0,0,0.6);
+            position: relative;
+        }
+        
+        /* 科幻角落標記 */
+        .featured-wrapper::before, .featured-wrapper::after {
+            content: '';
+            position: absolute;
+            width: 20px; height: 20px;
+            border: 2px solid var(--primary);
+        }
+        .featured-wrapper::before { top: 10px; left: 10px; border-right: 0; border-bottom: 0; }
+        .featured-wrapper::after { bottom: 10px; right: 10px; border-left: 0; border-top: 0; }
+
+        .video-container {
+            position: relative;
+            aspect-ratio: 16/9;
+            overflow: hidden;
+            border-radius: 14px;
+            border: 2px solid rgba(0, 255, 255, 0.3);
+            box-shadow: 0 0 20px rgba(0, 255, 255, 0.2);
+        }
+
+        .video-container iframe {
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            border: none;
+        }
+
+        .featured-text h3 {
+            font-size: 34px;
+            color: var(--primary);
+            margin-top: 0;
+            position: relative;
+        }
+        
+        /* 增加數據流效果的文字暗示 */
+        .featured-text p { color: #ccc; position: relative; }
+        .featured-text p::after {
+            content: ' [data-stream: ok]';
+            font-size: 0.8em;
+            color: rgba(0, 255, 255, 0.4);
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* --- 8. Project Cards (3D 視差 + 科幻細節) --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 35px;
+            perspective: 1200px; /* 3D 透視 */
+        }
+
+        .card {
+            background: var(--card-bg);
+            padding: 50px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            transition: transform 0.1s ease, box-shadow 0.4s ease, border-color 0.4s ease;
+            transform-style: preserve-3d; 
+            will-change: transform;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 20px 40px rgba(0, 255, 255, 0.2);
+        }
+        
+        /* 卡片懸停時的內部掃描線效果 */
+        .card::after {
+            content: '';
+            position: absolute;
+            top: -100%; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(rgba(0,255,255,0) 0%, rgba(0,255,255,0.05) 50%, rgba(0,255,255,0) 100%);
+            transition: top 0.6s ease;
+            pointer-events: none;
+        }
+        .card:hover::after { top: 100%; }
+
+        .card-content { transform: translateZ(60px); }
+
+        .card h3 { 
+            color: var(--primary); 
+            margin-top: 0; 
+            font-size: 26px;
+            text-shadow: 0 0 12px rgba(0,255,255,0.6);
+            position: relative;
+        }
+        
+        /* 標題前的代碼提示符 */
+        .card h3::before { content: '=> '; color: rgba(0, 255, 255, 0.5); }
+
+        /* --- 9. Gallery (優化比例) --- */
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+            border: 2px solid rgba(255,255,255,0.08);
+            aspect-ratio: 16/10;
+            transition: 0.4s;
+            position: relative;
+        }
+
+        .gallery img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            transition: transform 0.8s cubic-bezier(0.22, 1, 0.36, 1), filter 0.8s ease;
+            filter: grayscale(100%) brightness(0.7);
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+            filter: grayscale(0%) brightness(1);
+        }
+        
+        /* 畫廊懸停時的霓虹邊框 */
+        .gallery-item:hover { border-color: var(--primary); box-shadow: var(--neon-glow); }
+
+        /* --- 10. Contact & Footer --- */
+        .contact { text-align: center; }
+        .contact p { color: var(--text-muted); font-size: 20px; letter-spacing: 1px;}
+        .contact a {
+            color: var(--primary);
+            font-size: clamp(24px, 5vw, 42px);
+            text-decoration: none;
+            font-weight: bold;
+            text-shadow: var(--neon-text-glow);
+            position: relative;
+            transition: 0.4s;
+            font-family: 'Roboto Mono', monospace;
+        }
+        
+        .contact a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
+        }
+
+        footer {
+            text-align: center;
+            padding: 100px 0 50px;
+            color: #666;
+            font-size: 13px;
+            letter-spacing: 2px;
+            font-family: 'Roboto Mono', monospace;
+        }
+
+        /* --- 11. 響應式調整 --- */
+        @media (max-width: 992px) {
+            .featured-wrapper { grid-template-columns: 1fr; }
+        }
+
+        @media (max-width: 768px) {
+            nav { padding: 15px 0; gap: 2px; }
+            .nav-btn { padding: 5px 8px; font-size: 11px; letter-spacing: 1px; }
+            section { padding: 120px 6% 60px; }
+            section h2 { font-size: 36px; margin-bottom: 60px; }
+            .card { padding: 30px; }
+        }
     </style>
 </head>
 <body>
@@ -84,117 +368,232 @@
     <a class="nav-btn" href="#about">About</a>
     <a class="nav-btn" href="#featured">Featured</a>
     <a class="nav-btn" href="#projects">Projects</a>
+    <a class="nav-btn" href="#gallery">Gallery</a>
     <a class="nav-btn" href="#contact">Contact</a>
 </nav>
 
 <section class="hero">
-    <h1 data-sal="fade">YuYou Chou</h1>
-    <p style="letter-spacing: 10px; color: #666; margin-top: 20px;">VR ARCHITECT</p>
+    <h1 data-sal="slide-up" data-sal-delay="100" data-sal-duration="1000">YuYou Chou</h1>
+    <h2 data-sal="slide-up" data-sal-delay="400" data-sal-duration="1000">Virtual Reality Architect</h2>
 </section>
 
 <section id="about">
-    <h2 data-sal="slide-up">/ Identity</h2>
-    <div class="card" data-sal="slide-up">
-        <p style="font-size: 18px; line-height: 1.8; color: #bbb;">
-            專注於創造沈浸式虛擬空間與物理互動。這份作品集展現了對數據與空間美學的追求，背景網格會隨著滑鼠優雅地起伏，模擬液態數據流的質感。
-        </p>
+    <h2 data-sal="fade-in">System.About()</h2>
+    <div style="max-width: 850px; margin: auto; text-align: center;" data-sal="slide-up">
+        <p style="font-size: 18px; color: #ccc;">I am a <strong style="color:var(--primary);">VR Developer</strong> dedicated to pushing the boundaries of spatial computing. Specializing in <strong style="color:var(--secondary);">Unity</strong>, C#, and Meta Quest ecosystem, I design and implement physics-based interaction systems that enhance presence and immersion in virtual environments.</p>
     </div>
 </section>
 
-<section id="contact" style="text-align: center;">
-    <h2 data-sal="fade">/ Connection</h2>
-    <a href="mailto:n0966785408@gmail.com" style="font-size: 28px; color: var(--primary); text-decoration: none; border-bottom: 1px solid var(--primary);">n0966785408@gmail.com</a>
+<section id="featured">
+    <div class="featured-wrapper" data-sal="slide-up">
+        <div class="video-container">
+            <iframe src="https://www.youtube.com/embed/YOUR_ACTUAL_VIDEO_ID?autoplay=0&muted=1&modestbranding=1" allowfullscreen></iframe>
+        </div>
+        <div class="featured-text">
+            <h2>Featured</h2>
+            <h3>VR Survival Protocol</h3>
+            <p>A fully realized survival experience on Quest. Features included advanced inverse kinematics (IK) for full-body representation, realistic tree chopping physics, and a complex diegetic inventory system built for spatial awareness.</p>
+        </div>
+    </div>
 </section>
 
-<footer><p>© 2026 YuYou Chou | SMOOTH INTERFACE ACTIVE</p></footer>
+<section id="projects">
+    <h2>Other_Projects_log</h2>
+    <div class="projects-grid">
+        <div class="card" data-sal="slide-up" data-sal-delay="100">
+            <div class="card-content">
+                <h3>PhysX.TreeCutting</h3>
+                <p style="color:#bbb;">Haptic-feedback enabled tree interaction system with procedural mesh splitting and realistic impact physics.</p>
+            </div>
+        </div>
+        <div class="card" data-sal="slide-up" data-sal-delay="200">
+            <div class="card-content">
+                <h3>UI.SpatialInventory</h3>
+                <p style="color:#bbb;">A zero-HUD inventory solution allowing players to grab, organize, and attach items directly to their virtual bodies.</p>
+            </div>
+        </div>
+        <div class="card" data-sal="slide-up" data-sal-delay="300">
+            <div class="card-content">
+                <h3>Core.VRInteraction</h3>
+                <p style="color:#bbb;">A toolkit for building intuitive grab, throw, poke, and lever interactions across various VR hardware controllers.</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<section id="gallery">
+    <h2>Visual_Dump</h2>
+    <div class="gallery">
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="100"><img src="https://via.placeholder.com/600x400/010101/00ffff?text=VR+Environment" alt="Gallery 1"></div>
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="200"><img src="https://via.placeholder.com/600x400/010101/00ffff?text=Physics+Prototype" alt="Gallery 2"></div>
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="300"><img src="https://via.placeholder.com/600x400/010101/00ffff?text=Interaction+Demo" alt="Gallery 3"></div>
+    </div>
+</section>
+
+<section id="contact" class="contact">
+    <h2 data-sal="fade-in">Establish_Connection</h2>
+    <p data-sal="slide-up">Ready to build the future of the Metaverse?</p>
+    <div data-sal="slide-up" data-sal-delay="200">
+        <a href="mailto:n0966785408@gmail.com">n0966785408@gmail.com</a>
+    </div>
+</section>
+
+<footer>
+    <p>© 2026 YuYou Chou | Metaverse Architect | [End of Line]</p>
+</footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
 
 <script>
-    /* -----------------------------------------------------------
-       1. Three.js 背景：高斯平滑流體網格
-    ----------------------------------------------------------- */
-    let scene, camera, renderer, terrain;
-    let mouseX = 0, mouseY = 0;
-    let targetMouseX = 0, targetMouseY = 0;
+    // --- 1. 初始化滾動動畫 ---
+    sal({ threshold: 0.1, once: true });
+
+    // --- 2. 初始化 Three.js 3D背景 (互動神經版) ---
+    let scene, camera, renderer, terrain, particles;
+    let mouseX = 0, mouseY = 0, lastScrollY = 0, scrollSpeed = 0;
+    const container = document.getElementById('three-container');
 
     function initThree() {
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(70, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(0, 18, 30);
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
+        camera.position.set(0, 15, 30);
         camera.lookAt(0, 0, 0);
 
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
-        renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+        renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('three-container').appendChild(renderer.domElement);
+        container.appendChild(renderer.domElement);
 
-        const geometry = new THREE.PlaneGeometry(160, 160, 80, 80);
+        // 初始化波動網格地景
+        const geometry = new THREE.PlaneGeometry(120, 120, 70, 70); // 加大解析度
         const material = new THREE.MeshBasicMaterial({
-            color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.12
+            color: 0x00ffff,
+            wireframe: true,
+            transparent: true,
+            opacity: 0.12,
+            blending: THREE.AdditiveBlending, // 讓網格發光
         });
-
         terrain = new THREE.Mesh(geometry, material);
         terrain.rotation.x = -Math.PI / 2;
-        terrain.position.y = -5;
+        terrain.position.y = -6;
         scene.add(terrain);
+
+        // 初始化粒子深度
+        const particlesGeometry = new THREE.BufferGeometry();
+        const posArray = new Float32Array(400 * 3);
+        for (let i = 0; i < 400 * 3; i++) posArray[i] = (Math.random() - 0.5) * 150;
+        particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
+        const particlesMaterial = new THREE.PointsMaterial({
+            size: 0.15,
+            color: 0x00ffff,
+            transparent: true,
+            opacity: 0.6,
+            blending: THREE.AdditiveBlending,
+        });
+        particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        scene.add(particles);
 
         animate();
     }
 
+    // 動畫循環 (核心互動邏輯)
     function animate() {
         requestAnimationFrame(animate);
+
+        const time = performance.now() * 0.001;
+        const vertices = terrain.geometry.attributes.position.array;
         
-        // 滑鼠位置平滑過渡 (Easing)
-        mouseX += (targetMouseX - mouseX) * 0.05;
-        mouseY += (targetMouseY - mouseY) * 0.05;
+        // 1. 滑鼠數據引力 (引力點 X Y Z)
+        // 將網格坐標系轉換為Three.js空間：平面的 Y 是 Z。
+        const gravityX = mouseX * 50; 
+        const gravityZ = -mouseY * 50; 
 
-        const time = performance.now() * 0.0008;
-        const positions = terrain.geometry.attributes.position.array;
-        
-        const gX = mouseX * 90;
-        const gZ = -mouseY * 90;
+        // 遍歷所有頂點
+        for (let i = 0; i < vertices.length; i += 3) {
+            const x = vertices[i];
+            const z = vertices[i + 1];
 
-        for (let i = 0; i < positions.length; i += 3) {
-            const x = positions[i];
-            const y = positions[i + 1];
-
-            // 基礎波浪
-            let z = Math.sin(x * 0.1 + time) * 1.2 + Math.cos(y * 0.1 + time) * 1.2;
-
-            // 高斯平滑引力計算
-            const dist = Math.sqrt(Math.pow(x - gX, 2) + Math.pow(y - gZ, 2));
-            // sigma 決定了平滑範圍，數值越大，影響越廣越平緩
-            const sigma = 15; 
-            const ripple = Math.exp(-(dist * dist) / (2 * sigma * sigma)) * 10;
+            // 計算頂點到滑鼠虛擬點的 2D 距離
+            const dx = x - gravityX;
+            const dz = z - gravityZ;
+            const distance = Math.sqrt(dx*dx + dz*dz);
             
-            // 疊加平滑後的漣漪
-            positions[i + 2] = z + (Math.sin(dist * 0.3 - time * 4) * ripple * 0.5); 
+            // 2. 引力/漣漪計算
+            // 基礎波浪
+            let waveY = Math.sin(x * 0.15 + time) * Math.cos(z * 0.15 + time); 
+            
+            // 滑鼠引力影響：離滑鼠越近，引力影響越大 (使用反比)
+            const influence = 1 / (distance * 0.2 + 1); // 當 distance=0 時， influence=1
+            
+            // 當前頂點的 Y (Z 軸幾何坐標)
+            const gPos = i + 2; 
+            
+            // 將基礎波浪加上滑鼠引力漣漪效果
+            // 影響幅度為原本的 3 倍，且加上漣漪頻率
+            const attractY = waveY + (Math.sin(distance * 0.5 - time * 2) * influence * 3);
+            
+            vertices[gPos] = attractY + (scrollSpeed * 0.1); // 將捲動速度疊加到波動上
         }
-
         terrain.geometry.attributes.position.needsUpdate = true;
+
         renderer.render(scene, camera);
+        
+        // 捲動速度遞減 (產生慣性效果)
+        scrollSpeed *= 0.92;
     }
 
-    window.addEventListener('mousemove', (e) => {
-        targetMouseX = (e.clientX / window.innerWidth) - 0.5;
-        targetMouseY = (e.clientY / window.innerHeight) - 0.5;
-    });
-
+    // 處理視窗大小調整
     window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
     });
 
+    // 滑鼠互動監聽 (更新滑鼠全局坐標)
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5); // 範圍 -0.5 到 0.5
+        mouseY = (e.clientY / window.innerHeight - 0.5);
+    });
+
+    // 監聽網頁捲動 (計算捲動速度產生漣漪)
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.pageYOffset;
+        scrollSpeed = currentScrollY - lastScrollY; // 速度 = 當前 - 上一次
+        lastScrollY = currentScrollY;
+    });
+
     initThree();
 
-    /* -----------------------------------------------------------
-       2. 初始化其他功能
-    ----------------------------------------------------------- */
-    sal({ threshold: 0.1, once: true });
+    // --- 3. 3D 視差卡片效果 ---
+    document.querySelectorAll('.card').forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left;
+            const y = e.clientY - rect.top;
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            card.style.transform = `rotateX(${(centerY - y) / 10}deg) rotateY(${(x - centerX) / 10}deg)`;
+        });
+        card.addEventListener('mouseleave', () => card.style.transform = 'rotateX(0deg) rotateY(0deg)');
+    });
+
+    // --- 4. 導覽列 Active 狀態滾動監聽 ---
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-btn');
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            if (pageYOffset >= section.offsetTop - 300) current = section.getAttribute('id');
+        });
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) link.classList.add('active');
+        });
+    });
 </script>
 
 </body>
 </html>
+
+
