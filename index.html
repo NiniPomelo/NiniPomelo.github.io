@@ -1,21 +1,21 @@
 <!DOCTYPE html>
+
 <html>
 
 <head>
 
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>YuYou Chou | VR Developer</title>
 
 <style>
 
-/* 基本設定 */
+/* 基本 */
 
 body{
 margin:0;
 font-family:Arial;
-color:white;
 background:#020202;
+color:white;
 overflow-x:hidden;
 }
 
@@ -30,7 +30,7 @@ left:0;
 z-index:-2;
 }
 
-/* VR網格地板 */
+/* VR網格 */
 
 .grid{
 position:fixed;
@@ -47,107 +47,119 @@ z-index:-1;
 }
 
 @keyframes gridmove{
-
-0%{
-background-position:0 0;
+0%{background-position:0 0;}
+100%{background-position:0 40px;}
 }
 
-100%{
-background-position:0 40px;
-}
-
-}
-
-/* 導覽列 */
+/* 左側導航 */
 
 nav{
-
 position:fixed;
-top:0;
-width:100%;
-background:#000000cc;
-padding:15px;
+top:30px;
+left:30px;
 display:flex;
-justify-content:center;
-gap:40px;
+flex-direction:column;
+gap:15px;
 z-index:10;
-
 }
 
-nav a{
+.nav-btn{
 
-color:white;
+padding:10px 20px;
+border:1px solid #00ffff;
+color:#00ffff;
 text-decoration:none;
-font-size:16px;
+position:relative;
+overflow:hidden;
 transition:0.3s;
 
 }
 
-nav a:hover{
-
-color:#00ffff;
-
+.nav-btn:hover{
+background:#00ffff;
+color:black;
+box-shadow:0 0 15px #00ffff;
 }
 
 /* Hero */
 
 .hero{
-
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
 text-align:center;
-
 }
 
 .hero h1{
-
 font-size:80px;
 color:#00ffff;
 text-shadow:0 0 20px #00ffff;
-
 }
 
 .hero h2{
-
 color:#aaa;
-
 }
 
-/* Section */
+/* section */
 
 section{
-
-padding:100px 20px;
-text-align:center;
-
+padding:100px 10%;
 }
 
 section h2{
-
+text-align:center;
 font-size:40px;
-margin-bottom:40px;
+margin-bottom:50px;
+}
+
+/* about */
+
+.about{
+max-width:900px;
+margin:auto;
+text-align:center;
+line-height:1.8;
+}
+
+/* featured project */
+
+.featured{
+
+display:flex;
+gap:40px;
+flex-wrap:wrap;
+align-items:center;
+justify-content:center;
 
 }
 
-/* 卡片 */
+.featured iframe{
 
-.cards{
+width:500px;
+height:280px;
+border:none;
+border-radius:10px;
 
-display:flex;
-flex-wrap:wrap;
-justify-content:center;
+}
+
+.featured-text{
+max-width:400px;
+}
+
+/* project cards */
+
+.projects{
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
 gap:30px;
-
 }
 
 .card{
 
 background:#111;
-padding:30px;
-width:260px;
+padding:25px;
 border-radius:10px;
 border:1px solid #333;
 transition:0.3s;
@@ -156,59 +168,71 @@ transition:0.3s;
 
 .card:hover{
 
-transform:translateY(-10px);
 border:1px solid #00ffff;
+transform:translateY(-10px);
 box-shadow:0 0 20px #00ffff55;
 
 }
 
 .card h3{
-
 color:#00ffff;
+}
+
+/* gallery */
+
+.gallery{
+
+display:grid;
+grid-template-columns:repeat(auto-fit,minmax(250px,1fr));
+gap:20px;
+
+}
+
+.gallery img{
+
+width:100%;
+border-radius:10px;
+transition:0.3s;
+
+}
+
+.gallery img:hover{
+
+transform:scale(1.05);
 
 }
 
 /* contact */
 
+.contact{
+text-align:center;
+}
+
 .contact a{
-
 color:#00ffff;
-text-decoration:none;
 font-size:18px;
-
+text-decoration:none;
 }
 
 /* footer */
 
 footer{
-
-padding:40px;
 text-align:center;
+padding:40px;
 color:gray;
-
 }
 
-/* 響應式 */
+/* mobile */
 
 @media(max-width:768px){
 
 .hero h1{
-
 font-size:40px;
-
-}
-
-.cards{
-
-flex-direction:column;
-align-items:center;
-
 }
 
 nav{
-
-gap:20px;
-
+left:10px;
+top:10px;
 }
 
 }
@@ -224,13 +248,9 @@ gap:20px;
 
 <nav>
 
-<a href="#">Home</a>
-<a href="#about">About</a>
-<a href="#projects">Projects</a>
-<a href="#contact">Contact</a>
+<a class="nav-btn" href="#">Home</a> <a class="nav-btn" href="#about">About</a> <a class="nav-btn" href="#featured">Featured</a> <a class="nav-btn" href="#projects">Projects</a> <a class="nav-btn" href="#gallery">Gallery</a> <a class="nav-btn" href="#contact">Contact</a>
 
 </nav>
-
 
 <section class="hero">
 
@@ -239,66 +259,96 @@ gap:20px;
 
 </section>
 
-
 <section id="about">
 
 <h2>About Me</h2>
 
+<div class="about">
+
 <p>
-Hello! I'm YuYou Chou, a VR developer passionate about building immersive virtual reality experiences.
-I create VR interactions, survival systems, and gameplay mechanics using Unity and Meta Quest.
+Hello! I'm YuYou Chou, a VR developer focused on building immersive virtual reality experiences using Unity and Meta Quest.
 </p>
+
+</div>
 
 </section>
 
+<section id="featured">
+
+<h2>Featured Project</h2>
+
+<div class="featured">
+
+<iframe src="https://www.youtube.com/embed/YOUR_VIDEO"></iframe>
+
+<div class="featured-text">
+
+<h3>VR Survival Project</h3>
+
+<p>
+A VR survival game where players explore environments, chop trees, gather resources, and interact with objects using Quest controllers.
+</p>
+
+</div>
+
+</div>
+
+</section>
 
 <section id="projects">
 
-<h2>VR Projects</h2>
+<h2>Other Projects</h2>
 
-<div class="cards">
+<div class="projects">
 
 <div class="card">
 <h3>VR Tree Cutting</h3>
-<p>Players chop trees using VR axe mechanics and collect resources.</p>
+<p>Chop trees using VR axe physics.</p>
 </div>
 
 <div class="card">
-<h3>VR Inventory System</h3>
-<p>Grab and store items using Quest controller interaction.</p>
+<h3>VR Inventory</h3>
+<p>Grab and store items with VR controllers.</p>
 </div>
 
 <div class="card">
-<h3>VR Survival Game</h3>
-<p>Explore a survival world and gather materials.</p>
+<h3>VR Interaction System</h3>
+<p>Custom VR interaction mechanics.</p>
 </div>
 
 </div>
 
 </section>
 
+<section id="gallery">
+
+<h2>Gallery</h2>
+
+<div class="gallery">
+
+<img src="image1.jpg">
+<img src="image2.jpg">
+<img src="image3.jpg">
+
+</div>
+
+</section>
 
 <section id="contact" class="contact">
 
 <h2>Contact</h2>
 
-<p>Email:</p>
-
 <p>
-<a href="mailto:n0966785408@gmail.com">
-n0966785408@gmail.com
-</a>
+<a href="mailto:n0966785408@gmail.com">n0966785408@gmail.com</a>
 </p>
 
 </section>
-
 
 <footer>
 
 <p>© 2026 YuYou Chou</p>
 
 </footer>
-
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
 
@@ -309,13 +359,9 @@ particlesJS("particles-js",{
 particles:{
 
 number:{value:120},
-
 color:{value:"#00ffff"},
-
 shape:{type:"circle"},
-
 opacity:{value:0.6},
-
 size:{value:3},
 
 line_linked:{
@@ -331,23 +377,6 @@ enable:true,
 speed:2
 }
 
-},
-
-interactivity:{
-
-events:{
-onhover:{
-enable:true,
-mode:"repulse"
-}
-},
-
-modes:{
-repulse:{
-distance:120
-}
-}
-
 }
 
 });
@@ -355,5 +384,4 @@ distance:120
 </script>
 
 </body>
-
 </html>
