@@ -3,239 +3,305 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YuYou Chou | Gravity_Collapse_v9</title>
+    <title>YUYOU CHOU | NEURAL_ARCHITECT_2026</title>
     
     <link href="https://unpkg.com/sal.js@0.8.5/dist/sal.css" rel="stylesheet">
     
     <style>
         :root {
             --primary: #00ffff;
-            --accent: #ff00ff;
+            --accent: #ff0033;
             --bg: #000000;
-            --panel: rgba(20, 20, 20, 0.95);
-            --border: rgba(0, 255, 255, 0.4);
-            --font: 'JetBrains Mono', 'Segoe UI', monospace;
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 255, 255, 0.3);
+            --font: 'Syncopate', 'JetBrains Mono', sans-serif;
         }
 
-        * { box-sizing: border-box; }
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300;800&display=swap');
+
+        * { box-sizing: border-box; outline: none; }
         html, body { 
             margin: 0; padding: 0; background: var(--bg); color: #fff; 
-            font-family: var(--font); overflow-x: hidden; cursor: crosshair;
+            font-family: 'JetBrains Mono', monospace; overflow-x: hidden; 
+            cursor: crosshair; scroll-behavior: smooth;
         }
 
-        /* --- 背景與噪點 --- */
-        #three-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; opacity: 0.6; }
-        .noise {
+        /* --- 1. 背景：數據點雲與掃描線 --- */
+        #canvas-container { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; }
+        .vignette {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
-            background: url('https://grainy-gradients.vercel.app/noise.svg');
-            opacity: 0.15; z-index: -1; pointer-events: none;
+            background: radial-gradient(circle, transparent 40%, #000 100%);
+            z-index: -1; pointer-events: none;
         }
+        .scanline {
+            position: fixed; top: 0; width: 100%; height: 2px; background: rgba(0, 255, 255, 0.1);
+            z-index: 1001; pointer-events: none; animation: scan 4s linear infinite;
+        }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
 
-        /* --- 核心：黑洞吸入按鈕 (超狂特效版) --- */
+        /* --- 2. 核心交互：黑洞引力按鈕 --- */
         nav {
-            position: fixed; top: 0; width: 100%; display: flex; justify-content: center; 
-            gap: 15px; padding: 30px; z-index: 1000; background: linear-gradient(to bottom, #000, transparent);
+            position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%);
+            display: flex; gap: 15px; z-index: 1000; padding: 10px;
+            background: rgba(0,0,0,0.8); border: 1px solid var(--border);
+            backdrop-filter: blur(20px); clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%);
         }
 
-        .bh-btn {
-            position: relative; padding: 15px 35px; color: #fff; text-decoration: none;
-            font-size: 13px; font-weight: bold; text-transform: uppercase;
-            border: 1px solid var(--border); clip-path: polygon(10% 0, 100% 0, 90% 100%, 0 100%);
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-            background: rgba(0, 0, 0, 0.6); overflow: hidden;
+        .nav-link {
+            position: relative; padding: 15px 25px; color: #fff; text-decoration: none;
+            font-size: 10px; font-weight: bold; letter-spacing: 3px; overflow: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
         }
 
-        /* 旋轉的吸積盤核心 */
-        .bh-btn::before {
+        /* 黑洞漩渦層 */
+        .nav-link::before {
             content: ''; position: absolute; top: 50%; left: 50%;
-            width: 300px; height: 300px; 
-            background: conic-gradient(from 0deg, transparent, var(--primary), transparent, var(--accent), transparent);
-            transform: translate(-50%, -50%) scale(0);
-            transition: transform 0.6s cubic-bezier(0.19, 1, 0.22, 1);
-            z-index: -1; animation: rotateBH 1s infinite linear;
+            width: 0; height: 0; border-radius: 50%;
+            background: radial-gradient(circle, #000 30%, var(--primary) 70%, transparent 100%);
+            transform: translate(-50%, -50%) rotate(0deg);
+            z-index: -1; opacity: 0; transition: 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045);
         }
 
-        /* 中心的黑洞 */
-        .bh-btn::after {
-            content: ''; position: absolute; top: 50%; left: 50%;
-            width: 0; height: 0; background: #000; border-radius: 50%;
-            transform: translate(-50%, -50%); transition: all 0.4s; z-index: -1;
-            box-shadow: 0 0 30px var(--primary);
+        .nav-link:hover { color: var(--primary); text-shadow: 0 0 10px var(--primary); transform: scale(1.1); }
+        .nav-link:hover::before {
+            width: 150px; height: 150px; opacity: 1;
+            animation: swirl 1s infinite linear;
         }
 
-        .bh-btn:hover { color: var(--primary); letter-spacing: 5px; transform: scale(1.1); }
-        .bh-btn:hover::before { transform: translate(-50%, -50%) scale(1); }
-        .bh-btn:hover::after { width: 60px; height: 60px; box-shadow: 0 0 50px 20px var(--primary); }
-
-        @keyframes rotateBH { from { transform: translate(-50%, -50%) rotate(0deg); } to { transform: translate(-50%, -50%) rotate(360deg); } }
-
-        /* --- 排版：大跨度科技介面 --- */
-        section { padding: 100px 5%; max-width: 1600px; margin: auto; }
-
-        /* 標題區塊 */
-        .hero { height: 100vh; display: flex; align-items: flex-end; padding-bottom: 15vh; }
-        .hero-title { border-left: 10px solid var(--primary); padding-left: 40px; }
-        .hero-title h1 { font-size: clamp(60px, 12vw, 150px); margin: 0; line-height: 0.8; font-weight: 900; }
-        .hero-tag { font-size: 14px; color: var(--primary); margin-top: 20px; display: block; }
-
-        /* 影片區塊 (Cinematic Display) */
-        .display-unit {
-            position: relative; border: 1px solid var(--border); padding: 10px;
-            background: var(--panel); clip-path: polygon(0 0, 95% 0, 100% 5%, 100% 100%, 5% 100%, 0 95%);
+        @keyframes swirl { 
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.1); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1.2); }
         }
-        .display-unit::before {
-            content: 'LIVE_FEED_01'; position: absolute; top: -15px; left: 20px; 
-            background: var(--primary); color: #000; padding: 2px 10px; font-size: 10px; font-weight: bold;
-        }
-        .media-box { width: 100%; aspect-ratio: 16/9; background: #050505; position: relative; overflow: hidden; }
 
-        /* 照片網格 (Modular Grid) */
-        .gallery-grid {
-            display: grid; grid-template-columns: repeat(12, 1fr); gap: 20px; margin-top: 50px;
-        }
-        .gallery-item { 
-            grid-column: span 4; height: 400px; border: 1px solid rgba(255,255,255,0.1); 
-            position: relative; overflow: hidden; transition: 0.5s;
-        }
-        .gallery-item:nth-child(2) { grid-column: span 8; } /* 不對稱排版 */
-        .gallery-item:hover { border-color: var(--primary); }
-        .gallery-item img { width: 100%; height: 100%; object-fit: cover; filter: grayscale(1); transition: 0.5s; }
-        .gallery-item:hover img { filter: grayscale(0) scale(1.1); }
+        /* --- 3. 頁面排版：非線性介面 --- */
+        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; }
 
-        /* 裝飾性線條 */
-        .deco-line { width: 100%; height: 1px; background: linear-gradient(90deg, var(--primary), transparent); margin: 80px 0; }
+        .glitch-title {
+            font-family: 'Syncopate', sans-serif; font-size: clamp(50px, 15vw, 180px);
+            line-height: 0.8; font-weight: 700; position: relative;
+        }
+        .glitch-title span { display: block; color: var(--primary); }
+        .glitch-title::after {
+            content: 'CORE_IDENTITY_LINKED'; position: absolute; bottom: -20px; left: 5px;
+            font-size: 12px; letter-spacing: 10px; color: var(--accent);
+        }
 
-        @media (max-width: 900px) { .gallery-item { grid-column: span 12 !important; height: 300px; } }
+        /* 影片視窗：大跨度懸浮 */
+        .viewport-unit {
+            width: 100%; aspect-ratio: 21/9; background: var(--glass);
+            border: 1px solid var(--border); position: relative; margin-top: 50px;
+            clip-path: polygon(0 0, 97% 0, 100% 10%, 100% 100%, 3% 100%, 0 90%);
+            box-shadow: 0 0 50px rgba(0,255,255,0.05);
+        }
+        .viewport-label {
+            position: absolute; top: 10px; right: 20px; font-size: 10px; color: var(--primary);
+            display: flex; align-items: center; gap: 8px;
+        }
+        .dot { width: 6px; height: 6px; background: var(--accent); border-radius: 50%; animation: pulse 1s infinite; }
+        @keyframes pulse { 0% { opacity: 1; } 50% { opacity: 0.3; } 100% { opacity: 1; } }
+
+        /* 作品集：錯落照片牆 */
+        .archive-grid {
+            display: grid; grid-template-columns: repeat(12, 1fr); gap: 15px; margin-top: 100px;
+        }
+        .archive-item {
+            position: relative; overflow: hidden; border: 1px solid rgba(255,255,255,0.1);
+            transition: 0.6s cubic-bezier(0.165, 0.84, 0.44, 1);
+        }
+        .archive-item img { width: 100%; height: 100%; object-fit: cover; filter: saturate(0) contrast(1.2); transition: 0.8s; }
+        .archive-item:hover { border-color: var(--primary); transform: translateY(-10px) scale(1.02); z-index: 10; }
+        .archive-item:hover img { filter: saturate(1) contrast(1); }
+
+        .item-lg { grid-column: span 8; height: 500px; }
+        .item-sm { grid-column: span 4; height: 500px; }
+        .item-md { grid-column: span 6; height: 400px; }
+
+        /* --- 4. 聯絡資訊：數位傳送門 --- */
+        .portal-contact {
+            text-align: center; padding: 150px 0; border: 1px dashed var(--border);
+            margin: 100px 0; position: relative;
+        }
+        .portal-contact a {
+            font-size: clamp(20px, 6vw, 80px); color: #fff; text-decoration: none; font-weight: 800;
+            transition: 0.3s;
+        }
+        .portal-contact a:hover { color: var(--primary); letter-spacing: 5px; text-shadow: 0 0 30px var(--primary); }
+
+        footer { display: flex; justify-content: space-between; padding: 40px 10%; font-size: 10px; opacity: 0.4; border-top: 1px solid rgba(255,255,255,0.05); }
+
+        @media (max-width: 768px) {
+            .archive-item { grid-column: span 12 !important; height: 300px; }
+            nav { width: 90%; gap: 5px; } .nav-link { padding: 15px 10px; font-size: 8px; }
+        }
     </style>
 </head>
 <body>
 
-<div id="three-container"></div>
-<div class="noise"></div>
+<div id="canvas-container"></div>
+<div class="vignette"></div>
+<div class="scanline"></div>
 
 <nav>
-    <a class="bh-btn" href="#showcase">Showcase</a>
-    <a class="bh-btn" href="#gallery">Archive</a>
-    <a class="bh-btn" href="#contact">Connect</a>
+    <a href="#hero" class="nav-link">IDENTITY</a>
+    <a href="#work" class="nav-link">VIEWPORT</a>
+    <a href="#archive" class="nav-link">ARCHIVE</a>
+    <a href="#contact" class="nav-link">SIGNAL</a>
 </nav>
 
-<section class="hero">
-    <div class="hero-title" data-sal="slide-up" data-sal-duration="1000">
-        <span class="hero-tag">// INITIALIZING NEURAL LINK...</span>
-        <h1>YUYOU<br>CHOU</h1>
-        <p style="opacity: 0.5; max-width: 500px; margin-top: 30px;">
-            [系統架構師] 專注於虛擬實境中的物理感知與空間數據可視化。透過代碼重塑重力，讓數位邊界消失。
-        </p>
+<!-- Section 1: Hero -->
+<section id="hero">
+    <div class="glitch-title" data-sal="slide-up" data-sal-duration="1200">
+        <span>YUYOU</span>
+        <span style="padding-left: 15%;">CHOU.</span>
+    </div>
+    <p style="max-width: 450px; margin-top: 50px; line-height: 2; font-size: 14px; opacity: 0.6; border-left: 2px solid var(--primary); padding-left: 20px;">
+        [VR_ARCHITECT_PORTFOLIO_V10]<br>
+        致力於利用空間運算 (Spatial Computing) 打破數位與現實的邊界。
+        在引力、光影與代碼的交點處，我構建世界。
+    </p>
+</section>
+
+<!-- Section 2: Viewport (Video) -->
+<section id="work">
+    <h2 style="font-family: 'Syncopate'; font-size: 12px; letter-spacing: 5px;">// FEATURED_SHOWREEL</h2>
+    <div class="viewport-unit" data-sal="zoom-out">
+        <div class="viewport-label">
+            <div class="dot"></div> LIVE_STREAM: 4K_VR_FEED
+        </div>
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0" frameborder="0" style="opacity: 0.8; filter: contrast(1.2) brightness(0.8);"></iframe>
     </div>
 </section>
 
-<!-- 影片區塊 -->
-<section id="showcase">
-    <div class="display-unit" data-sal="zoom-in">
-        <div class="media-box">
-            <!-- 放入影片或是 GIF -->
-            <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&controls=0" frameborder="0" style="opacity: 0.7; transform: scale(1.1);"></iframe>
+<!-- Section 3: Archive (Photos) -->
+<section id="archive">
+    <h2 style="font-family: 'Syncopate'; font-size: 12px; letter-spacing: 5px; margin-bottom: 40px;">// RECOVERED_FRAGMENTS</h2>
+    <div class="archive-grid">
+        <div class="archive-item item-lg" data-sal="slide-right">
+            <img src="https://images.unsplash.com/photo-1626379953822-baec19c3bbcd?auto=format&fit=crop&q=80&w=1200" alt="Work 1">
+        </div>
+        <div class="archive-item item-sm" data-sal="slide-left">
+            <img src="https://images.unsplash.com/photo-1614853316476-de00d14cb1fc?auto=format&fit=crop&q=80&w=600" alt="Work 2">
+        </div>
+        <div class="archive-item item-md" data-sal="slide-up">
+            <img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800" alt="Work 3">
+        </div>
+        <div class="archive-item item-md" data-sal="slide-up" data-sal-delay="200">
+            <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800" alt="Work 4">
         </div>
     </div>
 </section>
 
-<div class="deco-line"></div>
-
-<!-- 照片區塊 -->
-<section id="gallery">
-    <div style="display: flex; justify-content: space-between; align-items: flex-end; margin-bottom: 30px;">
-        <h2 style="font-size: 40px; margin: 0; color: var(--primary);">/PROJECTS</h2>
-        <span style="opacity: 0.4; font-size: 12px;">TOTAL_LOGS: 003</span>
-    </div>
-    
-    <div class="gallery-grid">
-        <div class="gallery-item" data-sal="slide-up">
-            <img src="https://images.unsplash.com/photo-1614728263952-84ea206f99b6?auto=format&fit=crop&q=80&w=800" alt="Project 1">
-            <div style="position: absolute; bottom: 20px; left: 20px; background: #000; padding: 10px; font-size: 12px; border: 1px solid var(--primary);">[01] VR_GRAVITY_TEST</div>
-        </div>
-        <div class="gallery-item" data-sal="slide-up" data-sal-delay="100">
-            <img src="https://images.unsplash.com/photo-1633356122544-f134324a6cee?auto=format&fit=crop&q=80&w=1200" alt="Project 2">
-            <div style="position: absolute; bottom: 20px; left: 20px; background: #000; padding: 10px; font-size: 12px; border: 1px solid var(--primary);">[02] HAPTIC_RESONANCE_SYSTEM</div>
-        </div>
-        <div class="gallery-item" data-sal="slide-up" data-sal-delay="200">
-            <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?auto=format&fit=crop&q=80&w=800" alt="Project 3">
-            <div style="position: absolute; bottom: 20px; left: 20px; background: #000; padding: 10px; font-size: 12px; border: 1px solid var(--primary);">[03] SPATIAL_UI_CORE</div>
-        </div>
+<!-- Section 4: Signal (Contact) -->
+<section id="contact">
+    <div class="portal-contact" data-sal="zoom-in">
+        <p style="color: var(--primary); font-size: 10px; letter-spacing: 5px;">[ INITIATING UPLINK ]</p>
+        <a href="mailto:n0966785408@gmail.com">SEND_SIGNAL</a>
     </div>
 </section>
 
-<section id="contact" style="padding: 200px 5% 100px;">
-    <div style="border: 1px solid var(--primary); padding: 80px; text-align: center; position: relative;">
-        <div style="position: absolute; top: -10px; left: 50%; transform: translateX(-50%); background: #000; padding: 0 20px; color: var(--primary);">START_SYNC</div>
-        <h2 style="font-size: clamp(20px, 4vw, 60px);">n0966785408@gmail.com</h2>
-        <p style="opacity: 0.4; margin-top: 30px;">等待信號接入...</p>
-    </div>
-</section>
-
-<footer style="padding: 50px 5%; display: flex; justify-content: space-between; font-size: 10px; opacity: 0.5;">
-    <span>SECURED_PROTOCOL_V9</span>
-    <span>© 2026 YUYOU CHOU DATA_LABS</span>
+<footer>
+    <span>SYSTEM: VERSION_10.0.1_STABLE</span>
+    <span>© 2026 NEURAL_IDENTITY_LABS</span>
+    <span>LOC: 25.0330° N, 121.5654° E</span>
 </footer>
 
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
 <script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
 
 <script>
-    /* --- Three.js 背景：高張力引力網格 --- */
-    let scene, camera, renderer, terrain;
-    let targetX = 0, targetY = 0, curX = 0, curY = 0;
+    /* --- 1. Three.js 背景：引力點雲與光流網格 --- */
+    let scene, camera, renderer, particles, mesh;
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
 
-    function initThree() {
+    function init() {
         scene = new THREE.Scene();
-        camera = new THREE.PerspectiveCamera(65, window.innerWidth / window.innerHeight, 0.1, 1000);
-        camera.position.set(0, 25, 45);
-        camera.lookAt(0, 0, 0);
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 50;
 
         renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setSize(window.innerWidth, window.innerHeight);
-        document.getElementById('three-container').appendChild(renderer.domElement);
+        renderer.setPixelRatio(window.devicePixelRatio);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-        const geo = new THREE.PlaneGeometry(180, 180, 80, 80);
-        // 使用點狀網格增加工業質感
-        const mat = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.15, transparent: true, opacity: 0.4 });
-        const wireMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.05 });
-        
-        terrain = new THREE.Points(geo, mat);
-        const wireTerrain = new THREE.Mesh(geo, wireMat);
-        
-        terrain.rotation.x = -Math.PI / 2;
-        wireTerrain.rotation.x = -Math.PI / 2;
-        
-        scene.add(terrain);
-        scene.add(wireTerrain);
+        // 點雲粒子系統
+        const pGeo = new THREE.BufferGeometry();
+        const pCount = 5000;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) { pPos[i] = (Math.random() - 0.5) * 200; }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        const pMat = new THREE.PointsMaterial({ color: 0x00ffff, size: 0.1, transparent: true, opacity: 0.5 });
+        particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        // 動態引力網格
+        const mGeo = new THREE.PlaneGeometry(200, 200, 60, 60);
+        const mMat = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.05 });
+        mesh = new THREE.Mesh(mGeo, mMat);
+        mesh.rotation.x = -Math.PI / 2.5;
+        mesh.position.y = -20;
+        scene.add(mesh);
 
         animate();
     }
 
     function animate() {
         requestAnimationFrame(animate);
-        curX += (targetX - curX) * 0.05;
-        curY += (targetY - curY) * 0.05;
-        const time = performance.now() * 0.0008;
-        const pos = terrain.geometry.attributes.position.array;
         
-        for (let i = 0; i < pos.length; i += 3) {
+        // 滑鼠緩動
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
+
+        const time = performance.now() * 0.001;
+
+        // 旋轉粒子
+        particles.rotation.y = time * 0.05;
+        particles.rotation.x = targetY * 0.2;
+
+        // 變形網格
+        const pos = mesh.geometry.attributes.position.array;
+        for(let i=0; i<pos.length; i+=3) {
             const x = pos[i], y = pos[i+1];
-            const d = Math.sqrt((x - curX*100)**2 + (y - (-curY*100))**2);
-            const ripple = Math.exp(-(d*d)/(2*15*15)) * 18;
-            pos[i+2] = Math.sin(x*0.1 + time)*3 + (Math.sin(d*0.4 - time*6) * ripple);
+            // 基礎波浪 + 滑鼠引力擾動
+            const dist = Math.sqrt((x - targetX*150)**2 + (y - (-targetY*150))**2);
+            const ripple = Math.exp(-(dist*dist)/(2*25*25)) * 20;
+            pos[i+2] = Math.sin(x*0.1 + time)*2 + Math.cos(y*0.1 + time)*2 + ripple;
         }
-        terrain.geometry.attributes.position.needsUpdate = true;
+        mesh.geometry.attributes.position.needsUpdate = true;
+
         renderer.render(scene, camera);
     }
 
-    window.addEventListener('mousemove', e => {
-        targetX = (e.clientX / window.innerWidth) - 0.5;
-        targetY = (e.clientY / window.innerHeight) - 0.5;
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) - 0.5;
+        mouseY = (e.clientY / window.innerHeight) - 0.5;
     });
 
-    initThree();
-    sal({ threshold: 0.2 });
+    window.addEventListener('resize', () => {
+        camera.aspect = window.innerWidth / window.innerHeight;
+        camera.updateProjectionMatrix();
+        renderer.setSize(window.innerWidth, window.innerHeight);
+    });
+
+    init();
+    sal({ threshold: 0.1 });
+
+    /* --- 額外驚喜：文字亂碼掃描效果 --- */
+    const letters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456785408";
+    document.querySelectorAll('.nav-link').forEach(link => {
+        const originalText = link.innerText;
+        link.addEventListener('mouseover', () => {
+            let iteration = 0;
+            const interval = setInterval(() => {
+                link.innerText = originalText.split("").map((l, index) => {
+                    if(index < iteration) return originalText[index];
+                    return letters[Math.floor(Math.random() * 39)];
+                }).join("");
+                if(iteration >= originalText.length) clearInterval(interval);
+                iteration += 1/3;
+            }, 30);
+        });
+    });
 </script>
 
 </body>
