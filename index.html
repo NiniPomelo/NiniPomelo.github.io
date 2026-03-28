@@ -2,141 +2,243 @@
 <html lang="zh-Hant">
 <head>
     <meta charset="UTF-8">
-    <title>YUYOU CHOU | THE_SINGULARITY</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>YUYOU CHOU | NEURAL_ARCHITECT_LIGHT</title>
+    
+    <link href="https://unpkg.com/sal.js@0.8.5/dist/sal.css" rel="stylesheet">
+    
     <style>
         :root {
             --primary: #00ffff;
+            --accent: #ff0033;
             --bg: #000000;
-            --border: rgba(0, 255, 255, 0.3);
+            --glass: rgba(255, 255, 255, 0.03);
+            --border: rgba(0, 255, 255, 0.4); /* 稍微調亮邊框 */
+            --font: 'Syncopate', 'JetBrains Mono', sans-serif;
         }
 
-        body, html { margin: 0; padding: 0; background: var(--bg); color: #fff; font-family: 'JetBrains Mono', monospace; overflow-x: hidden; }
+        @import url('https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=JetBrains+Mono:wght@300;800&display=swap');
 
-        /* --- 背景層：這就是你要的動態 --- */
-        #bg-canvas { position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1; }
-
-        /* --- 黑洞交互按鈕：極致版 --- */
-        .bh-nav { position: fixed; bottom: 50px; left: 50%; transform: translateX(-50%); display: flex; gap: 20px; z-index: 100; }
-        
-        .bh-btn {
-            position: relative; width: 120px; height: 50px; background: transparent;
-            border: 1px solid var(--border); color: var(--primary); display: flex;
-            align-items: center; justify-content: center; text-decoration: none;
-            font-size: 10px; letter-spacing: 2px; overflow: hidden; transition: 0.3s;
+        * { box-sizing: border-box; outline: none; }
+        html, body { 
+            margin: 0; padding: 0; background: var(--bg); color: #fff; 
+            font-family: 'JetBrains Mono', monospace; overflow-x: hidden; 
+            cursor: crosshair; scroll-behavior: smooth;
         }
 
-        /* 核心：黑洞吞噬動畫 */
-        .bh-btn::before {
-            content: ''; position: absolute; width: 0; height: 0; background: #000;
-            border-radius: 50%; box-shadow: 0 0 30px var(--primary);
-            transition: width 0.5s, height 0.5s; z-index: -1;
+        /* 背景：確保在最底層但夠亮 */
+        #canvas-container { 
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
+            background: radial-gradient(circle at center, #001a1a 0%, #000 100%); /* 加入微弱底色避免全黑 */
         }
         
-        .bh-btn:hover { color: #fff; border-color: transparent; transform: scale(1.1); }
-        .bh-btn:hover::before { width: 150px; height: 150px; animation: pulse 1s infinite alternate; }
+        .vignette {
+            position: fixed; top: 0; left: 0; width: 100%; height: 100%;
+            background: radial-gradient(circle, transparent 20%, rgba(0,0,0,0.8) 100%);
+            z-index: -1; pointer-events: none;
+        }
 
-        @keyframes pulse { from { transform: scale(0.8); opacity: 0.8; } to { transform: scale(1.2); opacity: 1; } }
+        .scanline {
+            position: fixed; top: 0; width: 100%; height: 2px; background: rgba(0, 255, 255, 0.15);
+            z-index: 1001; pointer-events: none; animation: scan 4s linear infinite;
+        }
+        @keyframes scan { 0% { top: -10%; } 100% { top: 110%; } }
 
-        /* --- 內容排版 --- */
-        section { padding: 100px 10%; min-height: 100vh; }
-        .title-unit { margin-top: 15vh; border-left: 5px solid var(--primary); padding-left: 30px; }
-        h1 { font-size: 8vw; margin: 0; letter-spacing: -5px; }
+        /* --- 核心交互：黑洞引力按鈕 --- */
+        nav {
+            position: fixed; left: 50%; bottom: 40px; transform: translateX(-50%);
+            display: flex; gap: 15px; z-index: 1000; padding: 10px;
+            background: rgba(0,0,0,0.85); border: 1px solid var(--border);
+            backdrop-filter: blur(20px); clip-path: polygon(5% 0, 95% 0, 100% 50%, 95% 100%, 5% 100%, 0 50%);
+        }
 
-        /* 影片 & 照片 預留位置 */
-        .media-grid { display: grid; grid-template-columns: 2fr 1fr; gap: 20px; margin-top: 50px; }
-        .video-slot { aspect-ratio: 16/9; background: #050505; border: 1px solid var(--border); position: relative; }
-        .video-slot::after { content: 'VIDEO_FEED_READY'; position: absolute; center; top: 50%; left: 50%; transform: translate(-50%, -50%); opacity: 0.3; font-size: 12px; }
-        
-        .photo-slot { aspect-ratio: 1/1; background: #080808; border: 1px dashed var(--border); overflow: hidden; }
-        .photo-slot img { width: 100%; height: 100%; object-fit: cover; opacity: 0.5; transition: 0.5s; }
-        .photo-slot:hover img { opacity: 1; transform: scale(1.1); }
+        .nav-link {
+            position: relative; padding: 15px 25px; color: #fff; text-decoration: none;
+            font-size: 10px; font-weight: bold; letter-spacing: 3px; overflow: hidden;
+            transition: 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+        }
 
+        .nav-link::before {
+            content: ''; position: absolute; top: 50%; left: 50%;
+            width: 0; height: 0; border-radius: 50%;
+            background: radial-gradient(circle, #000 20%, var(--primary) 60%, transparent 100%);
+            transform: translate(-50%, -50%) rotate(0deg);
+            z-index: -1; opacity: 0; transition: 0.4s cubic-bezier(0.6, -0.28, 0.735, 0.045);
+        }
+
+        .nav-link:hover { color: var(--primary); text-shadow: 0 0 15px var(--primary); transform: scale(1.1); }
+        .nav-link:hover::before { width: 160px; height: 160px; opacity: 1; animation: swirl 1s infinite linear; }
+
+        @keyframes swirl { 
+            0% { transform: translate(-50%, -50%) rotate(0deg) scale(0.1); }
+            100% { transform: translate(-50%, -50%) rotate(360deg) scale(1.2); }
+        }
+
+        /* --- 頁面排版 --- */
+        section { min-height: 100vh; padding: 100px 10%; display: flex; flex-direction: column; justify-content: center; position: relative; }
+
+        .glitch-title {
+            font-family: 'Syncopate', sans-serif; font-size: clamp(50px, 15vw, 180px);
+            line-height: 0.8; font-weight: 700; position: relative;
+        }
+        .glitch-title span { display: block; color: var(--primary); text-shadow: 0 0 30px rgba(0,255,255,0.3); }
+
+        .viewport-unit {
+            width: 100%; aspect-ratio: 21/9; background: rgba(0, 20, 20, 0.5);
+            border: 1px solid var(--primary); position: relative; margin-top: 50px;
+            clip-path: polygon(0 0, 97% 0, 100% 10%, 100% 100%, 3% 100%, 0 90%);
+        }
+
+        .archive-grid { display: grid; grid-template-columns: repeat(12, 1fr); gap: 15px; margin-top: 100px; }
+        .archive-item { position: relative; overflow: hidden; border: 1px solid var(--border); transition: 0.6s; background: #000; }
+        .archive-item img { width: 100%; height: 100%; object-fit: cover; opacity: 0.4; filter: saturate(0); transition: 0.8s; }
+        .archive-item:hover { border-color: var(--primary); transform: translateY(-10px); box-shadow: 0 0 30px rgba(0,255,255,0.2); }
+        .archive-item:hover img { opacity: 0.9; filter: saturate(1); }
+
+        .item-lg { grid-column: span 8; height: 500px; }
+        .item-sm { grid-column: span 4; height: 500px; }
+        .item-md { grid-column: span 6; height: 400px; }
+
+        .portal-contact { text-align: center; padding: 150px 0; border: 1px dashed var(--primary); margin: 100px 0; }
+        .portal-contact a { font-size: clamp(20px, 6vw, 80px); color: #fff; text-decoration: none; font-weight: 800; transition: 0.3s; }
+        .portal-contact a:hover { color: var(--primary); text-shadow: 0 0 50px var(--primary); }
+
+        footer { display: flex; justify-content: space-between; padding: 40px 10%; font-size: 10px; opacity: 0.6; border-top: 1px solid var(--border); }
+
+        @media (max-width: 768px) { .archive-item { grid-column: span 12 !important; height: 300px; } }
     </style>
 </head>
 <body>
 
-<canvas id="bg-canvas"></canvas>
+<div id="canvas-container"></div>
+<div class="vignette"></div>
+<div class="scanline"></div>
 
-<nav class="bh-nav">
-    <a href="#" class="bh-btn">WORKSPACE</a>
-    <a href="#" class="bh-btn">DATA_LOG</a>
-    <a href="#" class="bh-btn">UPLINK</a>
+<nav>
+    <a href="#hero" class="nav-link">IDENTITY</a>
+    <a href="#work" class="nav-link">VIEWPORT</a>
+    <a href="#archive" class="nav-link">ARCHIVE</a>
+    <a href="#contact" class="nav-link">SIGNAL</a>
 </nav>
 
-<section>
-    <div class="title-unit">
-        <p style="color: var(--primary)">[ USER_ID: YUYOU_CHOU ]</p>
-        <h1>VIRTUAL<br>ARCHITECT.</h1>
+<section id="hero">
+    <div class="glitch-title" data-sal="slide-up" data-sal-duration="1200">
+        <span>YUYOU</span>
+        <span style="padding-left: 15%;">CHOU.</span>
     </div>
+    <p style="max-width: 450px; margin-top: 50px; line-height: 2; font-size: 14px; color: var(--primary); border-left: 2px solid var(--primary); padding-left: 20px;">
+        [SYSTEM_STATUS: ACTIVE]<br>
+        引力模擬、空間運算、數位遺產構建中...
+    </p>
+</section>
 
-    <div class="media-grid">
-        <!-- 影片區 -->
-        <div class="video-slot">
-             <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&controls=0" frameborder="0"></iframe>
-        </div>
-        <!-- 照片區 -->
-        <div class="photo-slot">
-            <img src="https://images.unsplash.com/photo-1614728263952-84ea206f99b6?auto=format&fit=crop&q=80&w=800">
-        </div>
+<section id="work">
+    <div class="viewport-unit" data-sal="zoom-out">
+        <iframe width="100%" height="100%" src="https://www.youtube.com/embed/dQw4w9WgXcQ?autoplay=1&mute=1&loop=1&playlist=dQw4w9WgXcQ&controls=0" frameborder="0"></iframe>
     </div>
 </section>
 
+<section id="archive">
+    <div class="archive-grid">
+        <div class="archive-item item-lg"><img src="https://images.unsplash.com/photo-1626379953822-baec19c3bbcd?auto=format&fit=crop&q=80&w=1200"></div>
+        <div class="archive-item item-sm"><img src="https://images.unsplash.com/photo-1614853316476-de00d14cb1fc?auto=format&fit=crop&q=80&w=600"></div>
+        <div class="archive-item item-md"><img src="https://images.unsplash.com/photo-1558591710-4b4a1ae0f04d?auto=format&fit=crop&q=80&w=800"></div>
+        <div class="archive-item item-md"><img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=80&w=800"></div>
+    </div>
+</section>
+
+<section id="contact">
+    <div class="portal-contact">
+        <a href="mailto:n0966785408@gmail.com">SEND_SIGNAL</a>
+    </div>
+</section>
+
+<footer>
+    <span>© 2026 YUYOU CHOU</span>
+    <span>STABLE_UPLINK_ESTABLISHED</span>
+</footer>
+
 <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+<script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
+
 <script>
-    // --- 這次背景動態的邏輯：空間扭曲網格 ---
-    const scene = new THREE.Scene();
-    const camera = new THREE.PerspectiveCamera(75, window.innerWidth/window.innerHeight, 0.1, 1000);
-    const renderer = new THREE.WebGLRenderer({ canvas: document.getElementById('bg-canvas'), antialias: true, alpha: true });
-    renderer.setSize(window.innerWidth, window.innerHeight);
+    let scene, camera, renderer, particles, mesh;
+    let mouseX = 0, mouseY = 0;
+    let targetX = 0, targetY = 0;
 
-    // 建立一個巨大的平面網格
-    const geometry = new THREE.PlaneGeometry(100, 100, 50, 50);
-    const material = new THREE.MeshBasicMaterial({ color: 0x00ffff, wireframe: true, transparent: true, opacity: 0.15 });
-    const plane = new THREE.Mesh(geometry, material);
-    plane.rotation.x = -Math.PI / 2.5;
-    scene.add(plane);
+    function init() {
+        scene = new THREE.Scene();
+        camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 0.1, 1000);
+        camera.position.z = 40;
 
-    camera.position.z = 30;
-    camera.position.y = 10;
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
+        renderer.setSize(window.innerWidth, window.innerHeight);
+        document.getElementById('canvas-container').appendChild(renderer.domElement);
 
-    let mouse = { x: 0, y: 0 };
-    window.addEventListener('mousemove', (e) => {
-        mouse.x = (e.clientX / window.innerWidth) * 2 - 1;
-        mouse.y = -(e.clientY / window.innerHeight) * 2 + 1;
-    });
+        // --- 點雲增強：更大的點與加法混合 ---
+        const pGeo = new THREE.BufferGeometry();
+        const pCount = 3000;
+        const pPos = new Float32Array(pCount * 3);
+        for(let i=0; i<pCount*3; i++) { pPos[i] = (Math.random() - 0.5) * 150; }
+        pGeo.setAttribute('position', new THREE.BufferAttribute(pPos, 3));
+        
+        const pMat = new THREE.PointsMaterial({ 
+            color: 0x00ffff, 
+            size: 0.3, 
+            transparent: true, 
+            opacity: 0.8,
+            blending: THREE.AdditiveBlending 
+        });
+        particles = new THREE.Points(pGeo, pMat);
+        scene.add(particles);
+
+        // --- 網格增強：亮色線條 ---
+        const mGeo = new THREE.PlaneGeometry(150, 150, 50, 50);
+        const mMat = new THREE.MeshBasicMaterial({ 
+            color: 0x00ffff, 
+            wireframe: true, 
+            transparent: true, 
+            opacity: 0.2, // 提高亮度
+            blending: THREE.AdditiveBlending
+        });
+        mesh = new THREE.Mesh(mGeo, mMat);
+        mesh.rotation.x = -Math.PI / 2.5;
+        mesh.position.y = -15;
+        scene.add(mesh);
+
+        animate();
+    }
 
     function animate() {
         requestAnimationFrame(animate);
-        
+        targetX += (mouseX - targetX) * 0.05;
+        targetY += (mouseY - targetY) * 0.05;
         const time = performance.now() * 0.001;
-        const positions = plane.geometry.attributes.position.array;
 
-        for (let i = 0; i < positions.length; i += 3) {
-            const x = positions[i];
-            const y = positions[i+1];
-
-            // 基礎波浪
-            let z = Math.sin(x * 0.2 + time) * 0.5 + Math.cos(y * 0.2 + time) * 0.5;
-
-            // 重力塌陷邏輯：計算頂點與滑鼠的距離
-            const dx = x - (mouse.x * 40);
-            const dy = y - (mouse.y * 20);
+        particles.rotation.y = time * 0.03;
+        
+        const pos = mesh.geometry.attributes.position.array;
+        for(let i=0; i<pos.length; i+=3) {
+            const x = pos[i], y = pos[i+1];
+            // 強化的重力凹陷效果
+            const dx = x - (targetX * 100);
+            const dy = y - (-targetY * 100);
             const dist = Math.sqrt(dx*dx + dy*dy);
+            const gravity = Math.exp(-(dist*dist)/(2*20*20)) * 25; // 擴大凹陷程度
             
-            if (dist < 15) {
-                z -= (15 - dist) * 0.8; // 產生塌陷坑洞
-            }
-
-            positions[i+2] = z;
+            pos[i+2] = Math.sin(x*0.1 + time)*2 + Math.cos(y*0.1 + time)*2 - gravity;
         }
-        plane.geometry.attributes.position.needsUpdate = true;
-        
-        // 鏡頭隨滑鼠微動
-        camera.position.x += (mouse.x * 5 - camera.position.x) * 0.05;
-        
+        mesh.geometry.attributes.position.needsUpdate = true;
         renderer.render(scene, camera);
     }
-    animate();
+
+    window.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth) - 0.5;
+        mouseY = (e.clientY / window.innerHeight) - 0.5;
+    });
+
+    init();
+    sal();
 </script>
 </body>
 </html>
