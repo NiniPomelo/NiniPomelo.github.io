@@ -12,15 +12,15 @@
             --primary: #00ffff;
             --primary-rgb: 0, 255, 255;
             --secondary: #ff00ff;
-            --tech-blue: #0077ff; /* 用於漸層，增加層次 */
+            --tech-blue: #0077ff;
             
             /* 極致發光效果定義 */
             --neon-glow: 0 0 10px rgba(0, 255, 255, 0.7),
                          0 0 20px rgba(0, 255, 255, 0.5);
             --neon-text-glow: 0 0 15px rgba(0, 255, 255, 0.9);
             
-            --bg-dark: #000000; /* 純黑，讓 3D 背景更突出 */
-            --card-bg: rgba(5, 5, 5, 0.7); /* 稍微透明，增加層次 */
+            --bg-dark: #000000;
+            --card-bg: rgba(5, 5, 5, 0.7);
             --text-main: #ffffff;
             --text-muted: #888888;
         }
@@ -28,7 +28,7 @@
         /* --- 2. 基本樣式 --- */
         html {
             scroll-behavior: smooth;
-            cursor: crosshair; /* 十字游標，增加科技感 */
+            cursor: crosshair; /* 十字游標 */
         }
 
         body {
@@ -59,8 +59,8 @@
             background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.2) 50%);
             background-size: 100% 4px;
             z-index: 999; /* 位於最上方，但透明 */
-            pointer-events: none; /* 讓掃描線不影響點擊 */
-            opacity: 0.3;
+            pointer-events: none;
+            opacity: 0.2;
         }
 
         /* --- 4. 導覽列 (毛玻璃 + 科幻底線) --- */
@@ -94,7 +94,7 @@
             text-shadow: var(--neon-text-glow);
         }
         
-        /* 懸停時的科幻底線 (增加動態感) */
+        /* 懸停時的科幻底線 */
         .nav-btn::after {
             content: '';
             position: absolute;
@@ -116,11 +116,11 @@
             align-items: center;
             text-align: center;
             padding: 0 20px;
-            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.08) 0%, transparent 70%);
         }
 
         .hero h1 {
-            font-size: clamp(40px, 12vw, 120px); /* 加大字體 */
+            font-size: clamp(40px, 12vw, 120px);
             color: var(--primary);
             text-shadow: var(--neon-text-glow);
             margin: 0;
@@ -149,7 +149,7 @@
 
         /* --- 6. 通用 Section --- */
         section {
-            padding: 180px 10% 80px; /* 增加 Section 間距 */
+            padding: 180px 10% 80px;
             max-width: 1400px;
             margin: auto;
             position: relative;
@@ -239,14 +239,14 @@
         /* --- 8. Project Cards (3D 視差 + 科幻細節) --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); /* 卡片加大 */
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
             gap: 35px;
             perspective: 1200px; /* 3D 透視 */
         }
 
         .card {
             background: var(--card-bg);
-            padding: 50px; /* 增加內邊距 */
+            padding: 50px;
             border-radius: 20px;
             border: 1px solid rgba(255, 255, 255, 0.08);
             transition: transform 0.1s ease, box-shadow 0.4s ease, border-color 0.4s ease;
@@ -328,7 +328,7 @@
             text-shadow: var(--neon-text-glow);
             position: relative;
             transition: 0.4s;
-            font-family: 'Roboto Mono', monospace; /* 使用等寬字體，更有科技感 */
+            font-family: 'Roboto Mono', monospace;
         }
         
         .contact a:hover {
@@ -447,125 +447,135 @@
 
 <script>
     // --- 1. 初始化滾動動畫 ---
-    sal({
-        threshold: 0.1,
-        once: true,
-    });
+    sal({ threshold: 0.1, once: true });
 
-    // --- 2. 初始化 Three.js 3D 數字地景背景 (核心極致科技代碼) ---
-    let scene, camera, renderer, terrain;
+    // --- 2. 初始化 Three.js 3D背景 (互動神經版) ---
+    let scene, camera, renderer, terrain, particles;
+    let mouseX = 0, mouseY = 0, lastScrollY = 0, scrollSpeed = 0;
     const container = document.getElementById('three-container');
 
     function initThree() {
-        // 場景與相機
         scene = new THREE.Scene();
         camera = new THREE.PerspectiveCamera(75, window.innerWidth / window.innerHeight, 1, 1000);
-        camera.position.set(0, 15, 30); // 抬高相機，向下俯瞰
+        camera.position.set(0, 15, 30);
         camera.lookAt(0, 0, 0);
 
-        // 渲染器
-        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true }); // 開啟透明 background
+        renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
         renderer.setPixelRatio(window.devicePixelRatio);
         renderer.setSize(window.innerWidth, window.innerHeight);
         container.appendChild(renderer.domElement);
 
-        // 創造波動網格地景
-        // 使用 PlaneGeometry (長與寬度設定為較大值)
-        const geometry = new THREE.PlaneGeometry(100, 100, 60, 60); 
-        
-        // 使用特定的科幻線條材質
+        // 初始化波動網格地景
+        const geometry = new THREE.PlaneGeometry(120, 120, 70, 70); // 加大解析度
         const material = new THREE.MeshBasicMaterial({
-            color: 0x00ffff, // 霓虹藍
-            wireframe: true,  // 開啟網格線模式
+            color: 0x00ffff,
+            wireframe: true,
             transparent: true,
-            opacity: 0.15, // 非常淡，避免遮擋內容
-            blending: THREE.AdditiveBlending, // 讓線條發光
+            opacity: 0.12,
+            blending: THREE.AdditiveBlending, // 讓網格發光
         });
-
         terrain = new THREE.Mesh(geometry, material);
-        terrain.rotation.x = -Math.PI / 2; // 讓平面躺平
-        terrain.position.y = -5; // 下移，增加內容空間
+        terrain.rotation.x = -Math.PI / 2;
+        terrain.position.y = -6;
         scene.add(terrain);
 
-        // 初始化粒子 (增加深度感)
+        // 初始化粒子深度
         const particlesGeometry = new THREE.BufferGeometry();
-        const particlesCount = 300;
-        const posArray = new Float32Array(particlesCount * 3);
-        for (let i = 0; i < particlesCount * 3; i++) {
-            posArray[i] = (Math.random() - 0.5) * 120; // 廣泛分佈
-        }
+        const posArray = new Float32Array(400 * 3);
+        for (let i = 0; i < 400 * 3; i++) posArray[i] = (Math.random() - 0.5) * 150;
         particlesGeometry.setAttribute('position', new THREE.BufferAttribute(posArray, 3));
         const particlesMaterial = new THREE.PointsMaterial({
             size: 0.15,
             color: 0x00ffff,
             transparent: true,
-            opacity: 0.5,
+            opacity: 0.6,
             blending: THREE.AdditiveBlending,
         });
-        const particles = new THREE.Points(particlesGeometry, particlesMaterial);
+        particles = new THREE.Points(particlesGeometry, particlesMaterial);
         scene.add(particles);
 
         animate();
     }
 
-    // 動畫循環
+    // 動畫循環 (核心互動邏輯)
     function animate() {
         requestAnimationFrame(animate);
 
-        // 讓地景產生波動 (核心代碼)
         const time = performance.now() * 0.001;
         const vertices = terrain.geometry.attributes.position.array;
         
-        // 遍歷所有頂點，動態計算 Y 軸高度 (產生波浪)
+        // 1. 滑鼠數據引力 (引力點 X Y Z)
+        // 將網格坐標系轉換為Three.js空間：平面的 Y 是 Z。
+        const gravityX = mouseX * 50; 
+        const gravityZ = -mouseY * 50; 
+
+        // 遍歷所有頂點
         for (let i = 0; i < vertices.length; i += 3) {
             const x = vertices[i];
-            const z = vertices[i + 1]; // 因為平面躺平，原本幾何的 Y 現在是 Z
-            // 使用正弦波產生波動
-            vertices[i + 2] = Math.sin(x * 0.2 + time) * Math.cos(z * 0.2 + time) * 1.5; 
+            const z = vertices[i + 1];
+
+            // 計算頂點到滑鼠虛擬點的 2D 距離
+            const dx = x - gravityX;
+            const dz = z - gravityZ;
+            const distance = Math.sqrt(dx*dx + dz*dz);
+            
+            // 2. 引力/漣漪計算
+            // 基礎波浪
+            let waveY = Math.sin(x * 0.15 + time) * Math.cos(z * 0.15 + time); 
+            
+            // 滑鼠引力影響：離滑鼠越近，引力影響越大 (使用反比)
+            const influence = 1 / (distance * 0.2 + 1); // 當 distance=0 時， influence=1
+            
+            // 當前頂點的 Y (Z 軸幾何坐標)
+            const gPos = i + 2; 
+            
+            // 將基礎波浪加上滑鼠引力漣漪效果
+            // 影響幅度為原本的 3 倍，且加上漣漪頻率
+            const attractY = waveY + (Math.sin(distance * 0.5 - time * 2) * influence * 3);
+            
+            vertices[gPos] = attractY + (scrollSpeed * 0.1); // 將捲動速度疊加到波動上
         }
-        terrain.geometry.attributes.position.needsUpdate = true; // 標記需要更新幾何
+        terrain.geometry.attributes.position.needsUpdate = true;
 
         renderer.render(scene, camera);
+        
+        // 捲動速度遞減 (產生慣性效果)
+        scrollSpeed *= 0.92;
     }
 
     // 處理視窗大小調整
-    window.addEventListener('resize', onWindowResize, false);
-    function onWindowResize() {
+    window.addEventListener('resize', () => {
         camera.aspect = window.innerWidth / window.innerHeight;
         camera.updateProjectionMatrix();
         renderer.setSize(window.innerWidth, window.innerHeight);
-    }
-
-    // 滑鼠視差傾斜互動 (增加背景與滑鼠的聯繫)
-    document.addEventListener('mousemove', (e) => {
-        const x = (e.clientX / window.innerWidth - 0.5) * 2; // 範圍 -1 到 1
-        const y = (e.clientY / window.innerHeight - 0.5) * 2;
-        if (terrain) {
-            terrain.rotation.y = x * 0.05; // 輕微水平旋轉
-            terrain.rotation.z = -y * 0.05; // 輕微垂直傾斜
-        }
     });
 
-    // 啟動 Three.js
+    // 滑鼠互動監聽 (更新滑鼠全局坐標)
+    document.addEventListener('mousemove', (e) => {
+        mouseX = (e.clientX / window.innerWidth - 0.5); // 範圍 -0.5 到 0.5
+        mouseY = (e.clientY / window.innerHeight - 0.5);
+    });
+
+    // 監聽網頁捲動 (計算捲動速度產生漣漪)
+    window.addEventListener('scroll', () => {
+        const currentScrollY = window.pageYOffset;
+        scrollSpeed = currentScrollY - lastScrollY; // 速度 = 當前 - 上一次
+        lastScrollY = currentScrollY;
+    });
+
     initThree();
 
     // --- 3. 3D 視差卡片效果 ---
-    const cards = document.querySelectorAll('.card');
-    cards.forEach(card => {
+    document.querySelectorAll('.card').forEach(card => {
         card.addEventListener('mousemove', e => {
             const rect = card.getBoundingClientRect();
             const x = e.clientX - rect.left;
             const y = e.clientY - rect.top;
             const centerX = rect.width / 2;
             const centerY = rect.height / 2;
-            // 計算旋轉角度 (範圍約 -15 到 15 度，加大角度增加劇烈感)
-            const rotateX = (centerY - y) / 10; 
-            const rotateY = (x - centerX) / 10;
-            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+            card.style.transform = `rotateX(${(centerY - y) / 10}deg) rotateY(${(x - centerX) / 10}deg)`;
         });
-        card.addEventListener('mouseleave', () => {
-            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
-        });
+        card.addEventListener('mouseleave', () => card.style.transform = 'rotateX(0deg) rotateY(0deg)');
     });
 
     // --- 4. 導覽列 Active 狀態滾動監聽 ---
@@ -574,9 +584,7 @@
     window.addEventListener('scroll', () => {
         let current = '';
         sections.forEach(section => {
-            if (pageYOffset >= section.offsetTop - 300) {
-                current = section.getAttribute('id');
-            }
+            if (pageYOffset >= section.offsetTop - 300) current = section.getAttribute('id');
         });
         navLinks.forEach(link => {
             link.classList.remove('active');
