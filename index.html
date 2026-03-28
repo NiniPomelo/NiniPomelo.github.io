@@ -27,9 +27,15 @@
         }
 
         /* --- 1. 背景層級設定 --- */
-        #canvas-container { 
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -2; 
-            background: #000; /* 確保底色是純黑 */
+        #canvas-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1; /* 提升一層，置於 vignette 下方 */
+    background: #000;
+}
         }
         .vignette {
             position: fixed; top: 0; left: 0; width: 100%; height: 100%;
