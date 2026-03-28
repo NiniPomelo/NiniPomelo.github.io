@@ -3,6 +3,8 @@
 
 <head>
 
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>YuYou Chou | VR Developer</title>
 
 <style>
@@ -10,65 +12,74 @@
 body{
 margin:0;
 font-family:Arial;
-background:black;
+background:#050505;
 color:white;
 }
 
-/* 首頁區 */
+/* 導覽列 */
+
+nav{
+position:fixed;
+width:100%;
+background:#000;
+padding:15px;
+display:flex;
+justify-content:center;
+gap:40px;
+z-index:10;
+}
+
+nav a{
+color:white;
+text-decoration:none;
+font-size:16px;
+}
+
+nav a:hover{
+color:#00ffff;
+}
+
+/* 首頁 */
+
 .hero{
 height:100vh;
 display:flex;
 flex-direction:column;
 justify-content:center;
 align-items:center;
-background:linear-gradient(180deg,#050505,#111);
 text-align:center;
 }
 
 .hero h1{
 font-size:70px;
-letter-spacing:3px;
+color:#00ffff;
+text-shadow:0 0 20px #00ffff;
+margin:0;
 }
 
 .hero h2{
-color:#00ffff;
-font-weight:normal;
+color:#aaa;
 }
 
-/* 按鈕 */
+/* section */
 
-.btn{
-margin-top:20px;
-padding:15px 35px;
-border:2px solid #00ffff;
-color:#00ffff;
-text-decoration:none;
-font-size:18px;
-transition:0.3s;
-}
-
-.btn:hover{
-background:#00ffff;
-color:black;
-}
-
-/* 作品區 */
-
-.projects{
-padding:80px;
+section{
+padding:80px 20px;
 text-align:center;
 }
 
-.projects h2{
+section h2{
 font-size:40px;
-margin-bottom:50px;
+margin-bottom:40px;
 }
 
-.card-container{
+/* 專案卡片 */
+
+.cards{
 display:flex;
-justify-content:center;
-gap:40px;
 flex-wrap:wrap;
+justify-content:center;
+gap:30px;
 }
 
 .card{
@@ -76,23 +87,52 @@ background:#111;
 padding:30px;
 width:260px;
 border-radius:10px;
-transition:0.3s;
 border:1px solid #333;
+transition:0.3s;
 }
 
 .card:hover{
 transform:translateY(-10px);
 border:1px solid #00ffff;
+box-shadow:0 0 20px #00ffff44;
 }
 
 .card h3{
 color:#00ffff;
 }
 
+/* contact */
+
+.contact p{
+font-size:18px;
+}
+
+/* footer */
+
 footer{
-text-align:center;
 padding:40px;
+text-align:center;
 color:gray;
+}
+
+/* 響應式設計 */
+
+@media(max-width:768px){
+
+.hero h1{
+font-size:40px;
+}
+
+.cards{
+flex-direction:column;
+align-items:center;
+}
+
+nav{
+gap:20px;
+font-size:14px;
+}
+
 }
 
 </style>
@@ -101,41 +141,76 @@ color:gray;
 
 <body>
 
+<nav>
+
+<a href="#">Home</a>
+<a href="#about">About</a>
+<a href="#projects">Projects</a>
+<a href="#contact">Contact</a>
+
+</nav>
+
+
 <section class="hero">
 
 <h1>YuYou Chou</h1>
-
 <h2>VR Game Developer</h2>
-
-<a class="btn" href="#projects">View My Projects</a>
 
 </section>
 
 
-<section class="projects" id="projects">
+<section id="about">
+
+<h2>About Me</h2>
+
+<p>
+Hello! I'm YuYou Chou, a VR developer who enjoys creating immersive virtual reality experiences.
+I build VR interactions, survival systems, and gameplay mechanics using Unity and Meta Quest.
+</p>
+
+</section>
+
+
+<section id="projects">
 
 <h2>VR Projects</h2>
 
-<div class="card-container">
+<div class="cards">
 
 <div class="card">
 <h3>VR Tree Cutting</h3>
-<p>Players chop trees using VR axe mechanics.</p>
+<p>Players chop trees using VR axe mechanics and collect resources.</p>
 </div>
 
 <div class="card">
-<h3>VR Inventory</h3>
-<p>Grab items using Quest controller interaction.</p>
+<h3>VR Inventory System</h3>
+<p>Players grab and store items using Quest controller interaction.</p>
 </div>
 
 <div class="card">
-<h3>VR Survival</h3>
-<p>Explore a survival world and collect resources.</p>
+<h3>VR Survival Game</h3>
+<p>Explore a survival world and gather materials.</p>
 </div>
 
 </div>
 
 </section>
+
+
+<section id="contact" class="contact">
+
+<h2>Contact</h2>
+
+<p>Email:</p>
+
+<p>
+<a href="mailto:n0966785408@gmail.com" style="color:#00ffff;">
+n0966785408@gmail.com
+</a>
+</p>
+
+</section>
+
 
 <footer>
 
@@ -144,4 +219,5 @@ color:gray;
 </footer>
 
 </body>
+
 </html>
