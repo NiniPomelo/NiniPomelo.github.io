@@ -3,95 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>YuYou Chou | VR Developer</title>
+    <title>YuYou Chou | VR Architect</title>
+    <link href="https://unpkg.com/sal.js@0.8.5/dist/sal.css" rel="stylesheet">
+    
     <style>
-        /* --- 全域變數 --- */
+        /* --- 1. 全域變數 & 霓虹定義 --- */
         :root {
             --primary: #00ffff;
-            --primary-glow: rgba(0, 255, 255, 0.5);
-            --bg-dark: #020202;
-            --card-bg: #111;
-            --text-gray: #aaa;
+            --primary-rgb: 0, 255, 255;
+            --secondary: #ff00ff; /* 加入一點紫紅色調，增加電馭粉感 */
+            
+            /* 極致發光效果定義 */
+            --neon-glow: 0 0 10px rgba(0, 255, 255, 0.7),
+                         0 0 20px rgba(0, 255, 255, 0.5),
+                         0 0 30px rgba(0, 255, 255, 0.3);
+            --neon-text-glow: 0 0 15px rgba(0, 255, 255, 0.9),
+                              0 0 25px rgba(0, 255, 255, 0.7);
+            
+            --bg-dark: #010101;
+            --card-bg: rgba(17, 17, 17, 0.8); /* 稍微透明，增加層次 */
+            --text-main: #ffffff;
+            --text-muted: #888888;
         }
 
-        /* --- 基本樣式 --- */
+        /* --- 2. 基本樣式 --- */
         html {
             scroll-behavior: smooth;
+            cursor: crosshair; /* 更改滑鼠樣式，增加科技感 */
         }
 
         body {
             margin: 0;
-            font-family: 'Segoe UI', Roboto, Arial, sans-serif;
+            font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif;
             background: var(--bg-dark);
-            color: white;
+            color: var(--text-main);
             overflow-x: hidden;
             line-height: 1.6;
+            -webkit-font-smoothing: antialiased;
         }
 
-        /* --- 背景層 --- */
+        /* --- 3. 背景層 (進化版) --- */
         #particles-js {
             position: fixed;
-            width: 100%;
-            height: 100%;
-            top: 0;
-            left: 0;
+            width: 100%; height: 100%;
+            top: 0; left: 0;
             z-index: -2;
+            opacity: 0.6;
         }
 
         .grid {
             position: fixed;
-            bottom: -10%; /* 稍微下移增加空間感 */
-            width: 100%;
-            height: 100%;
+            bottom: -20%;
+            width: 100%; height: 120%;
             background: 
-                linear-gradient(var(--primary-glow) 1px, transparent 1px),
-                linear-gradient(90deg, var(--primary-glow) 1px, transparent 1px);
-            background-size: 50px 50px;
-            transform: perspective(500px) rotateX(60deg);
-            animation: gridmove 20s linear infinite;
+                linear-gradient(rgba(0, 255, 255, 0.1) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(0, 255, 255, 0.1) 1px, transparent 1px);
+            background-size: 60px 60px;
+            transform: perspective(1000px) rotateX(70deg); /* 調整透視，更具空間感 */
+            animation: gridmove 30s linear infinite;
             z-index: -1;
-            mask-image: linear-gradient(to top, rgba(0,0,0,1), transparent); /* 讓網格往上淡出 */
+            /* 網格邊緣淡出 */
+            mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
+            -webkit-mask-image: radial-gradient(circle at center, black 30%, transparent 80%);
         }
 
         @keyframes gridmove {
             0% { background-position: 0 0; }
-            100% { background-position: 0 50px; }
+            100% { background-position: 0 60px; }
         }
 
-        /* --- 導覽列 (優化為頂部毛玻璃) --- */
+        /* --- 4. 導覽列 (毛玻璃 + 極簡) --- */
         nav {
             position: fixed;
             top: 0;
             width: 100%;
             display: flex;
             justify-content: center;
-            gap: 10px;
-            padding: 20px 0;
+            gap: 5px;
+            padding: 25px 0;
             z-index: 100;
-            background: rgba(0, 0, 0, 0.6);
-            backdrop-filter: blur(10px); /* 毛玻璃效果 */
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(15px);
             border-bottom: 1px solid rgba(0, 255, 255, 0.1);
         }
 
         .nav-btn {
-            padding: 8px 16px;
-            border: 1px solid var(--primary);
-            color: var(--primary);
+            padding: 8px 18px;
+            color: var(--text-muted);
             text-decoration: none;
-            font-size: 14px;
+            font-size: 13px;
             text-transform: uppercase;
-            letter-spacing: 1px;
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            letter-spacing: 2px;
+            transition: all 0.4s ease;
+            position: relative;
         }
 
-        .nav-btn:hover {
+        .nav-btn:hover, .nav-btn.active {
+            color: var(--primary);
+            text-shadow: var(--neon-text-glow);
+        }
+        
+        /* 懸停時的微小底線動畫 */
+        .nav-btn::after {
+            content: '';
+            position: absolute;
+            width: 0; height: 1px;
+            bottom: 0; left: 50%;
             background: var(--primary);
-            color: black;
-            box-shadow: 0 0 20px var(--primary);
-            transform: scale(1.05);
+            transition: all 0.3s ease;
+            transform: translateX(-50%);
         }
+        
+        .nav-btn:hover::after { width: 80%; box-shadow: var(--neon-glow); }
 
-        /* --- Hero --- */
+        /* --- 5. Hero (增加沉浸感) --- */
         .hero {
             height: 100vh;
             display: flex;
@@ -100,138 +125,177 @@
             align-items: center;
             text-align: center;
             padding: 0 20px;
+            background: radial-gradient(circle at center, rgba(0, 255, 255, 0.1) 0%, transparent 70%);
         }
 
         .hero h1 {
-            font-size: clamp(40px, 8vw, 90px); /* 響應式字體大小 */
+            font-size: clamp(50px, 10vw, 110px);
             color: var(--primary);
-            text-shadow: 0 0 30px var(--primary);
+            text-shadow: var(--neon-text-glow);
             margin: 0;
-            letter-spacing: 5px;
+            letter-spacing: 10px;
+            text-transform: uppercase;
         }
 
         .hero h2 {
-            font-size: clamp(18px, 3vw, 24px);
-            color: var(--text-gray);
+            font-size: clamp(20px, 3vw, 28px);
+            color: var(--text-muted);
             font-weight: 300;
-            margin-top: 10px;
+            margin-top: 20px;
+            letter-spacing: 3px;
         }
 
-        /* --- 通用 Section --- */
+        /* --- 6. 通用 Section & 動畫預設 --- */
         section {
-            padding: 120px 10% 60px;
-            max-width: 1200px;
+            padding: 150px 10% 80px;
+            max-width: 1300px;
             margin: auto;
         }
 
         section h2 {
             text-align: center;
-            font-size: 36px;
-            margin-bottom: 60px;
+            font-size: 42px;
+            margin-bottom: 80px;
             color: var(--primary);
-            position: relative;
+            text-shadow: var(--neon-text-glow);
+            letter-spacing: 4px;
+            text-transform: uppercase;
         }
 
-        /* --- Featured Project --- */
-        .featured {
+        /* --- 7. Featured Project (網格化佈局) --- */
+        .featured-wrapper {
             display: grid;
-            grid-template-columns: 1.5fr 1fr;
-            gap: 40px;
+            grid-template-columns: 1.6fr 1fr;
+            gap: 50px;
             align-items: center;
-            background: rgba(255, 255, 255, 0.03);
-            padding: 30px;
-            border-radius: 20px;
+            background: var(--card-bg);
+            padding: 40px;
+            border-radius: 24px;
+            border: 1px solid rgba(0, 255, 255, 0.1);
+            backdrop-filter: blur(10px);
+            box-shadow: 0 20px 50px rgba(0,0,0,0.5);
         }
 
         .video-container {
             position: relative;
-            padding-bottom: 56.25%; /* 16:9 比例預留 */
-            height: 0;
+            aspect-ratio: 16/9; /* 現代化比例控制 */
             overflow: hidden;
-            border-radius: 10px;
+            border-radius: 14px;
+            border: 2px solid rgba(0, 255, 255, 0.2);
         }
 
         .video-container iframe {
             position: absolute;
             top: 0; left: 0;
-            width: 100%;
-            height: 100%;
+            width: 100%; height: 100%;
             border: none;
         }
 
         .featured-text h3 {
-            font-size: 28px;
+            font-size: 32px;
             color: var(--primary);
+            margin-top: 0;
         }
 
-        /* --- Project Cards --- */
+        /* --- 8. Project Cards (3D 視差主場) --- */
         .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-            gap: 25px;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            /* 為了 3D 效果需要透視環境 */
+            perspective: 1000px; 
         }
 
         .card {
             background: var(--card-bg);
-            padding: 30px;
-            border-radius: 15px;
-            border: 1px solid #333;
-            transition: 0.4s;
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: transform 0.1s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+            /* 確保內容在 3D 空間中 */
+            transform-style: preserve-3d; 
+            will-change: transform;
         }
 
         .card:hover {
             border-color: var(--primary);
-            transform: translateY(-10px);
-            box-shadow: 0 10px 30px rgba(0, 255, 255, 0.2);
+            box-shadow: 0 15px 35px rgba(0, 255, 255, 0.15);
         }
 
-        .card h3 { color: var(--primary); margin-top: 0; }
+        .card-content {
+            /* 讓內容在 Z 軸上浮起 */
+            transform: translateZ(50px); 
+        }
 
-        /* --- Gallery --- */
+        .card h3 { 
+            color: var(--primary); 
+            margin-top: 0; 
+            font-size: 24px;
+            text-shadow: 0 0 10px rgba(0,255,255,0.5);
+        }
+
+        /* --- 9. Gallery (流暢過渡) --- */
         .gallery {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 25px;
+        }
+
+        .gallery-item {
+            overflow: hidden;
+            border-radius: 16px;
+            border: 1px solid rgba(255,255,255,0.05);
+            aspect-ratio: 16/10;
         }
 
         .gallery img {
-            width: 100%;
-            aspect-ratio: 16/9;
+            width: 100%; height: 100%;
             object-fit: cover;
-            border-radius: 12px;
-            transition: 0.5s;
-            filter: grayscale(30%);
+            transition: transform 0.6s cubic-bezier(0.22, 1, 0.36, 1), filter 0.6s ease;
+            filter: grayscale(80%) contrast(1.2);
         }
 
-        .gallery img:hover {
-            transform: scale(1.03);
-            filter: grayscale(0%);
+        .gallery-item:hover img {
+            transform: scale(1.08);
+            filter: grayscale(0%) contrast(1);
         }
 
-        /* --- Contact & Footer --- */
+        /* --- 10. Contact & Footer --- */
         .contact { text-align: center; }
+        .contact p { color: var(--text-muted); font-size: 18px; }
         .contact a {
             color: var(--primary);
-            font-size: 24px;
+            font-size: clamp(20px, 4vw, 32px);
             text-decoration: none;
-            border-bottom: 1px solid transparent;
+            font-weight: bold;
+            text-shadow: var(--neon-text-glow);
+            position: relative;
             transition: 0.3s;
         }
-        .contact a:hover { border-bottom-color: var(--primary); }
+        
+        .contact a:hover {
+            color: #ffffff;
+            text-shadow: 0 0 20px var(--primary), 0 0 30px var(--primary);
+        }
 
         footer {
             text-align: center;
-            padding: 60px 0;
-            color: #666;
-            font-size: 14px;
+            padding: 80px 0 40px;
+            color: #555;
+            font-size: 13px;
+            letter-spacing: 1px;
         }
 
-        /* --- Mobile 調整 --- */
+        /* --- 11. 響應式調整 --- */
+        @media (max-width: 992px) {
+            .featured-wrapper { grid-template-columns: 1fr; }
+        }
+
         @media (max-width: 768px) {
-            nav { padding: 10px 0; gap: 5px; }
-            .nav-btn { padding: 6px 10px; font-size: 12px; }
-            .featured { grid-template-columns: 1fr; }
-            section { padding: 80px 5% 40px; }
+            nav { padding: 15px 0; gap: 2px; }
+            .nav-btn { padding: 5px 8px; font-size: 11px; letter-spacing: 1px; }
+            section { padding: 100px 6% 50px; }
+            section h2 { font-size: 32px; margin-bottom: 50px; }
         }
     </style>
 </head>
@@ -250,104 +314,157 @@
 </nav>
 
 <section class="hero">
-    <h1>YuYou Chou</h1>
-    <h2>VR Game Developer</h2>
+    <h1 data-sal="slide-up" data-sal-delay="100" data-sal-duration="800">YuYou Chou</h1>
+    <h2 data-sal="slide-up" data-sal-delay="300" data-sal-duration="800">Virtual Reality Architect</h2>
 </section>
 
 <section id="about">
-    <h2>About Me</h2>
-    <div style="max-width: 800px; margin: auto; text-align: center;">
-        <p>I'm YuYou Chou, a VR developer passionate about crafting immersive digital worlds. Specializing in <strong>Unity</strong> and <strong>Meta Quest</strong>, I bridge the gap between imagination and reality through interactive physics and intuitive UX.</p>
+    <h2 data-sal="fade-in">System.About()</h2>
+    <div style="max-width: 850px; margin: auto; text-align: center;" data-sal="slide-up">
+        <p style="font-size: 18px; color: #ccc;">I am a <strong style="color:var(--primary);">VR Developer</strong> dedicated to pushing the boundaries of spatial computing. Specializing in <strong style="color:var(--secondary);">Unity</strong>, C#, and Meta Quest ecosystem, I design and implement physics-based interaction systems that enhance presence and immersion in virtual environments.</p>
     </div>
 </section>
 
 <section id="featured">
-    <div class="featured">
+    <div class="featured-wrapper" data-sal="slide-up">
         <div class="video-container">
-            <!-- 替換為你的 YouTube ID -->
-            <iframe src="https://www.youtube.com/embed/dQw4w9WgXcQ" allowfullscreen></iframe>
+            <iframe src="https://www.youtube.com/embed/YOUR_ACTUAL_VIDEO_ID?autoplay=0&muted=1&modestbranding=1" allowfullscreen></iframe>
         </div>
         <div class="featured-text">
-            <h2>Featured Project</h2>
-            <h3>VR Survival Project</h3>
-            <p>A high-fidelity survival experience. Players can manipulate resources with realistic physics-based interactions, designed specifically for Meta Quest hand tracking and controllers.</p>
+            <h2>Featured</h2>
+            <h3>VR Survival Protocol</h3>
+            <p style="color:#aaa;">A fully realized survival experience on Quest. Features included advanced inverse kinematics (IK) for full-body representation, realistic tree chopping physics, and a complex diegetic inventory system built for spatial awareness.</p>
         </div>
     </div>
 </section>
 
 <section id="projects">
-    <h2>Other Projects</h2>
+    <h2>Other_Projects_log</h2>
     <div class="projects-grid">
-        <div class="card">
-            <h3>VR Tree Cutting</h3>
-            <p>Advanced physics implementation for haptic feedback during axe-wood interaction.</p>
+        <div class="card" data-sal="slide-up" data-sal-delay="100">
+            <div class="card-content">
+                <h3>PhysX.TreeCutting</h3>
+                <p style="color:#bbb;">Haptic-feedback enabled tree interaction system with procedural mesh splitting and realistic impact physics.</p>
+            </div>
         </div>
-        <div class="card">
-            <h3>VR Inventory</h3>
-            <p>Diegetic UI design that allows players to manage items without breaking presence.</p>
+        <div class="card" data-sal="slide-up" data-sal-delay="200">
+            <div class="card-content">
+                <h3>UI.SpatialInventory</h3>
+                <p style="color:#bbb;">A zero-HUD inventory solution allowing players to grab, organize, and attach items directly to their virtual bodies.</p>
+            </div>
         </div>
-        <div class="card">
-            <h3>Interaction System</h3>
-            <p>A modular toolkit for rapid VR prototyping of grab, throw, and poke mechanics.</p>
+        <div class="card" data-sal="slide-up" data-sal-delay="300">
+            <div class="card-content">
+                <h3>Core.VRInteraction</h3>
+                <p style="color:#bbb;">A toolkit for building intuitive grab, throw, poke, and lever interactions across various VR hardware controllers.</p>
+            </div>
         </div>
     </div>
 </section>
 
 <section id="gallery">
-    <h2>Gallery</h2>
+    <h2>Visual_Dump</h2>
     <div class="gallery">
-        <!-- 記得放上實際圖片路徑 -->
-        <img src="https://via.placeholder.com/600x400/111/00ffff?text=VR+Environment+1" alt="Gallery 1">
-        <img src="https://via.placeholder.com/600x400/111/00ffff?text=VR+Environment+2" alt="Gallery 2">
-        <img src="https://via.placeholder.com/600x400/111/00ffff?text=VR+Environment+3" alt="Gallery 3">
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="100"><img src="https://via.placeholder.com/600x400/050505/00ffff?text=Environment+Design" alt="Gallery 1"></div>
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="200"><img src="https://via.placeholder.com/600x400/050505/00ffff?text=Physics+Prototype" alt="Gallery 2"></div>
+        <div class="gallery-item" data-sal="flip-right" data-sal-delay="300"><img src="https://via.placeholder.com/600x400/050505/00ffff?text=Interaction+Demo" alt="Gallery 3"></div>
     </div>
 </section>
 
 <section id="contact" class="contact">
-    <h2>Get In Touch</h2>
-    <p>Ready to build the future of VR together?</p>
-    <a href="mailto:n0966785408@gmail.com">n0966785408@gmail.com</a>
+    <h2 data-sal="fade-in">Establish_Connection</h2>
+    <p data-sal="slide-up">Ready to build the future of the Metaverse?</p>
+    <div data-sal="slide-up" data-sal-delay="200">
+        <a href="mailto:n0966785408@gmail.com">n0966785408@gmail.com</a>
+    </div>
 </section>
 
 <footer>
-    <p>© 2026 YuYou Chou | Built for the Metaverse</p>
+    <p>© 2026 YuYou Chou | Metaverse Architect | [End of Line]</p>
 </footer>
 
 <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+<script src="https://unpkg.com/sal.js@0.8.5/dist/sal.js"></script>
+
 <script>
+    // --- 1. 初始化滾動動畫 ---
+    sal({
+        threshold: 0.2,
+        once: true,
+    });
+
+    // --- 2. 初始化粒子背景 (優化互動) ---
     particlesJS("particles-js", {
         particles: {
-            number: { value: 100, density: { enable: true, value_area: 800 } },
+            number: { value: 80, density: { enable: true, value_area: 1000 } },
             color: { value: "#00ffff" },
             shape: { type: "circle" },
-            opacity: { value: 0.5, random: true },
-            size: { value: 2, random: true },
-            line_linked: {
-                enable: true,
-                distance: 150,
-                color: "#00ffff",
-                opacity: 0.3,
-                width: 1
-            },
-            move: {
-                enable: true,
-                speed: 1.5,
-                direction: "none",
-                random: false,
-                straight: false,
-                out_mode: "out",
-                bounce: false,
-            }
+            opacity: { value: 0.3, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+            size: { value: 2, random: true, anim: { enable: true, speed: 2, size_min: 0.5, sync: false } },
+            line_linked: { enable: true, distance: 150, color: "#00ffff", opacity: 0.2, width: 1 },
+            move: { enable: true, speed: 1, direction: "none", random: true, straight: false, out_mode: "out", bounce: false }
         },
         interactivity: {
             detect_on: "canvas",
             events: {
-                onhover: { enable: true, mode: "grab" },
+                onhover: { enable: true, mode: "grab" }, /* 滑鼠懸停抓取 */
                 onclick: { enable: true, mode: "push" },
                 resize: true
+            },
+            modes: {
+                grab: { distance: 200, line_linked: { opacity: 0.5 } },
+                push: { particles_nb: 4 }
             }
         },
         retina_detect: true
+    });
+
+    // --- 3. 3D 視差卡片效果 (核心進階代碼) ---
+    const cards = document.querySelectorAll('.card');
+
+    cards.forEach(card => {
+        card.addEventListener('mousemove', e => {
+            const rect = card.getBoundingClientRect();
+            const x = e.clientX - rect.left; // 滑鼠在卡片內的 X
+            const y = e.clientY - rect.top;  // 滑鼠在卡片內的 Y
+            
+            const centerX = rect.width / 2;
+            const centerY = rect.height / 2;
+            
+            // 計算旋轉角度 (範圍約 -10 到 10 度)
+            const rotateX = (centerY - y) / 15; 
+            const rotateY = (x - centerX) / 15;
+            
+            // 應用 3D 旋轉
+            card.style.transform = `rotateX(${rotateX}deg) rotateY(${rotateY}deg)`;
+        });
+        
+        // 滑鼠離開時復原
+        card.addEventListener('mouseleave', () => {
+            card.style.transform = 'rotateX(0deg) rotateY(0deg)';
+        });
+    });
+
+    // --- 4. 導覽列 Active 狀態滾動監聽 ---
+    const sections = document.querySelectorAll('section[id]');
+    const navLinks = document.querySelectorAll('.nav-btn');
+
+    window.addEventListener('scroll', () => {
+        let current = '';
+        sections.forEach(section => {
+            const sectionTop = section.offsetTop;
+            const sectionHeight = section.clientHeight;
+            if (pageYOffset >= sectionTop - 200) {
+                current = section.getAttribute('id');
+            }
+        });
+
+        navLinks.forEach(link => {
+            link.classList.remove('active');
+            if (link.getAttribute('href').includes(current)) {
+                link.classList.add('active');
+            }
+        });
     });
 </script>
 
