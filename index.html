@@ -3,9 +3,9 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="description" content="YUYOU CHOU 的沉浸式設計與 VR 作品集">
+<meta name="description" content="YU-YOU CHOU 的沉浸式設計與 VR 作品集">
 <meta name="theme-color" content="#ffe6f0">
-<title>YUYOU CHOU | Immersive Designer</title>
+<title>YU-YOU CHOU | Immersive Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -35,18 +35,20 @@ body{background:radial-gradient(circle at 12% 12%,rgba(255,119,204,.34),transpar
 .cursor{border-color:rgba(112,87,217,.5)}.cursor-dot{background:var(--pink)}body.hovering .cursor{background:rgba(255,98,176,.13)}
 header{left:50%;top:16px;width:min(92%,760px);transform:translateX(-50%);padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:rgba(255,255,255,.55);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px);mix-blend-mode:normal}.logo{color:var(--purple)}
 .orb{background:radial-gradient(circle at 33% 30%,#fff 0 3%,#ff92ce 11%,#9d86ff 38%,#70e8ea 70%,rgba(255,255,255,.2));box-shadow:0 0 100px rgba(255,119,204,.32),0 0 160px rgba(0,255,236,.2)}.orb:after{border-color:rgba(255,255,255,.7)}
+.orb{--orb-x:33%;--orb-y:30%;--orb-rotate:0deg;cursor:pointer;pointer-events:auto;transform:translate(-50%,-50%) rotate(var(--orb-rotate));background:radial-gradient(circle at var(--orb-x) var(--orb-y),#fff 0 3%,#ff92ce 11%,#9d86ff 38%,#70e8ea 70%,rgba(255,255,255,.2));transition:background .6s,box-shadow .6s,filter .35s}.orb:hover{filter:saturate(1.16);box-shadow:0 0 120px rgba(255,119,204,.45),0 0 200px rgba(0,255,236,.3)}.orb[data-mode="1"]{background:radial-gradient(circle at var(--orb-x) var(--orb-y),#fff 0 3%,#82fff4 10%,#ff8dcc 40%,#b393ff 72%,rgba(255,255,255,.2))}.orb[data-mode="2"]{background:radial-gradient(circle at var(--orb-x) var(--orb-y),#fff 0 3%,#c6ff73 10%,#76dcff 40%,#f58ac7 72%,rgba(255,255,255,.2))}
 .marquee{background:rgba(255,255,255,.24);backdrop-filter:blur(12px)}.marquee b{color:var(--pink)}.big-copy .dim{color:var(--purple)}
 .project-visual{border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 28px 70px rgba(90,65,130,.16)}.project-visual:after{background:var(--pink);color:#fff}
 .cap:hover{color:var(--pink)}.magnetic{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;box-shadow:0 22px 60px rgba(145,108,255,.3)}
+.orb{display:none}.visual-cloud{position:absolute;inset:8% 8% 18%;z-index:1;perspective:1000px;pointer-events:auto}.float-card{--tx:0px;--ty:0px;position:absolute;display:grid;place-items:center;border:1px solid rgba(255,255,255,.78);border-radius:24px;background:rgba(255,255,255,.32);box-shadow:0 28px 70px rgba(90,65,130,.16);backdrop-filter:blur(18px);transform:translate3d(var(--tx),var(--ty),0) rotate(var(--rot));transition:transform .35s cubic-bezier(.2,.8,.2,1),box-shadow .35s,background .35s;overflow:hidden}.float-card:before{content:"";position:absolute;inset:-35%;background:conic-gradient(from 30deg,transparent,var(--c1),transparent,var(--c2),transparent);animation:spin 12s linear infinite;opacity:.72}.float-card:after{content:attr(data-label);position:relative;z-index:2;padding:9px 13px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(255,255,255,.55);font-size:9px;letter-spacing:.14em;opacity:0;transform:translateY(8px);transition:.3s}.float-card:hover{background:rgba(255,255,255,.5);box-shadow:0 35px 85px rgba(90,65,130,.25);z-index:8}.float-card:hover:after{opacity:1;transform:none}.float-card:nth-child(1){left:18%;top:3%;width:30%;height:43%;--rot:-8deg;--c1:#ff70bc;--c2:#9d86ff}.float-card:nth-child(2){right:14%;top:18%;width:27%;height:36%;--rot:8deg;--c1:#64e6ee;--c2:#ff94d0}.float-card:nth-child(3){left:32%;bottom:2%;width:35%;height:32%;--rot:2deg;--c1:#b296ff;--c2:#65eee7}.float-card:nth-child(4){left:7%;bottom:14%;width:20%;height:27%;--rot:-14deg;--c1:#ffafd8;--c2:#74ddec}.visual-cloud.scattered .float-card:nth-child(1){--tx:-70px;--ty:-45px}.visual-cloud.scattered .float-card:nth-child(2){--tx:75px;--ty:-25px}.visual-cloud.scattered .float-card:nth-child(3){--tx:30px;--ty:65px}.visual-cloud.scattered .float-card:nth-child(4){--tx:-75px;--ty:45px}@media(max-width:800px){.visual-cloud{inset:15% 3% 25%}.float-card{border-radius:16px}.visual-cloud.scattered .float-card:nth-child(1){--tx:-25px;--ty:-20px}.visual-cloud.scattered .float-card:nth-child(2){--tx:25px;--ty:-15px}.visual-cloud.scattered .float-card:nth-child(3){--tx:15px;--ty:25px}.visual-cloud.scattered .float-card:nth-child(4){--tx:-25px;--ty:20px}}
 </style>
 </head>
 <body>
 <div class="noise"></div><div class="progress"></div><div class="cursor"></div><div class="cursor-dot"></div>
-<header><a class="logo interactive" href="#home">YUYOU®</a><nav class="menu"><a class="interactive" href="#about">ABOUT</a><a class="interactive" href="#work">WORK</a><a class="interactive" href="#contact">CONTACT</a></nav></header>
+<header><a class="logo interactive" href="#home">YU-YOU®</a><nav class="menu"><a class="interactive" href="#about">ABOUT</a><a class="interactive" href="#work">WORK</a><a class="interactive" href="#contact">CONTACT</a></nav></header>
 <main>
 <section class="hero" id="home">
-  <div class="orb" data-parallax=".12"></div><span class="hero-kicker">IMMERSIVE DESIGNER · TAIPEI</span>
-  <h1><span>YUYOU</span><span>CHOU</span></h1>
+  <div class="visual-cloud interactive" role="button" tabindex="0" aria-label="互動作品視窗，點擊可重新排列"><div class="float-card" data-label="SPATIAL"></div><div class="float-card" data-label="INTERACTION"></div><div class="float-card" data-label="STORY"></div><div class="float-card" data-label="VR / XR"></div></div><span class="hero-kicker">IMMERSIVE DESIGNER · TAIPEI</span>
+  <h1><span>YU-YOU</span><span>CHOU</span></h1>
   <div class="hero-bottom"><p>以空間、互動與影像，創造讓人想持續探索的數位體驗。</p><span class="scroll-cue">SCROLL TO EXPLORE <i>↓</i></span></div>
 </section>
 <div class="marquee"><div class="marquee-track"><span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span><span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span></div></div>
@@ -60,10 +62,13 @@ header{left:50%;top:16px;width:min(92%,760px);transform:translateX(-50%);padding
 <section class="capabilities"><span class="label reveal">02 · CAPABILITIES</span><div class="cap-list reveal"><div class="cap">VR / XR <small>01</small></div><div class="cap">Spatial Design <small>02</small></div><div class="cap">Visual Direction <small>03</small></div><div class="cap">Prototyping <small>04</small></div></div></section>
 <section class="contact" id="contact"><div class="contact-ring" data-parallax="-.05"></div><span class="label reveal">03 · CONTACT</span><h2 class="reveal">LET'S MAKE<br><span>SOMETHING</span><br>MEMORABLE.</h2><a class="magnetic interactive reveal" href="mailto:n0966785408@gmail.com">START A PROJECT</a></section>
 </main>
-<footer><span>YUYOU CHOU · IMMERSIVE DESIGNER</span><span>TAIPEI · TAIWAN</span><span>© <b id="year"></b></span></footer>
+<footer><span>YU-YOU CHOU · IMMERSIVE DESIGNER</span><span>TAIPEI · TAIWAN</span><span>© <b id="year"></b></span></footer>
 <script>
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches, fine=matchMedia("(pointer:fine)").matches;
 document.getElementById("year").textContent=new Date().getFullYear();
+const cloud=document.querySelector(".visual-cloud"),cards=[...document.querySelectorAll(".float-card")],scatter=()=>cloud.classList.toggle("scattered");
+cloud.addEventListener("click",scatter);cloud.addEventListener("keydown",e=>{if(e.key==="Enter"||e.key===" "){e.preventDefault();scatter()}});
+if(!reduce){cloud.addEventListener("pointermove",e=>{const r=cloud.getBoundingClientRect(),x=(e.clientX-r.left)/r.width-.5,y=(e.clientY-r.top)/r.height-.5;cards.forEach((card,i)=>{const d=(i+1)*8;card.style.setProperty("--tx",`${x*d}px`);card.style.setProperty("--ty",`${y*d}px`)})});cloud.addEventListener("pointerleave",()=>cards.forEach(card=>{card.style.removeProperty("--tx");card.style.removeProperty("--ty")}))}
 const reveals=document.querySelectorAll(".reveal"), observer=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting){e.target.classList.add("in");observer.unobserve(e.target)}}),{threshold:.12});
 reveals.forEach(el=>observer.observe(el));
 addEventListener("scroll",()=>{document.querySelector(".progress").style.width=`${scrollY/(document.documentElement.scrollHeight-innerHeight)*100}%`;if(!reduce)document.querySelectorAll("[data-parallax]").forEach(el=>el.style.marginTop=`${scrollY*Number(el.dataset.parallax)}px`)},{passive:true});
