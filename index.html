@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="YUYOU CHOU 的沉浸式設計與 VR 作品集">
-<meta name="theme-color" content="#0a0a0a">
+<meta name="theme-color" content="#ffe6f0">
 <title>YUYOU CHOU | Immersive Designer</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -27,6 +27,17 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 @keyframes float{50%{transform:translate(-50%,-53%) rotate(5deg)}}@keyframes spin{to{transform:rotate(360deg)}}@keyframes bob{50%{transform:translateY(6px)}}@keyframes marquee{to{transform:translateX(-50%)}}
 @media(max-width:800px){.cursor,.cursor-dot{display:none}.menu{gap:12px}.menu a{font-size:9px}.hero{min-height:600px}.orb{width:85vw;top:43%}.hero-bottom{align-items:start;gap:20px}.scroll-cue{display:none}.intro,.capabilities{grid-template-columns:1fr;gap:35px}.intro-note{grid-column:1}.project{grid-template-columns:1fr}.project-visual{height:105vw;max-height:580px}.project-info{min-height:160px}.contact h2{font-size:19vw}footer{flex-direction:column;padding-bottom:100px}}
 @media(prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}.reveal{opacity:1;transform:none}}
+
+/* Original cute-tech palette, enhanced with interactive motion */
+:root{--bg:#ffe6f0;--fg:#17142d;--dim:#69647b;--line:rgba(68,52,101,.2);--lime:#00bdb6;--pink:#ff62b0;--purple:#916cff}
+body{background:radial-gradient(circle at 12% 12%,rgba(255,119,204,.34),transparent 32rem),radial-gradient(circle at 88% 32%,rgba(0,255,236,.26),transparent 30rem),linear-gradient(140deg,#ffe6f0 0%,#dff5ff 54%,#eee6ff 100%)}
+::selection{background:var(--pink);color:#fff}.noise{opacity:.07}
+.cursor{border-color:rgba(112,87,217,.5)}.cursor-dot{background:var(--pink)}body.hovering .cursor{background:rgba(255,98,176,.13)}
+header{left:50%;top:16px;width:min(92%,760px);transform:translateX(-50%);padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:rgba(255,255,255,.55);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px);mix-blend-mode:normal}.logo{color:var(--purple)}
+.orb{background:radial-gradient(circle at 33% 30%,#fff 0 3%,#ff92ce 11%,#9d86ff 38%,#70e8ea 70%,rgba(255,255,255,.2));box-shadow:0 0 100px rgba(255,119,204,.32),0 0 160px rgba(0,255,236,.2)}.orb:after{border-color:rgba(255,255,255,.7)}
+.marquee{background:rgba(255,255,255,.24);backdrop-filter:blur(12px)}.marquee b{color:var(--pink)}.big-copy .dim{color:var(--purple)}
+.project-visual{border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 28px 70px rgba(90,65,130,.16)}.project-visual:after{background:var(--pink);color:#fff}
+.cap:hover{color:var(--pink)}.magnetic{background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;box-shadow:0 22px 60px rgba(145,108,255,.3)}
 </style>
 </head>
 <body>
