@@ -120,6 +120,8 @@ section{position:relative;padding:120px var(--pad)}
 .tool-control label{font-size:10px;letter-spacing:.14em;color:var(--dim)}
 .tool-control input[type="file"],.tool-control select,.tool-control input[type="number"]{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.42);color:var(--fg);font:500 13px "DM Sans";padding:0 12px}
 .tool-control input[type="range"]{accent-color:var(--pink)}
+.toggle-row{display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.42);padding:0 12px;color:var(--fg);font-size:13px}
+.toggle-row input{width:18px;height:18px;accent-color:var(--pink)}
 .color-row{display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.42);padding:0 10px}
 .color-row input[type="color"]{width:34px;height:34px;border:0;border-radius:999px;background:transparent;padding:0}
 .color-row input[type="text"]{min-width:0;flex:1;border:0;background:transparent;color:var(--fg);font:500 13px "DM Sans";outline:0}
@@ -287,6 +289,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
         </select>
       </div>
       <div class="tool-control">
+        <label for="toolTarget">ROUND TARGET</label>
+        <select class="interactive" id="toolTarget">
+          <option value="image">IMAGE ITSELF</option>
+          <option value="canvas">CANVAS FRAME</option>
+        </select>
+      </div>
+      <div class="tool-control">
         <label for="toolColor">BACKGROUND</label>
         <div class="color-row">
           <input class="interactive" id="toolColor" type="color" value="#ffe6f0">
@@ -303,6 +312,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
         </select>
       </div>
       <div class="tool-control">
+        <label for="toolReplaceWhite">WHITE BACKGROUND</label>
+        <label class="toggle-row">
+          <input class="interactive" id="toolReplaceWhite" type="checkbox" checked>
+          REPLACE WHITE AREA
+        </label>
+      </div>
+      <div class="tool-control">
         <div class="range-readout">
           <label for="toolRadius">RADIUS</label>
           <output id="toolRadiusValue">72 px</output>
@@ -315,6 +331,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
           <output id="toolPaddingValue">64 px</output>
         </div>
         <input class="interactive" id="toolPadding" type="range" min="0" max="220" value="64">
+      </div>
+      <div class="tool-control">
+        <div class="range-readout">
+          <label for="toolTolerance">TOLERANCE</label>
+          <output id="toolToleranceValue">38</output>
+        </div>
+        <input class="interactive" id="toolTolerance" type="range" min="0" max="90" value="38">
       </div>
       <div class="tool-actions">
         <button class="tool-button interactive" id="toolDownload" type="button" disabled>DOWNLOAD PNG</button>
@@ -422,10 +445,14 @@ const tool={
   colorText:document.getElementById("toolColorText"),
   size:document.getElementById("toolSize"),
   fit:document.getElementById("toolFit"),
+  target:document.getElementById("toolTarget"),
+  replaceWhite:document.getElementById("toolReplaceWhite"),
   radius:document.getElementById("toolRadius"),
   radiusValue:document.getElementById("toolRadiusValue"),
   padding:document.getElementById("toolPadding"),
   paddingValue:document.getElementById("toolPaddingValue"),
+  tolerance:document.getElementById("toolTolerance"),
+  toleranceValue:document.getElementById("toolToleranceValue"),
   download:document.getElementById("toolDownload"),
   reset:document.getElementById("toolReset"),
   image:null
@@ -446,6 +473,41 @@ function roundedRect(ctx,x,y,w,h,r){
   ctx.closePath();
 }
 
+function hexToRgb(hex){
+  const value=hex.replace("#","");
+  return {
+    r:parseInt(value.slice(0,2),16),
+    g:parseInt(value.slice(2,4),16),
+    b:parseInt(value.slice(4,6),16)
+  };
+}
+
+function processedImageCanvas(){
+  const source=document.createElement("canvas");
+  const sourceCtx=source.getContext("2d");
+  source.width=tool.image.width;
+  source.height=tool.image.height;
+  sourceCtx.drawImage(tool.image,0,0);
+  if(!tool.replaceWhite.checked)return source;
+  const imageData=sourceCtx.getImageData(0,0,source.width,source.height);
+  const data=imageData.data;
+  const bg=hexToRgb(tool.color.value);
+  const tolerance=Number(tool.tolerance.value);
+  const min=255-tolerance;
+  for(let i=0;i<data.length;i+=4){
+    const r=data[i],g=data[i+1],b=data[i+2];
+    const nearWhite=r>=min&&g>=min&&b>=min&&Math.max(r,g,b)-Math.min(r,g,b)<=tolerance;
+    if(nearWhite){
+      data[i]=bg.r;
+      data[i+1]=bg.g;
+      data[i+2]=bg.b;
+      data[i+3]=255;
+    }
+  }
+  sourceCtx.putImageData(imageData,0,0);
+  return source;
+}
+
 function drawImageTool(){
   const [width,height]=tool.size.value.split("x").map(Number);
   const radius=Number(tool.radius.value);
@@ -456,25 +518,40 @@ function drawImageTool(){
   canvas.height=height;
   tool.radiusValue.textContent=`${radius} px`;
   tool.paddingValue.textContent=`${padding} px`;
+  tool.toleranceValue.textContent=tool.tolerance.value;
   ctx.clearRect(0,0,width,height);
-  roundedRect(ctx,0,0,width,height,radius);
-  ctx.save();
-  ctx.clip();
-  ctx.fillStyle=tool.color.value;
-  ctx.fillRect(0,0,width,height);
+  if(tool.target.value==="canvas"){
+    roundedRect(ctx,0,0,width,height,radius);
+    ctx.save();
+    ctx.clip();
+    ctx.fillStyle=tool.color.value;
+    ctx.fillRect(0,0,width,height);
+  }else{
+    ctx.fillStyle="rgba(255,255,255,0)";
+    ctx.fillRect(0,0,width,height);
+  }
   if(tool.image){
     const areaW=Math.max(1,width-padding*2);
     const areaH=Math.max(1,height-padding*2);
+    const image=processedImageCanvas();
     const scale=tool.fit.value==="cover"
-      ? Math.max(areaW/tool.image.width,areaH/tool.image.height)
-      : Math.min(areaW/tool.image.width,areaH/tool.image.height);
-    const drawW=tool.image.width*scale;
-    const drawH=tool.image.height*scale;
+      ? Math.max(areaW/image.width,areaH/image.height)
+      : Math.min(areaW/image.width,areaH/image.height);
+    const drawW=image.width*scale;
+    const drawH=image.height*scale;
     const drawX=(width-drawW)/2;
     const drawY=(height-drawH)/2;
-    ctx.drawImage(tool.image,drawX,drawY,drawW,drawH);
+    if(tool.target.value==="image"){
+      roundedRect(ctx,drawX,drawY,drawW,drawH,radius);
+      ctx.save();
+      ctx.clip();
+      ctx.drawImage(image,drawX,drawY,drawW,drawH);
+      ctx.restore();
+    }else{
+      ctx.drawImage(image,drawX,drawY,drawW,drawH);
+    }
   }
-  ctx.restore();
+  if(tool.target.value==="canvas")ctx.restore();
 }
 
 function setToolImage(file){
@@ -505,7 +582,7 @@ tool.colorText.addEventListener("input",()=>{
     drawImageTool();
   }
 });
-[tool.size,tool.fit,tool.radius,tool.padding].forEach(input=>input.addEventListener("input",drawImageTool));
+[tool.size,tool.fit,tool.target,tool.replaceWhite,tool.radius,tool.padding,tool.tolerance].forEach(input=>input.addEventListener("input",drawImageTool));
 tool.download.addEventListener("click",()=>{
   if(!tool.image)return;
   const link=document.createElement("a");
@@ -520,8 +597,11 @@ tool.reset.addEventListener("click",()=>{
   tool.colorText.value="#ffe6f0";
   tool.size.value="1200x900";
   tool.fit.value="contain";
+  tool.target.value="image";
+  tool.replaceWhite.checked=true;
   tool.radius.value="72";
   tool.padding.value="64";
+  tool.tolerance.value="38";
   tool.canvas.hidden=true;
   tool.empty.hidden=false;
   tool.download.disabled=true;
