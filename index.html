@@ -44,9 +44,9 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .noise{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
 .progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--pink);z-index:1001}
 .cursor,.cursor-dot{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
-.cursor{width:76px;height:76px;border:1px solid rgba(112,87,217,.65);background:rgba(255,255,255,.12);box-shadow:inset 0 0 24px rgba(255,119,204,.12),0 0 25px rgba(145,108,255,.08);backdrop-filter:blur(2px)}
-.cursor-dot{width:6px;height:6px;background:var(--pink);box-shadow:0 0 12px var(--pink)}
-body.hovering .cursor{width:92px;height:92px;background:rgba(255,98,176,.13)}
+.cursor{width:34px;height:34px;border:1px solid rgba(112,87,217,.48);background:rgba(255,255,255,.08);box-shadow:inset 0 0 14px rgba(255,119,204,.08),0 0 16px rgba(145,108,255,.06);backdrop-filter:blur(1px)}
+.cursor-dot{width:4px;height:4px;background:var(--pink);box-shadow:0 0 8px var(--pink)}
+body.hovering .cursor{width:44px;height:44px;background:rgba(255,98,176,.1)}
 header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,780px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--paper);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
 .logo{font:600 14px "Space Grotesk";letter-spacing:.08em;text-decoration:none;color:var(--purple)}
 .menu{display:flex;gap:24px}
@@ -108,6 +108,27 @@ section{position:relative;padding:120px var(--pad)}
 .cap:hover{padding-left:20px;color:var(--pink)}
 .cap small{font:400 10px "DM Sans";letter-spacing:.12em;color:var(--dim)}
 .cap em{display:block;margin-top:8px;font:400 13px/1.6 "DM Sans";color:var(--dim);font-style:normal;letter-spacing:0}
+.tools{display:grid;grid-template-columns:.75fr 1.25fr;gap:5vw;align-items:start}
+.tools-copy h2{margin:16px 0 22px;font:500 clamp(44px,7vw,104px)/.9 "Space Grotesk";letter-spacing:-.045em}
+.tools-copy p{max-width:440px;margin:0;color:var(--dim);font-size:15px;line-height:1.75}
+.tool-panel{border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(255,255,255,.34);box-shadow:0 28px 70px rgba(90,65,130,.16);backdrop-filter:blur(18px);overflow:hidden}
+.tool-preview{display:grid;place-items:center;min-height:430px;padding:22px;background:linear-gradient(135deg,rgba(255,255,255,.36),rgba(255,255,255,.12))}
+.tool-preview canvas{width:min(100%,560px);height:auto;max-height:560px;border-radius:18px;box-shadow:0 24px 58px rgba(49,35,72,.18);background:repeating-conic-gradient(rgba(255,255,255,.55) 0 25%,rgba(145,108,255,.08) 0 50%) 50%/24px 24px}
+.tool-empty{display:grid;place-items:center;width:min(100%,520px);aspect-ratio:4/3;border:1px dashed rgba(104,98,123,.42);border-radius:18px;color:var(--dim);font-size:13px;letter-spacing:.08em;text-align:center;background:rgba(255,255,255,.22)}
+.tool-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px;border-top:1px solid rgba(255,255,255,.55)}
+.tool-control{display:grid;gap:8px}
+.tool-control label{font-size:10px;letter-spacing:.14em;color:var(--dim)}
+.tool-control input[type="file"],.tool-control select,.tool-control input[type="number"]{width:100%;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.42);color:var(--fg);font:500 13px "DM Sans";padding:0 12px}
+.tool-control input[type="range"]{accent-color:var(--pink)}
+.color-row{display:flex;align-items:center;gap:10px;min-height:44px;border:1px solid var(--line);border-radius:12px;background:rgba(255,255,255,.42);padding:0 10px}
+.color-row input[type="color"]{width:34px;height:34px;border:0;border-radius:999px;background:transparent;padding:0}
+.color-row input[type="text"]{min-width:0;flex:1;border:0;background:transparent;color:var(--fg);font:500 13px "DM Sans";outline:0}
+.range-readout{display:flex;justify-content:space-between;align-items:center;gap:12px}
+.range-readout output{min-width:54px;text-align:right;font-size:12px;color:var(--dim)}
+.tool-actions{grid-column:1/-1;display:flex;gap:12px;flex-wrap:wrap}
+.tool-button{display:inline-grid;place-items:center;min-height:46px;border:0;border-radius:999px;padding:0 18px;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font:600 11px "DM Sans";letter-spacing:.12em;cursor:pointer}
+.tool-button.secondary{border:1px solid var(--line);background:rgba(255,255,255,.36);color:var(--fg)}
+.tool-button:disabled{cursor:not-allowed;opacity:.45}
 .contact{min-height:100vh;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden}
 .contact .label{align-self:center}
 .contact h2{margin:30px auto;font:500 clamp(62px,13vw,190px)/.82 "Space Grotesk";letter-spacing:-.06em}
@@ -138,11 +159,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .hero h1{letter-spacing:-.04em}
   .hero-bottom{align-items:start}
   .scroll-cue{display:none}
-  .intro,.capabilities{grid-template-columns:1fr;gap:35px}
+  .intro,.capabilities,.tools{grid-template-columns:1fr;gap:35px}
   .intro-note,.intro-meta{grid-column:1}
   .project{grid-template-columns:1fr}
   .project-visual{height:105vw;max-height:580px}
   .project-info{min-height:220px}
+  .tool-preview{min-height:300px;padding:14px}
+  .tool-controls{grid-template-columns:1fr;padding:16px}
   .contact h2{font-size:18vw}
   footer{flex-direction:column;padding-bottom:100px}
 }
@@ -162,6 +185,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <nav class="menu" aria-label="Primary navigation">
     <a class="interactive" href="#about">ABOUT</a>
     <a class="interactive" href="#work">WORK</a>
+    <a class="interactive" href="#tools">TOOLS</a>
     <a class="interactive" href="#contact">CONTACT</a>
   </nav>
 </header>
@@ -239,8 +263,68 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </a>
   </div>
 </section>
+<section class="tools" id="tools">
+  <div class="tools-copy reveal">
+    <span class="label">02 · TOOLS</span>
+    <h2>IMAGE<br>STUDIO</h2>
+    <p>上傳圖片後，可以套用品牌背景色、圓角、留白與輸出尺寸，直接下載可用於作品集、社群或商品頁的 PNG。</p>
+  </div>
+  <div class="tool-panel reveal">
+    <div class="tool-preview">
+      <canvas id="imageToolCanvas" width="1200" height="900" hidden></canvas>
+      <div class="tool-empty" id="imageToolEmpty">UPLOAD IMAGE</div>
+    </div>
+    <div class="tool-controls">
+      <div class="tool-control">
+        <label for="toolUpload">IMAGE</label>
+        <input class="interactive" id="toolUpload" type="file" accept="image/*">
+      </div>
+      <div class="tool-control">
+        <label for="toolFit">FIT</label>
+        <select class="interactive" id="toolFit">
+          <option value="contain">CONTAIN</option>
+          <option value="cover">COVER</option>
+        </select>
+      </div>
+      <div class="tool-control">
+        <label for="toolColor">BACKGROUND</label>
+        <div class="color-row">
+          <input class="interactive" id="toolColor" type="color" value="#ffe6f0">
+          <input class="interactive" id="toolColorText" type="text" value="#ffe6f0" maxlength="7" aria-label="Background color hex">
+        </div>
+      </div>
+      <div class="tool-control">
+        <label for="toolSize">OUTPUT SIZE</label>
+        <select class="interactive" id="toolSize">
+          <option value="1200x900">1200 x 900</option>
+          <option value="1080x1080">1080 x 1080</option>
+          <option value="1200x1600">1200 x 1600</option>
+          <option value="1600x900">1600 x 900</option>
+        </select>
+      </div>
+      <div class="tool-control">
+        <div class="range-readout">
+          <label for="toolRadius">RADIUS</label>
+          <output id="toolRadiusValue">72 px</output>
+        </div>
+        <input class="interactive" id="toolRadius" type="range" min="0" max="260" value="72">
+      </div>
+      <div class="tool-control">
+        <div class="range-readout">
+          <label for="toolPadding">PADDING</label>
+          <output id="toolPaddingValue">64 px</output>
+        </div>
+        <input class="interactive" id="toolPadding" type="range" min="0" max="220" value="64">
+      </div>
+      <div class="tool-actions">
+        <button class="tool-button interactive" id="toolDownload" type="button" disabled>DOWNLOAD PNG</button>
+        <button class="tool-button secondary interactive" id="toolReset" type="button">RESET</button>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="capabilities">
-  <span class="label reveal">02 · CAPABILITIES</span>
+  <span class="label reveal">03 · CAPABILITIES</span>
   <div class="cap-list reveal">
     <div class="cap">VR / XR <small>01</small><em>沉浸式場景、視線引導、互動節奏與使用者路徑。</em></div>
     <div class="cap">Spatial Design <small>02</small><em>把故事、動線與視覺焦點整理成可探索的空間。</em></div>
@@ -250,7 +334,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 </section>
 <section class="contact" id="contact">
   <div class="contact-ring" data-parallax="-.05"></div>
-  <span class="label reveal">03 · CONTACT</span>
+  <span class="label reveal">04 · CONTACT</span>
   <h2 class="reveal">LET'S MAKE<br><span>SOMETHING</span><br>MEMORABLE.</h2>
   <div class="contact-actions reveal">
     <a class="magnetic interactive" href="mailto:n0966785408@gmail.com">START A PROJECT</a>
@@ -329,6 +413,121 @@ const observer=new IntersectionObserver(entries=>{
   });
 },{threshold:.12});
 reveals.forEach(el=>observer.observe(el));
+
+const tool={
+  upload:document.getElementById("toolUpload"),
+  canvas:document.getElementById("imageToolCanvas"),
+  empty:document.getElementById("imageToolEmpty"),
+  color:document.getElementById("toolColor"),
+  colorText:document.getElementById("toolColorText"),
+  size:document.getElementById("toolSize"),
+  fit:document.getElementById("toolFit"),
+  radius:document.getElementById("toolRadius"),
+  radiusValue:document.getElementById("toolRadiusValue"),
+  padding:document.getElementById("toolPadding"),
+  paddingValue:document.getElementById("toolPaddingValue"),
+  download:document.getElementById("toolDownload"),
+  reset:document.getElementById("toolReset"),
+  image:null
+};
+
+function roundedRect(ctx,x,y,w,h,r){
+  const radius=Math.min(r,w/2,h/2);
+  ctx.beginPath();
+  ctx.moveTo(x+radius,y);
+  ctx.lineTo(x+w-radius,y);
+  ctx.quadraticCurveTo(x+w,y,x+w,y+radius);
+  ctx.lineTo(x+w,y+h-radius);
+  ctx.quadraticCurveTo(x+w,y+h,x+w-radius,y+h);
+  ctx.lineTo(x+radius,y+h);
+  ctx.quadraticCurveTo(x,y+h,x,y+h-radius);
+  ctx.lineTo(x,y+radius);
+  ctx.quadraticCurveTo(x,y,x+radius,y);
+  ctx.closePath();
+}
+
+function drawImageTool(){
+  const [width,height]=tool.size.value.split("x").map(Number);
+  const radius=Number(tool.radius.value);
+  const padding=Number(tool.padding.value);
+  const canvas=tool.canvas;
+  const ctx=canvas.getContext("2d");
+  canvas.width=width;
+  canvas.height=height;
+  tool.radiusValue.textContent=`${radius} px`;
+  tool.paddingValue.textContent=`${padding} px`;
+  ctx.clearRect(0,0,width,height);
+  roundedRect(ctx,0,0,width,height,radius);
+  ctx.save();
+  ctx.clip();
+  ctx.fillStyle=tool.color.value;
+  ctx.fillRect(0,0,width,height);
+  if(tool.image){
+    const areaW=Math.max(1,width-padding*2);
+    const areaH=Math.max(1,height-padding*2);
+    const scale=tool.fit.value==="cover"
+      ? Math.max(areaW/tool.image.width,areaH/tool.image.height)
+      : Math.min(areaW/tool.image.width,areaH/tool.image.height);
+    const drawW=tool.image.width*scale;
+    const drawH=tool.image.height*scale;
+    const drawX=(width-drawW)/2;
+    const drawY=(height-drawH)/2;
+    ctx.drawImage(tool.image,drawX,drawY,drawW,drawH);
+  }
+  ctx.restore();
+}
+
+function setToolImage(file){
+  if(!file)return;
+  const reader=new FileReader();
+  reader.onload=()=>{
+    const image=new Image();
+    image.onload=()=>{
+      tool.image=image;
+      tool.canvas.hidden=false;
+      tool.empty.hidden=true;
+      tool.download.disabled=false;
+      drawImageTool();
+    };
+    image.src=reader.result;
+  };
+  reader.readAsDataURL(file);
+}
+
+tool.upload.addEventListener("change",e=>setToolImage(e.target.files[0]));
+tool.color.addEventListener("input",()=>{
+  tool.colorText.value=tool.color.value;
+  drawImageTool();
+});
+tool.colorText.addEventListener("input",()=>{
+  if(/^#[0-9a-f]{6}$/i.test(tool.colorText.value)){
+    tool.color.value=tool.colorText.value;
+    drawImageTool();
+  }
+});
+[tool.size,tool.fit,tool.radius,tool.padding].forEach(input=>input.addEventListener("input",drawImageTool));
+tool.download.addEventListener("click",()=>{
+  if(!tool.image)return;
+  const link=document.createElement("a");
+  link.download="yu-you-image-studio.png";
+  link.href=tool.canvas.toDataURL("image/png");
+  link.click();
+});
+tool.reset.addEventListener("click",()=>{
+  tool.upload.value="";
+  tool.image=null;
+  tool.color.value="#ffe6f0";
+  tool.colorText.value="#ffe6f0";
+  tool.size.value="1200x900";
+  tool.fit.value="contain";
+  tool.radius.value="72";
+  tool.padding.value="64";
+  tool.canvas.hidden=true;
+  tool.empty.hidden=false;
+  tool.download.disabled=true;
+  drawImageTool();
+});
+drawImageTool();
 
 addEventListener("scroll",()=>{
   const max=document.documentElement.scrollHeight-innerHeight;
