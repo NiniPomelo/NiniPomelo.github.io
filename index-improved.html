@@ -1,0 +1,374 @@
+<!doctype html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="description" content="YU-YOU CHOU 是位於台北的 immersive designer，專注於 VR / XR、空間互動、視覺敘事與原型設計。">
+<meta name="theme-color" content="#ffe6f0">
+<meta property="og:title" content="YU-YOU CHOU | Immersive Designer">
+<meta property="og:description" content="VR / XR、空間互動與視覺敘事作品集。">
+<meta property="og:type" content="website">
+<meta property="og:image" content="https://images.unsplash.com/photo-1626379953822-baec19c3bbcd?auto=format&fit=crop&q=85&w=1200">
+<meta name="twitter:card" content="summary_large_image">
+<title>YU-YOU CHOU | Immersive Designer</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#ffe6f0;
+  --fg:#17142d;
+  --dim:#68627b;
+  --line:rgba(68,52,101,.2);
+  --pink:#ff62b0;
+  --teal:#00bdb6;
+  --purple:#916cff;
+  --paper:rgba(255,255,255,.54);
+  --pad:clamp(20px,4vw,64px);
+}
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
+body{
+  margin:0;
+  background:
+    radial-gradient(circle at 12% 12%,rgba(255,119,204,.34),transparent 32rem),
+    radial-gradient(circle at 88% 32%,rgba(0,255,236,.26),transparent 30rem),
+    linear-gradient(140deg,#ffe6f0 0%,#dff5ff 54%,#eee6ff 100%);
+  color:var(--fg);
+  font-family:"DM Sans",system-ui,sans-serif;
+  overflow-x:hidden;
+}
+a{color:inherit}
+img{display:block;width:100%;height:100%;object-fit:cover}
+::selection{background:var(--pink);color:#fff}
+.noise{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
+.progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--pink);z-index:1001}
+.cursor,.cursor-dot{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
+.cursor{width:76px;height:76px;border:1px solid rgba(112,87,217,.65);background:rgba(255,255,255,.12);box-shadow:inset 0 0 24px rgba(255,119,204,.12),0 0 25px rgba(145,108,255,.08);backdrop-filter:blur(2px)}
+.cursor-dot{width:6px;height:6px;background:var(--pink);box-shadow:0 0 12px var(--pink)}
+body.hovering .cursor{width:92px;height:92px;background:rgba(255,98,176,.13)}
+header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,780px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--paper);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
+.logo{font:600 14px "Space Grotesk";letter-spacing:.08em;text-decoration:none;color:var(--purple)}
+.menu{display:flex;gap:24px}
+.menu a{font-size:11px;letter-spacing:.14em;text-decoration:none}
+section{position:relative;padding:120px var(--pad)}
+.hero{height:100svh;min-height:660px;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:38px;overflow:hidden}
+.visual-cloud{position:absolute;inset:8% 8% 18%;z-index:1;perspective:1000px;pointer-events:auto}
+.float-card{--tx:0px;--ty:0px;position:absolute;display:grid;place-items:center;border:1px solid rgba(255,255,255,.78);border-radius:24px;background:rgba(255,255,255,.32);box-shadow:0 28px 70px rgba(90,65,130,.16);backdrop-filter:blur(18px);transform:translate3d(var(--tx),var(--ty),0) rotate(var(--rot));transition:box-shadow .35s,background .35s;will-change:transform;overflow:hidden}
+.float-card:before{content:"";position:absolute;inset:-35%;background:conic-gradient(from 30deg,transparent,var(--c1),transparent,var(--c2),transparent);animation:spin 12s linear infinite;opacity:.72}
+.float-card:after{content:attr(data-label);position:relative;z-index:2;padding:9px 13px;border:1px solid rgba(255,255,255,.7);border-radius:999px;background:rgba(255,255,255,.55);font-size:9px;letter-spacing:.14em;opacity:0;transform:translateY(8px);transition:.3s}
+.float-card:hover{background:rgba(255,255,255,.5);box-shadow:0 35px 85px rgba(90,65,130,.25);z-index:8}
+.float-card:hover:after{opacity:1;transform:none}
+.float-card:nth-child(1){left:18%;top:3%;width:30%;height:43%;--rot:-8deg;--c1:#ff70bc;--c2:#9d86ff}
+.float-card:nth-child(2){right:14%;top:18%;width:27%;height:36%;--rot:8deg;--c1:#64e6ee;--c2:#ff94d0}
+.float-card:nth-child(3){left:32%;bottom:2%;width:35%;height:32%;--rot:2deg;--c1:#b296ff;--c2:#65eee7}
+.float-card:nth-child(4){left:7%;bottom:14%;width:20%;height:27%;--rot:-14deg;--c1:#ffafd8;--c2:#74ddec}
+.visual-cloud.scattered .float-card:nth-child(1){--tx:-70px;--ty:-45px}
+.visual-cloud.scattered .float-card:nth-child(2){--tx:75px;--ty:-25px}
+.visual-cloud.scattered .float-card:nth-child(3){--tx:30px;--ty:65px}
+.visual-cloud.scattered .float-card:nth-child(4){--tx:-75px;--ty:45px}
+.hero-kicker{position:absolute;top:27%;left:var(--pad);font-size:11px;letter-spacing:.18em;color:var(--dim);writing-mode:vertical-rl}
+.hero h1{position:relative;z-index:2;margin:0;font:500 clamp(68px,15vw,220px)/.76 "Space Grotesk";letter-spacing:-.06em}
+.hero h1 span{display:block}
+.hero h1 span:last-child{text-align:right}
+.hero-bottom{position:relative;z-index:2;display:flex;justify-content:space-between;align-items:end;margin-top:34px;gap:24px}
+.hero-bottom p{max-width:520px;margin:0;color:var(--dim);line-height:1.7}
+.scroll-cue{display:flex;align-items:center;gap:12px;font-size:10px;letter-spacing:.15em}
+.scroll-cue i{display:grid;place-items:center;width:48px;height:48px;border:1px solid var(--line);border-radius:50%;font-style:normal;animation:bob 1.6s infinite}
+.marquee{overflow:hidden;border-block:1px solid var(--line);padding:20px 0;background:rgba(255,255,255,.24);backdrop-filter:blur(12px)}
+.marquee-track{display:flex;width:max-content;animation:marquee 22s linear infinite}
+.marquee span{font:500 clamp(28px,5vw,72px) "Space Grotesk";white-space:nowrap}
+.marquee b{color:var(--pink);font-weight:400;margin:0 .45em}
+.intro{min-height:100vh;display:grid;grid-template-columns:1fr 2fr;gap:8vw;align-items:center}
+.label{font-size:10px;letter-spacing:.18em;color:var(--teal);text-transform:uppercase;align-self:start}
+.big-copy{margin:0;font:400 clamp(42px,7vw,104px)/1.02 "Space Grotesk";letter-spacing:-.045em}
+.big-copy .dim{color:var(--purple)}
+.intro-note{grid-column:2;max-width:640px;color:var(--dim);font-size:16px;line-height:1.8}
+.intro-meta{grid-column:2;display:flex;flex-wrap:wrap;gap:10px;margin-top:-30px}
+.pill{border:1px solid rgba(255,255,255,.72);border-radius:999px;background:rgba(255,255,255,.35);padding:8px 12px;font-size:11px;letter-spacing:.1em;color:var(--fg)}
+.work-head{display:flex;justify-content:space-between;align-items:end;padding-bottom:26px;border-bottom:1px solid var(--line)}
+.work-head h2{margin:0;font:500 clamp(54px,10vw,150px)/.8 "Space Grotesk";letter-spacing:-.055em}
+.counter{color:var(--dim);font-size:12px}
+.projects{padding-top:40px}
+.project{display:grid;grid-template-columns:1.4fr .6fr;gap:28px;padding:32px 0;border-bottom:1px solid var(--line);text-decoration:none;perspective:1100px}
+.project-visual{position:relative;overflow:hidden;height:min(58vw,640px);border:1px solid rgba(255,255,255,.7);border-radius:24px;box-shadow:0 28px 70px rgba(90,65,130,.16);transform-style:preserve-3d;transition:transform .15s ease-out}
+.project-visual:after{content:"VIEW";position:absolute;left:50%;top:50%;display:grid;place-items:center;width:94px;height:94px;border-radius:50%;background:var(--pink);color:#fff;font-size:11px;letter-spacing:.12em;opacity:0;transform:translate(-50%,-50%) scale(.6);transition:.3s}
+.project:hover .project-visual:after{opacity:1;transform:translate(-50%,-50%) scale(1)}
+.project img{transition:transform .7s,filter .7s;filter:saturate(.8)}
+.project:hover img{transform:scale(1.04);filter:saturate(1)}
+.project-info{display:flex;flex-direction:column;justify-content:space-between;padding:4px 0}
+.project-no{font-size:10px;color:var(--teal);letter-spacing:.14em}
+.project-info h3{margin:auto 0 12px;font:500 clamp(30px,4vw,64px)/.95 "Space Grotesk";letter-spacing:-.045em}
+.project-info p{margin:0;color:var(--dim);font-size:13px;line-height:1.65}
+.project-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
+.project-facts span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;letter-spacing:.1em;color:var(--fg);background:rgba(255,255,255,.25)}
+.capabilities{display:grid;grid-template-columns:1fr 2fr;gap:8vw;min-height:80vh;align-items:start}
+.cap-list{border-top:1px solid var(--line)}
+.cap{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line);font:400 clamp(25px,4vw,58px) "Space Grotesk";transition:padding .3s,color .3s}
+.cap:hover{padding-left:20px;color:var(--pink)}
+.cap small{font:400 10px "DM Sans";letter-spacing:.12em;color:var(--dim)}
+.cap em{display:block;margin-top:8px;font:400 13px/1.6 "DM Sans";color:var(--dim);font-style:normal;letter-spacing:0}
+.contact{min-height:100vh;display:flex;flex-direction:column;justify-content:center;text-align:center;overflow:hidden}
+.contact .label{align-self:center}
+.contact h2{margin:30px auto;font:500 clamp(62px,13vw,190px)/.82 "Space Grotesk";letter-spacing:-.06em}
+.contact h2 span{color:var(--pink)}
+.contact-actions{display:flex;justify-content:center;align-items:center;gap:14px;flex-wrap:wrap}
+.magnetic,.secondary-link{display:inline-grid;place-items:center;min-height:52px;border-radius:999px;text-decoration:none;font-size:11px;letter-spacing:.14em}
+.magnetic{width:150px;height:150px;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;box-shadow:0 22px 60px rgba(145,108,255,.3);transition:transform .18s}
+.secondary-link{padding:0 20px;border:1px solid var(--line);background:rgba(255,255,255,.3);color:var(--fg)}
+.contact-ring{position:absolute;left:50%;top:50%;width:min(78vw,1000px);aspect-ratio:1;border:1px solid var(--line);border-radius:50%;transform:translate(-50%,-50%);z-index:-1}
+footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pad);border-top:1px solid var(--line);color:var(--dim);font-size:10px;letter-spacing:.12em}
+.reveal{opacity:0;transform:translateY(50px);transition:opacity .8s,transform .8s}
+.reveal.in{opacity:1;transform:none}
+@keyframes spin{to{transform:rotate(360deg)}}
+@keyframes bob{50%{transform:translateY(6px)}}
+@keyframes marquee{to{transform:translateX(-50%)}}
+@media(max-width:800px){
+  .cursor,.cursor-dot{display:none}
+  header{top:12px;padding:12px 16px}
+  .menu{gap:12px}
+  .menu a{font-size:9px}
+  .hero{min-height:620px}
+  .visual-cloud{inset:15% 3% 25%}
+  .float-card{border-radius:16px}
+  .visual-cloud.scattered .float-card:nth-child(1){--tx:-25px;--ty:-20px}
+  .visual-cloud.scattered .float-card:nth-child(2){--tx:25px;--ty:-15px}
+  .visual-cloud.scattered .float-card:nth-child(3){--tx:15px;--ty:25px}
+  .visual-cloud.scattered .float-card:nth-child(4){--tx:-25px;--ty:20px}
+  .hero h1{letter-spacing:-.04em}
+  .hero-bottom{align-items:start}
+  .scroll-cue{display:none}
+  .intro,.capabilities{grid-template-columns:1fr;gap:35px}
+  .intro-note,.intro-meta{grid-column:1}
+  .project{grid-template-columns:1fr}
+  .project-visual{height:105vw;max-height:580px}
+  .project-info{min-height:220px}
+  .contact h2{font-size:18vw}
+  footer{flex-direction:column;padding-bottom:100px}
+}
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .reveal{opacity:1;transform:none}
+}
+</style>
+</head>
+<body>
+<div class="noise"></div>
+<div class="progress"></div>
+<div class="cursor"></div>
+<div class="cursor-dot"></div>
+<header>
+  <a class="logo interactive" href="#home">YU-YOU®</a>
+  <nav class="menu" aria-label="Primary navigation">
+    <a class="interactive" href="#about">ABOUT</a>
+    <a class="interactive" href="#work">WORK</a>
+    <a class="interactive" href="#contact">CONTACT</a>
+  </nav>
+</header>
+<main>
+<section class="hero" id="home">
+  <div class="visual-cloud interactive" role="button" tabindex="0" aria-label="互動作品視窗，點擊可重新排列">
+    <div class="float-card" data-label="SPATIAL"></div>
+    <div class="float-card" data-label="INTERACTION"></div>
+    <div class="float-card" data-label="STORY"></div>
+    <div class="float-card" data-label="VR / XR"></div>
+  </div>
+  <span class="hero-kicker">IMMERSIVE DESIGNER · TAIPEI</span>
+  <h1><span>YU-YOU</span><span>CHOU</span></h1>
+  <div class="hero-bottom">
+    <p>我設計 VR / XR、空間互動與視覺敘事原型，把複雜技術轉化成直覺、可探索、帶有情緒的數位體驗。</p>
+    <span class="scroll-cue">SCROLL TO EXPLORE <i>↓</i></span>
+  </div>
+</section>
+<div class="marquee" aria-hidden="true">
+  <div class="marquee-track">
+    <span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span>
+    <span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span>
+  </div>
+</div>
+<section class="intro" id="about">
+  <span class="label reveal">01 · ABOUT</span>
+  <h2 class="big-copy reveal">I CREATE DIGITAL WORLDS <span class="dim">THAT FEEL ALIVE.</span></h2>
+  <p class="intro-note reveal">我的工作橫跨概念發想、互動流程、空間節奏、視覺系統與快速原型。比起只做漂亮畫面，我更在意使用者進入體驗後，能不能自然理解、移動、停留，並記住那個瞬間。</p>
+  <div class="intro-meta reveal" aria-label="Skills and tools">
+    <span class="pill">UNITY</span>
+    <span class="pill">VR / XR</span>
+    <span class="pill">FIGMA</span>
+    <span class="pill">INTERACTION</span>
+    <span class="pill">MOTION</span>
+  </div>
+</section>
+<section id="work">
+  <div class="work-head reveal">
+    <h2>SELECTED<br>WORK</h2>
+    <span class="counter">(03)</span>
+  </div>
+  <div class="projects">
+    <a class="project interactive reveal" href="#contact" aria-label="Dreamscape Interface project">
+      <div class="project-visual">
+        <img src="https://images.unsplash.com/photo-1626379953822-baec19c3bbcd?auto=format&fit=crop&q=85&w=1800" alt="粉色沉浸式空間" loading="lazy" decoding="async">
+      </div>
+      <div class="project-info">
+        <span class="project-no">01 / IMMERSIVE</span>
+        <h3>Dreamscape<br>Interface</h3>
+        <p>以 VR 場景作為敘事入口，設計可被探索的空間節奏、互動提示與情緒轉場。</p>
+        <div class="project-facts"><span>ROLE · DESIGN</span><span>TOOLS · UNITY</span><span>TYPE · VR</span></div>
+      </div>
+    </a>
+    <a class="project interactive reveal" href="#contact" aria-label="Fluid Identity project">
+      <div class="project-visual">
+        <img src="https://images.unsplash.com/photo-1614853316476-de00d14cb1fc?auto=format&fit=crop&q=85&w=1800" alt="紫色抽象視覺" loading="lazy" decoding="async">
+      </div>
+      <div class="project-info">
+        <span class="project-no">02 / VISUAL</span>
+        <h3>Fluid<br>Identity</h3>
+        <p>把品牌視覺延伸成動態系統，建立適合展演、社群與互動介面的視覺語彙。</p>
+        <div class="project-facts"><span>ROLE · ART DIRECTION</span><span>TOOLS · FIGMA</span><span>TYPE · MOTION</span></div>
+      </div>
+    </a>
+    <a class="project interactive reveal" href="#contact" aria-label="Soft Circuit project">
+      <div class="project-visual">
+        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=85&w=1800" alt="電子電路板" loading="lazy" decoding="async">
+      </div>
+      <div class="project-info">
+        <span class="project-no">03 / SYSTEM</span>
+        <h3>Soft<br>Circuit</h3>
+        <p>探索科技感介面如何變得柔軟，透過微互動、資訊層級與原型測試降低使用距離。</p>
+        <div class="project-facts"><span>ROLE · PROTOTYPE</span><span>TOOLS · WEB</span><span>TYPE · INTERACTION</span></div>
+      </div>
+    </a>
+  </div>
+</section>
+<section class="capabilities">
+  <span class="label reveal">02 · CAPABILITIES</span>
+  <div class="cap-list reveal">
+    <div class="cap">VR / XR <small>01</small><em>沉浸式場景、視線引導、互動節奏與使用者路徑。</em></div>
+    <div class="cap">Spatial Design <small>02</small><em>把故事、動線與視覺焦點整理成可探索的空間。</em></div>
+    <div class="cap">Visual Direction <small>03</small><em>建立適合數位體驗的色彩、動態、構圖與情緒。</em></div>
+    <div class="cap">Prototyping <small>04</small><em>快速測試互動想法，從概念推進到可展示的 demo。</em></div>
+  </div>
+</section>
+<section class="contact" id="contact">
+  <div class="contact-ring" data-parallax="-.05"></div>
+  <span class="label reveal">03 · CONTACT</span>
+  <h2 class="reveal">LET'S MAKE<br><span>SOMETHING</span><br>MEMORABLE.</h2>
+  <div class="contact-actions reveal">
+    <a class="magnetic interactive" href="mailto:n0966785408@gmail.com">START A PROJECT</a>
+    <a class="secondary-link interactive" href="mailto:n0966785408@gmail.com?subject=Portfolio%20Inquiry">EMAIL ME</a>
+  </div>
+</section>
+</main>
+<footer>
+  <span>YU-YOU CHOU · IMMERSIVE DESIGNER</span>
+  <span>TAIPEI · TAIWAN</span>
+  <span>© <b id="year"></b></span>
+</footer>
+<script>
+const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
+const fine=matchMedia("(pointer:fine)").matches;
+document.getElementById("year").textContent=new Date().getFullYear();
+
+const cloud=document.querySelector(".visual-cloud");
+const cards=[...document.querySelectorAll(".float-card")];
+const scatter=()=>cloud.classList.toggle("scattered");
+cloud.addEventListener("click",scatter);
+cloud.addEventListener("keydown",e=>{
+  if(e.key==="Enter"||e.key===" "){
+    e.preventDefault();
+    scatter();
+  }
+});
+
+if(!reduce){
+  const physics=cards.map(()=>({x:0,y:0,vx:0,vy:0}));
+  let pointer={x:-9999,y:-9999};
+  cloud.addEventListener("pointermove",e=>{pointer={x:e.clientX,y:e.clientY}});
+  cloud.addEventListener("pointerleave",()=>{pointer={x:-9999,y:-9999}});
+  (function animateCards(){
+    const cr=cloud.getBoundingClientRect();
+    const inside=pointer.x>cr.left&&pointer.x<cr.right&&pointer.y>cr.top&&pointer.y<cr.bottom;
+    const nx=inside?(pointer.x-cr.left)/cr.width-.5:0;
+    const ny=inside?(pointer.y-cr.top)/cr.height-.5:0;
+    cards.forEach((card,i)=>{
+      const p=physics[i];
+      const r=card.getBoundingClientRect();
+      const cx=r.left+r.width/2-p.x;
+      const cy=r.top+r.height/2-p.y;
+      const dx=cx-pointer.x;
+      const dy=cy-pointer.y;
+      const dist=Math.hypot(dx,dy);
+      const range=Math.max(r.width,r.height)*1.15+85;
+      const depth=(i+1)*7;
+      const targetX=nx*depth;
+      const targetY=ny*depth;
+      if(dist<range){
+        const force=(1-dist/range)*3.8;
+        p.vx+=dx/(dist||1)*force;
+        p.vy+=dy/(dist||1)*force;
+      }
+      p.vx+=(targetX-p.x)*.035;
+      p.vy+=(targetY-p.y)*.035;
+      p.vx*=.84;
+      p.vy*=.84;
+      p.x+=p.vx;
+      p.y+=p.vy;
+      card.style.setProperty("--tx",`${p.x}px`);
+      card.style.setProperty("--ty",`${p.y}px`);
+    });
+    requestAnimationFrame(animateCards);
+  })();
+}
+
+const reveals=document.querySelectorAll(".reveal");
+const observer=new IntersectionObserver(entries=>{
+  entries.forEach(entry=>{
+    if(entry.isIntersecting){
+      entry.target.classList.add("in");
+      observer.unobserve(entry.target);
+    }
+  });
+},{threshold:.12});
+reveals.forEach(el=>observer.observe(el));
+
+addEventListener("scroll",()=>{
+  const max=document.documentElement.scrollHeight-innerHeight;
+  document.querySelector(".progress").style.width=`${max>0?scrollY/max*100:0}%`;
+  if(!reduce){
+    document.querySelectorAll("[data-parallax]").forEach(el=>{
+      el.style.marginTop=`${scrollY*Number(el.dataset.parallax)}px`;
+    });
+  }
+},{passive:true});
+
+if(fine&&!reduce){
+  const cursor=document.querySelector(".cursor");
+  const dot=document.querySelector(".cursor-dot");
+  addEventListener("pointermove",e=>{
+    const position=`translate3d(${e.clientX}px,${e.clientY}px,0) translate(-50%,-50%)`;
+    dot.style.transform=position;
+    cursor.style.transform=position;
+  });
+  document.querySelectorAll(".interactive").forEach(el=>{
+    el.addEventListener("mouseenter",()=>document.body.classList.add("hovering"));
+    el.addEventListener("mouseleave",()=>document.body.classList.remove("hovering"));
+  });
+  document.querySelectorAll(".project").forEach(card=>{
+    const visual=card.querySelector(".project-visual");
+    card.addEventListener("pointermove",e=>{
+      const r=visual.getBoundingClientRect();
+      const rx=(e.clientY-r.top-r.height/2)/r.height*-8;
+      const ry=(e.clientX-r.left-r.width/2)/r.width*8;
+      visual.style.transform=`rotateX(${rx}deg) rotateY(${ry}deg)`;
+    });
+    card.addEventListener("pointerleave",()=>visual.style.transform="");
+  });
+  const magnet=document.querySelector(".magnetic");
+  magnet.addEventListener("pointermove",e=>{
+    const r=magnet.getBoundingClientRect();
+    magnet.style.transform=`translate(${(e.clientX-r.left-r.width/2)*.25}px,${(e.clientY-r.top-r.height/2)*.25}px)`;
+  });
+  magnet.addEventListener("pointerleave",()=>magnet.style.transform="");
+}
+</script>
+</body>
+</html>
