@@ -114,6 +114,7 @@ section{position:relative;padding:120px var(--pad)}
 .tool-panel{border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(255,255,255,.34);box-shadow:0 28px 70px rgba(90,65,130,.16);backdrop-filter:blur(18px);overflow:hidden}
 .tool-preview{display:grid;place-items:center;min-height:430px;padding:22px;background:linear-gradient(135deg,rgba(255,255,255,.36),rgba(255,255,255,.12))}
 .tool-preview canvas{width:min(100%,560px);height:auto;max-height:560px;border-radius:18px;box-shadow:0 24px 58px rgba(49,35,72,.18);background:repeating-conic-gradient(rgba(255,255,255,.55) 0 25%,rgba(145,108,255,.08) 0 50%) 50%/24px 24px}
+.tool-preview canvas[hidden],.tool-empty[hidden]{display:none!important}
 .tool-empty{display:grid;place-items:center;width:min(100%,520px);aspect-ratio:4/3;border:1px dashed rgba(104,98,123,.42);border-radius:18px;color:var(--dim);font-size:13px;letter-spacing:.08em;text-align:center;background:rgba(255,255,255,.22)}
 .tool-controls{display:grid;grid-template-columns:1fr 1fr;gap:16px;padding:20px;border-top:1px solid rgba(255,255,255,.55)}
 .tool-control{display:grid;gap:8px}
@@ -494,15 +495,41 @@ function processedImageCanvas(){
   const bg=hexToRgb(tool.color.value);
   const tolerance=Number(tool.tolerance.value);
   const min=255-tolerance;
-  for(let i=0;i<data.length;i+=4){
-    const r=data[i],g=data[i+1],b=data[i+2];
-    const nearWhite=r>=min&&g>=min&&b>=min&&Math.max(r,g,b)-Math.min(r,g,b)<=tolerance;
-    if(nearWhite){
-      data[i]=bg.r;
-      data[i+1]=bg.g;
-      data[i+2]=bg.b;
-      data[i+3]=255;
-    }
+  const width=source.width;
+  const height=source.height;
+  const seen=new Uint8Array(width*height);
+  const queue=[];
+  const isNearWhite=index=>{
+    const offset=index*4;
+    const r=data[offset],g=data[offset+1],b=data[offset+2],a=data[offset+3];
+    return a>0&&r>=min&&g>=min&&b>=min&&Math.max(r,g,b)-Math.min(r,g,b)<=tolerance;
+  };
+  const push=index=>{
+    if(index<0||index>=seen.length||seen[index]||!isNearWhite(index))return;
+    seen[index]=1;
+    queue.push(index);
+  };
+  for(let x=0;x<width;x++){
+    push(x);
+    push((height-1)*width+x);
+  }
+  for(let y=0;y<height;y++){
+    push(y*width);
+    push(y*width+width-1);
+  }
+  for(let q=0;q<queue.length;q++){
+    const index=queue[q];
+    const offset=index*4;
+    data[offset]=bg.r;
+    data[offset+1]=bg.g;
+    data[offset+2]=bg.b;
+    data[offset+3]=255;
+    const x=index%width;
+    const y=Math.floor(index/width);
+    if(x>0)push(index-1);
+    if(x<width-1)push(index+1);
+    if(y>0)push(index-width);
+    if(y<height-1)push(index+width);
   }
   sourceCtx.putImageData(imageData,0,0);
   return source;
