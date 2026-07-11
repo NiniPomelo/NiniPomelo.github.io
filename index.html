@@ -106,6 +106,34 @@ section{position:relative;padding:120px var(--pad)}
 .project-info p{margin:0;color:var(--dim);font-size:13px;line-height:1.65}
 .project-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .project-facts span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;letter-spacing:.1em;color:var(--fg);background:rgba(255,255,255,.25)}
+.projects-hub{min-height:100vh;padding-top:150px}
+.hub-head{display:grid;gap:14px;margin-bottom:28px}
+.hub-head h2{margin:0;font:500 clamp(54px,9vw,118px)/.82 "Space Grotesk";letter-spacing:-.055em}
+.hub-head p{margin:0;color:var(--purple);font-size:12px;letter-spacing:.18em;text-transform:uppercase}
+.filter-wrap{position:relative;display:inline-block;margin-bottom:34px}
+.filter-button{display:inline-flex;align-items:center;gap:10px;min-height:48px;border:1px solid rgba(145,108,255,.45);border-radius:12px;background:rgba(255,255,255,.34);color:var(--fg);padding:0 18px;font:600 12px "DM Sans";letter-spacing:.12em;cursor:pointer;backdrop-filter:blur(16px)}
+.filter-dot{width:9px;height:9px;border-radius:50%;background:var(--purple);box-shadow:0 0 14px rgba(145,108,255,.62)}
+.filter-menu{position:absolute;left:0;top:calc(100% + 10px);z-index:4;display:grid;gap:8px;width:240px;border:1px solid rgba(145,108,255,.34);border-radius:16px;background:rgba(23,20,45,.82);box-shadow:0 24px 70px rgba(49,35,72,.28);backdrop-filter:blur(22px);padding:12px}
+.filter-menu[hidden]{display:none}
+.filter-option{display:flex;align-items:center;gap:12px;width:100%;min-height:38px;border:0;border-radius:10px;background:transparent;color:rgba(255,255,255,.76);font:600 12px "DM Sans";letter-spacing:.12em;text-align:left;cursor:pointer}
+.filter-option::before{content:"";width:10px;height:10px;border-radius:50%;background:var(--option-color,#fff);box-shadow:0 0 14px var(--option-color,#fff)}
+.filter-option:hover,.filter-option.active{background:rgba(255,255,255,.1);color:#fff}
+.project-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.project-card{overflow:hidden;border:1px solid rgba(255,255,255,.62);border-radius:24px;background:rgba(255,255,255,.24);box-shadow:0 28px 70px rgba(90,65,130,.13);backdrop-filter:blur(16px);text-decoration:none;transition:transform .28s,box-shadow .28s,border-color .28s}
+.project-card:hover{transform:translateY(-6px);border-color:rgba(145,108,255,.42);box-shadow:0 34px 90px rgba(90,65,130,.2)}
+.project-card[hidden]{display:none}
+.project-card-media{position:relative;min-height:250px;background:linear-gradient(135deg,rgba(0,189,182,.24),rgba(255,98,176,.2)),repeating-linear-gradient(90deg,rgba(255,255,255,.16) 0 1px,transparent 1px 28px),repeating-linear-gradient(0deg,rgba(23,20,45,.08) 0 1px,transparent 1px 28px)}
+.project-card-media::after{content:attr(data-label);position:absolute;left:18px;top:18px;border:1px solid rgba(255,255,255,.62);border-radius:999px;background:rgba(255,255,255,.44);padding:8px 11px;color:var(--fg);font-size:10px;font-weight:700;letter-spacing:.12em}
+.project-card.is-coming .project-card-media{background:linear-gradient(135deg,rgba(255,255,255,.36),rgba(145,108,255,.12))}
+.project-card-body{display:grid;gap:18px;padding:22px}
+.project-tags{display:flex;gap:8px;flex-wrap:wrap}
+.project-tags span{border:1px solid var(--line);border-radius:8px;background:rgba(255,255,255,.22);padding:7px 10px;color:var(--fg);font-size:10px;font-weight:700;letter-spacing:.08em}
+.project-meta{display:flex;justify-content:space-between;gap:14px;color:var(--dim);font-size:12px;letter-spacing:.08em}
+.project-card h3{margin:0;font:500 clamp(24px,3vw,38px)/1.05 "Space Grotesk";letter-spacing:-.035em}
+.project-card p{margin:0;color:var(--dim);font-size:13px;line-height:1.65}
+.detail-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px;color:var(--dim);font-size:12px;letter-spacing:.12em}
+.back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--dim);font-weight:700}
+.back-link:hover{color:var(--purple)}
 .game-showcase{overflow:hidden}
 .game-shell{display:grid;grid-template-columns:.72fr 1.28fr;gap:5vw;align-items:start}
 .game-copy{position:sticky;top:120px}
@@ -212,6 +240,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .scroll-cue{display:none}
   .intro,.capabilities,.tools,.game-shell{grid-template-columns:1fr;gap:35px}
   .intro-note,.intro-meta{grid-column:1}
+  .projects-hub{padding-top:150px}
+  .filter-wrap{width:100%}
+  .filter-button{width:100%;justify-content:center}
+  .filter-menu{width:100%}
+  .project-grid{grid-template-columns:1fr;gap:18px}
+  .project-card-media{min-height:210px}
+  .detail-top{display:grid}
   .game-copy{position:static}
   .game-facts,.media-grid,.game-loop,.system-grid,.status-list{grid-template-columns:1fr}
   .game-panel{padding:20px;border-radius:18px}
@@ -244,7 +279,6 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <nav class="menu" aria-label="Primary navigation">
     <a class="interactive" href="#about">ABOUT</a>
     <a class="interactive" href="#projects">PROJECTS</a>
-    <a class="interactive" href="#game">GAME</a>
     <a class="interactive" href="#tools">TOOLS</a>
     <a class="interactive" href="#contact">CONTACT</a>
   </nav>
@@ -282,51 +316,62 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     <span class="pill">MOTION</span>
   </div>
 </section>
-<section class="page-view" id="projects" data-route="projects">
-  <div class="work-head reveal">
-    <h2>SELECTED<br>WORK</h2>
-    <span class="counter">(03)</span>
+<section class="projects-hub page-view" id="projects" data-route="projects">
+  <div class="hub-head reveal">
+    <h2>Projects</h2>
+    <p>Game, immersive design, prototypes and future experiments.</p>
   </div>
-  <div class="projects">
-    <a class="project interactive reveal" href="#contact" aria-label="Dreamscape Interface project">
-      <div class="project-visual">
-        <img src="https://images.unsplash.com/photo-1626379953822-baec19c3bbcd?auto=format&fit=crop&q=85&w=1800" alt="粉色沉浸式空間" loading="lazy" decoding="async">
-      </div>
-      <div class="project-info">
-        <span class="project-no">01 / IMMERSIVE</span>
-        <h3>Dreamscape<br>Interface</h3>
-        <p>以 VR 場景作為敘事入口，設計可被探索的空間節奏、互動提示與情緒轉場。</p>
-        <div class="project-facts"><span>ROLE · DESIGN</span><span>TOOLS · UNITY</span><span>TYPE · VR</span></div>
-      </div>
-    </a>
-    <a class="project interactive reveal" href="#contact" aria-label="Fluid Identity project">
-      <div class="project-visual">
-        <img src="https://images.unsplash.com/photo-1614853316476-de00d14cb1fc?auto=format&fit=crop&q=85&w=1800" alt="紫色抽象視覺" loading="lazy" decoding="async">
-      </div>
-      <div class="project-info">
-        <span class="project-no">02 / VISUAL</span>
-        <h3>Fluid<br>Identity</h3>
-        <p>把品牌視覺延伸成動態系統，建立適合展演、社群與互動介面的視覺語彙。</p>
-        <div class="project-facts"><span>ROLE · ART DIRECTION</span><span>TOOLS · FIGMA</span><span>TYPE · MOTION</span></div>
-      </div>
-    </a>
-    <a class="project interactive reveal" href="#contact" aria-label="Soft Circuit project">
-      <div class="project-visual">
-        <img src="https://images.unsplash.com/photo-1518770660439-4636190af475?auto=format&fit=crop&q=85&w=1800" alt="電子電路板" loading="lazy" decoding="async">
-      </div>
-      <div class="project-info">
-        <span class="project-no">03 / SYSTEM</span>
-        <h3>Soft<br>Circuit</h3>
-        <p>探索科技感介面如何變得柔軟，透過微互動、資訊層級與原型測試降低使用距離。</p>
-        <div class="project-facts"><span>ROLE · PROTOTYPE</span><span>TOOLS · WEB</span><span>TYPE · INTERACTION</span></div>
+  <div class="filter-wrap reveal">
+    <button class="filter-button interactive" id="projectFilterButton" type="button" aria-expanded="false" aria-controls="projectFilterMenu">
+      <span class="filter-dot"></span>
+      FILTER · <b id="projectFilterLabel">ALL</b>
+    </button>
+    <div class="filter-menu" id="projectFilterMenu" hidden>
+      <button class="filter-option active" type="button" data-filter="all" style="--option-color:#ffffff">ALL</button>
+      <button class="filter-option" type="button" data-filter="game" style="--option-color:#ff62b0">GAME</button>
+      <button class="filter-option" type="button" data-filter="unity" style="--option-color:#916cff">UNITY</button>
+      <button class="filter-option" type="button" data-filter="vrmr" style="--option-color:#00bdb6">VR / MR</button>
+      <button class="filter-option" type="button" data-filter="wip" style="--option-color:#ffcc33">IN PROGRESS</button>
+    </div>
+  </div>
+  <div class="project-grid reveal" aria-label="Project list">
+    <a class="project-card interactive" href="#project-you-graduation-topic" data-categories="game unity vrmr wip">
+      <div class="project-card-media" data-label="FEATURED"></div>
+      <div class="project-card-body">
+        <div class="project-tags"><span>GAME</span><span>UNITY</span><span>VR / MR</span></div>
+        <div class="project-meta"><span>2026 · WIP</span><span>P01</span></div>
+        <h3>YOU Graduation Topic</h3>
+        <p>以 VR 採集、建造與 MR 結算構成的環境因果遊戲原型。</p>
       </div>
     </a>
+    <article class="project-card is-coming" data-categories="unity wip">
+      <div class="project-card-media" data-label="NEXT"></div>
+      <div class="project-card-body">
+        <div class="project-tags"><span>UNITY</span><span>PLACEHOLDER</span></div>
+        <div class="project-meta"><span>COMING SOON</span><span>P02</span></div>
+        <h3>Next Unity Project</h3>
+        <p>之後可以把新的 Unity 或互動原型放在這張卡的位置。</p>
+      </div>
+    </article>
+    <article class="project-card is-coming" data-categories="game vrmr wip">
+      <div class="project-card-media" data-label="ARCHIVE"></div>
+      <div class="project-card-body">
+        <div class="project-tags"><span>VR / MR</span><span>GAME</span></div>
+        <div class="project-meta"><span>COMING SOON</span><span>P03</span></div>
+        <h3>Future Showcase</h3>
+        <p>未來新增專案時，可以改標題、分類、圖片和連結。</p>
+      </div>
+    </article>
   </div>
 </section>
-<section class="game-showcase page-view" id="game" data-route="game" aria-labelledby="game-title">
+<section class="game-showcase page-view" id="project-you-graduation-topic" data-route="project-you-graduation-topic" aria-labelledby="game-title">
+  <div class="detail-top reveal">
+    <a class="back-link interactive" href="#projects">← 返回專案列表</a>
+    <span>PROJECT / P01</span>
+  </div>
   <div class="game-shell">
     <div class="game-copy reveal">
-      <span class="label">02 · GAME PROJECT</span>
+      <span class="label">02 · PROJECT DETAIL</span>
       <h2 id="game-title">YOU<br>Graduation<br>Topic</h2>
       <p>這是目前製作中的 Unity 畢業專題遊戲原型，玩家會在 VR 場景中進行採集、建造與環境抉擇，最後回到 MR 結算，看見自己的資源使用如何改變生態結果。</p>
       <span class="game-status">IN DEVELOPMENT</span>
@@ -530,14 +575,18 @@ document.getElementById("year").textContent=new Date().getFullYear();
 
 const navLinks=[...document.querySelectorAll(".menu a")];
 const pageViews=[...document.querySelectorAll(".page-view")];
-const routeAliases={home:"about",work:"projects",project:"projects"};
+const routeAliases={home:"about",work:"projects",project:"projects",game:"project-you-graduation-topic"};
 function normalizeRoute(value){
   const route=(value||"about").replace("#","").trim();
   return routeAliases[route]||route||"about";
 }
+function getNavRoute(route){
+  return route.startsWith("project-") ? "projects" : route;
+}
 function setActiveNav(route){
+  const activeRoute=getNavRoute(route);
   navLinks.forEach(link=>{
-    link.classList.toggle("active",normalizeRoute(link.getAttribute("href"))===route);
+    link.classList.toggle("active",getNavRoute(normalizeRoute(link.getAttribute("href")))===activeRoute);
   });
 }
 function showRoute(route,scrollToTop=true){
@@ -553,9 +602,10 @@ function showRoute(route,scrollToTop=true){
     scrollTo(0,0);
   }
 }
-navLinks.forEach(link=>{
+document.querySelectorAll('a[href^="#"]').forEach(link=>{
   link.addEventListener("click",event=>{
     const route=normalizeRoute(link.getAttribute("href"));
+    if(!pageViews.some(view=>view.dataset.route===route)) return;
     event.preventDefault();
     history.pushState({route}, "", `#${route}`);
     showRoute(route);
@@ -564,6 +614,42 @@ navLinks.forEach(link=>{
 addEventListener("popstate",()=>showRoute(location.hash,false));
 addEventListener("hashchange",()=>showRoute(location.hash,false));
 showRoute(location.hash||"about",false);
+
+const filterButton=document.getElementById("projectFilterButton");
+const filterMenu=document.getElementById("projectFilterMenu");
+const filterLabel=document.getElementById("projectFilterLabel");
+const filterOptions=[...document.querySelectorAll(".filter-option")];
+const projectCards=[...document.querySelectorAll(".project-card")];
+function applyProjectFilter(filter){
+  const normalized=filter||"all";
+  projectCards.forEach(card=>{
+    const categories=(card.dataset.categories||"").split(/\s+/);
+    card.hidden=normalized!=="all"&&!categories.includes(normalized);
+  });
+  filterOptions.forEach(option=>option.classList.toggle("active",option.dataset.filter===normalized));
+  if(filterLabel) filterLabel.textContent=filterOptions.find(option=>option.dataset.filter===normalized)?.textContent||"ALL";
+}
+if(filterButton&&filterMenu){
+  filterButton.addEventListener("click",()=>{
+    const open=filterMenu.hidden;
+    filterMenu.hidden=!open;
+    filterButton.setAttribute("aria-expanded",String(open));
+  });
+  filterOptions.forEach(option=>{
+    option.addEventListener("click",()=>{
+      applyProjectFilter(option.dataset.filter);
+      filterMenu.hidden=true;
+      filterButton.setAttribute("aria-expanded","false");
+    });
+  });
+  document.addEventListener("click",event=>{
+    if(!filterButton.contains(event.target)&&!filterMenu.contains(event.target)){
+      filterMenu.hidden=true;
+      filterButton.setAttribute("aria-expanded","false");
+    }
+  });
+}
+applyProjectFilter("all");
 
 const cloud=document.querySelector(".visual-cloud");
 const cards=[...document.querySelectorAll(".float-card")];
