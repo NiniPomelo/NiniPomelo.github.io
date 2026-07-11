@@ -134,6 +134,14 @@ section{position:relative;padding:120px var(--pad)}
 .detail-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px;color:var(--dim);font-size:12px;letter-spacing:.12em}
 .back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--dim);font-weight:700}
 .back-link:hover{color:var(--purple)}
+.p5-embed-placeholder{position:relative;display:grid;place-items:center;min-height:460px;border:1px solid rgba(255,255,255,.72);border-radius:24px;background:linear-gradient(135deg,rgba(255,98,176,.18),rgba(0,189,182,.16)),repeating-linear-gradient(90deg,rgba(255,255,255,.2) 0 1px,transparent 1px 32px),repeating-linear-gradient(0deg,rgba(23,20,45,.08) 0 1px,transparent 1px 32px);box-shadow:0 28px 70px rgba(90,65,130,.13);overflow:hidden}
+.p5-embed-placeholder:before{content:"";position:absolute;inset:24px;border:1px dashed rgba(104,98,123,.38);border-radius:18px}
+.p5-embed-placeholder strong{position:relative;z-index:2;font:500 clamp(30px,5vw,74px)/.9 "Space Grotesk";letter-spacing:-.045em;color:var(--purple);text-align:center}
+.p5-embed-placeholder span{position:absolute;left:28px;bottom:26px;z-index:2;color:var(--teal);font-size:10px;font-weight:700;letter-spacing:.16em}
+.p5-embed-placeholder.has-iframe{background:rgba(255,255,255,.2)}
+.p5-embed-placeholder.has-iframe:before{display:none}
+.p5-embed-placeholder iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:#fff}
+.detail-actions{display:flex;gap:12px;flex-wrap:wrap;margin-top:18px}
 .game-showcase{overflow:hidden}
 .game-shell{display:grid;grid-template-columns:.72fr 1.28fr;gap:5vw;align-items:start}
 .game-copy{position:sticky;top:120px}
@@ -247,6 +255,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .project-grid{grid-template-columns:1fr;gap:18px}
   .project-card-media{min-height:210px}
   .detail-top{display:grid}
+  .p5-embed-placeholder{min-height:320px;border-radius:18px}
   .game-copy{position:static}
   .game-facts,.media-grid,.game-loop,.system-grid,.status-list{grid-template-columns:1fr}
   .game-panel{padding:20px;border-radius:18px}
@@ -330,6 +339,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
       <button class="filter-option active" type="button" data-filter="all" style="--option-color:#ffffff">ALL</button>
       <button class="filter-option" type="button" data-filter="game" style="--option-color:#ff62b0">GAME</button>
       <button class="filter-option" type="button" data-filter="unity" style="--option-color:#916cff">UNITY</button>
+      <button class="filter-option" type="button" data-filter="p5" style="--option-color:#00bdb6">P5.JS</button>
       <button class="filter-option" type="button" data-filter="vrmr" style="--option-color:#00bdb6">VR / MR</button>
       <button class="filter-option" type="button" data-filter="wip" style="--option-color:#ffcc33">IN PROGRESS</button>
     </div>
@@ -344,11 +354,20 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
         <p>以 VR 採集、建造與 MR 結算構成的環境因果遊戲原型。</p>
       </div>
     </a>
+    <a class="project-card interactive" href="#project-p5js-creative-sketch" data-categories="p5 wip">
+      <div class="project-card-media" data-label="P5.JS"></div>
+      <div class="project-card-body">
+        <div class="project-tags"><span>P5.JS</span><span>CREATIVE CODE</span></div>
+        <div class="project-meta"><span>COMING SOON</span><span>P02</span></div>
+        <h3>p5.js Creative Sketch</h3>
+        <p>適合放互動視覺、生成藝術、聲音反應或小型網頁實驗。</p>
+      </div>
+    </a>
     <article class="project-card is-coming" data-categories="unity wip">
       <div class="project-card-media" data-label="NEXT"></div>
       <div class="project-card-body">
         <div class="project-tags"><span>UNITY</span><span>PLACEHOLDER</span></div>
-        <div class="project-meta"><span>COMING SOON</span><span>P02</span></div>
+        <div class="project-meta"><span>COMING SOON</span><span>P03</span></div>
         <h3>Next Unity Project</h3>
         <p>之後可以把新的 Unity 或互動原型放在這張卡的位置。</p>
       </div>
@@ -357,7 +376,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
       <div class="project-card-media" data-label="ARCHIVE"></div>
       <div class="project-card-body">
         <div class="project-tags"><span>VR / MR</span><span>GAME</span></div>
-        <div class="project-meta"><span>COMING SOON</span><span>P03</span></div>
+        <div class="project-meta"><span>COMING SOON</span><span>P04</span></div>
         <h3>Future Showcase</h3>
         <p>未來新增專案時，可以改標題、分類、圖片和連結。</p>
       </div>
@@ -459,6 +478,46 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
         <div class="media-slot reveal"><span>PHOTO 01</span><strong>World View</strong></div>
         <div class="media-slot reveal"><span>PHOTO 02</span><strong>Interaction</strong></div>
         <div class="media-slot reveal"><span>PHOTO 03</span><strong>UI / Items</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="game-showcase page-view" id="project-p5js-creative-sketch" data-route="project-p5js-creative-sketch" aria-labelledby="p5-title">
+  <div class="detail-top reveal">
+    <a class="back-link interactive" href="#projects">← 返回專案列表</a>
+    <span>PROJECT / P02</span>
+  </div>
+  <div class="game-shell">
+    <div class="game-copy reveal">
+      <span class="label">02 · PROJECT DETAIL</span>
+      <h2 id="p5-title">p5.js<br>Creative<br>Sketch</h2>
+      <p>這裡預留給 p5.js 互動作品、生成視覺、動態實驗或聲音反應作品。之後只要有 p5.js 的分享連結，就可以把互動畫布直接嵌入這個專案頁。</p>
+      <span class="game-status">EMBED READY</span>
+      <div class="game-facts" aria-label="p5.js project details">
+        <div class="game-fact"><small>LIBRARY</small><strong>p5.js</strong></div>
+        <div class="game-fact"><small>TYPE</small><strong>Creative Coding</strong></div>
+        <div class="game-fact"><small>FOCUS</small><strong>Interaction</strong></div>
+        <div class="game-fact"><small>STATUS</small><strong>Placeholder</strong></div>
+      </div>
+    </div>
+    <div class="game-stage">
+      <div class="p5-embed-placeholder reveal" aria-label="p5.js embed placeholder">
+        <strong>p5.js<br>Canvas</strong>
+        <span>INTERACTIVE EMBED AREA</span>
+      </div>
+      <article class="game-panel reveal">
+        <h3>作品方向</h3>
+        <p>這個位置適合放比較偏「互動視覺」或「程式生成」的作品，和 Unity 遊戲專案分開分類，讓 Projects 頁面之後可以同時收納遊戲、p5.js、互動原型與其他實驗。</p>
+      </article>
+      <div class="status-list reveal" aria-label="p5.js project status">
+        <div class="status-item"><span>PLACE</span><strong>Projects 列表第二張卡</strong></div>
+        <div class="status-item"><span>FILTER</span><strong>P5.JS 分類可獨立篩選</strong></div>
+        <div class="status-item"><span>NEXT</span><strong>補上 p5.js 分享連結</strong></div>
+      </div>
+      <div class="media-grid" aria-label="p5.js image placeholders">
+        <div class="media-slot reveal"><span>PHOTO 01</span><strong>Sketch View</strong></div>
+        <div class="media-slot reveal"><span>PHOTO 02</span><strong>Interaction</strong></div>
+        <div class="media-slot reveal"><span>PHOTO 03</span><strong>Process</strong></div>
       </div>
     </div>
   </div>
