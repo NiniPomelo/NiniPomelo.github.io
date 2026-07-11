@@ -47,7 +47,7 @@ img{display:block;width:100%;height:100%;object-fit:cover}
 .cursor{width:34px;height:34px;border:1px solid rgba(112,87,217,.48);background:rgba(255,255,255,.08);box-shadow:inset 0 0 14px rgba(255,119,204,.08),0 0 16px rgba(145,108,255,.06);backdrop-filter:blur(1px)}
 .cursor-dot{width:4px;height:4px;background:var(--pink);box-shadow:0 0 8px var(--pink)}
 body.hovering .cursor{width:44px;height:44px;background:rgba(255,98,176,.1)}
-header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,780px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--paper);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
+header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,880px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--paper);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
 .logo{font:600 14px "Space Grotesk";letter-spacing:.08em;text-decoration:none;color:var(--purple)}
 .menu{display:flex;gap:24px}
 .menu a{font-size:11px;letter-spacing:.14em;text-decoration:none}
@@ -102,6 +102,48 @@ section{position:relative;padding:120px var(--pad)}
 .project-info p{margin:0;color:var(--dim);font-size:13px;line-height:1.65}
 .project-facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:18px}
 .project-facts span{border:1px solid var(--line);border-radius:999px;padding:7px 10px;font-size:10px;letter-spacing:.1em;color:var(--fg);background:rgba(255,255,255,.25)}
+.game-showcase{overflow:hidden}
+.game-shell{display:grid;grid-template-columns:.72fr 1.28fr;gap:5vw;align-items:start}
+.game-copy{position:sticky;top:120px}
+.game-copy h2{margin:18px 0 24px;font:500 clamp(48px,8vw,118px)/.86 "Space Grotesk";letter-spacing:-.052em}
+.game-copy p{max-width:500px;margin:0;color:var(--dim);font-size:15px;line-height:1.78}
+.game-status{display:inline-grid;place-items:center;margin-top:28px;min-height:38px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:rgba(255,255,255,.34);padding:0 14px;color:var(--pink);font-size:10px;font-weight:600;letter-spacing:.16em}
+.game-facts{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:10px;margin-top:20px;max-width:520px}
+.game-fact{border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.26);padding:16px;min-height:104px}
+.game-fact small{display:block;margin-bottom:18px;color:var(--teal);font-size:10px;letter-spacing:.14em}
+.game-fact strong{display:block;font:500 clamp(18px,2.3vw,28px)/1.05 "Space Grotesk";letter-spacing:-.025em}
+.game-stage{display:grid;gap:18px}
+.game-panel{border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(255,255,255,.28);box-shadow:0 28px 70px rgba(90,65,130,.13);backdrop-filter:blur(16px);padding:26px}
+.game-panel h3{margin:0 0 16px;font:500 clamp(28px,3.8vw,54px)/.95 "Space Grotesk";letter-spacing:-.04em}
+.game-panel p{margin:0;color:var(--dim);font-size:14px;line-height:1.78}
+.game-loop{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}
+.loop-step{min-height:170px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.25);padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.loop-step span,.system-card span,.resource-row span,.status-item span{color:var(--teal);font-size:10px;letter-spacing:.14em}
+.loop-step strong{font:500 clamp(20px,2.4vw,34px)/1 "Space Grotesk";letter-spacing:-.03em}
+.loop-step p{font-size:13px;line-height:1.6}
+.system-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+.system-card{border-top:1px solid var(--line);padding-top:16px}
+.system-card strong{display:block;margin:10px 0 8px;font:500 20px/1.12 "Space Grotesk";letter-spacing:-.02em}
+.system-card p{font-size:13px;line-height:1.65}
+.resource-board{display:grid;gap:8px}
+.resource-row{display:grid;grid-template-columns:.55fr 1fr;gap:14px;align-items:center;border-bottom:1px solid var(--line);padding:14px 0}
+.resource-row:last-child{border-bottom:0;padding-bottom:0}
+.resource-row strong{font:500 clamp(18px,2.3vw,30px)/1 "Space Grotesk";letter-spacing:-.025em}
+.status-list{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.status-item{min-height:124px;border:1px solid var(--line);border-radius:18px;background:rgba(255,255,255,.24);padding:16px;display:flex;flex-direction:column;justify-content:space-between}
+.status-item strong{font:500 19px/1.15 "Space Grotesk";letter-spacing:-.02em}
+.video-placeholder,.media-slot{position:relative;overflow:hidden;border:1px solid rgba(255,255,255,.72);background:rgba(255,255,255,.28);box-shadow:0 28px 70px rgba(90,65,130,.13);backdrop-filter:blur(16px)}
+.video-placeholder{display:grid;place-items:center;min-height:430px;aspect-ratio:16/9;border-radius:24px;background:linear-gradient(135deg,rgba(0,189,182,.18),rgba(255,98,176,.16)),repeating-linear-gradient(90deg,rgba(255,255,255,.22) 0 1px,transparent 1px 34px),repeating-linear-gradient(0deg,rgba(23,20,45,.08) 0 1px,transparent 1px 34px)}
+.video-placeholder:before{content:"";position:absolute;inset:26px;border:1px dashed rgba(104,98,123,.35);border-radius:18px}
+.video-play{position:relative;z-index:2;display:grid;place-items:center;width:86px;height:86px;border:1px solid rgba(255,255,255,.78);border-radius:50%;background:linear-gradient(135deg,var(--pink),var(--purple));color:#fff;font-size:10px;font-weight:600;letter-spacing:.16em;box-shadow:0 18px 50px rgba(145,108,255,.26)}
+.media-caption{position:absolute;left:28px;right:28px;bottom:26px;z-index:2;display:flex;justify-content:space-between;gap:18px;align-items:end;color:var(--fg)}
+.media-caption span,.media-slot span{font-size:10px;letter-spacing:.16em;color:var(--teal)}
+.media-caption strong,.media-slot strong{font:500 clamp(22px,3vw,42px)/1 "Space Grotesk";letter-spacing:-.035em}
+.media-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
+.media-slot{display:flex;min-height:230px;aspect-ratio:4/3;border-radius:18px;padding:18px;flex-direction:column;justify-content:space-between;background:linear-gradient(145deg,rgba(255,255,255,.38),rgba(0,189,182,.12))}
+.media-slot:before{content:"";position:absolute;inset:18px;border:1px dashed rgba(104,98,123,.34);border-radius:12px}
+.media-slot span,.media-slot strong{position:relative;z-index:2}
+.media-slot strong{font-size:clamp(22px,2.7vw,36px)}
 .capabilities{display:grid;grid-template-columns:1fr 2fr;gap:8vw;min-height:80vh;align-items:start}
 .cap-list{border-top:1px solid var(--line)}
 .cap{display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center;padding:28px 0;border-bottom:1px solid var(--line);font:400 clamp(25px,4vw,58px) "Space Grotesk";transition:padding .3s,color .3s}
@@ -149,9 +191,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 @keyframes marquee{to{transform:translateX(-50%)}}
 @media(max-width:800px){
   .cursor,.cursor-dot{display:none}
-  header{top:12px;padding:12px 16px}
-  .menu{gap:12px}
-  .menu a{font-size:9px}
+  header{top:12px;width:calc(100% - 16px);padding:10px 12px}
+  .logo{font-size:11px;letter-spacing:.04em}
+  .menu{gap:8px}
+  .menu a{font-size:8px;letter-spacing:.08em}
   .hero{min-height:620px}
   .visual-cloud{inset:15% 3% 25%}
   .float-card{border-radius:16px}
@@ -162,8 +205,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .hero h1{letter-spacing:-.04em}
   .hero-bottom{align-items:start}
   .scroll-cue{display:none}
-  .intro,.capabilities,.tools{grid-template-columns:1fr;gap:35px}
+  .intro,.capabilities,.tools,.game-shell{grid-template-columns:1fr;gap:35px}
   .intro-note,.intro-meta{grid-column:1}
+  .game-copy{position:static}
+  .game-facts,.media-grid,.game-loop,.system-grid,.status-list{grid-template-columns:1fr}
+  .game-panel{padding:20px;border-radius:18px}
+  .loop-step{min-height:150px}
+  .resource-row{grid-template-columns:1fr;gap:8px}
+  .video-placeholder{min-height:280px;border-radius:18px}
+  .media-caption{display:grid;left:20px;right:20px;bottom:20px}
+  .media-slot{min-height:180px}
   .project{grid-template-columns:1fr}
   .project-visual{height:105vw;max-height:580px}
   .project-info{min-height:220px}
@@ -188,6 +239,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <nav class="menu" aria-label="Primary navigation">
     <a class="interactive" href="#about">ABOUT</a>
     <a class="interactive" href="#work">WORK</a>
+    <a class="interactive" href="#game">GAME</a>
     <a class="interactive" href="#tools">TOOLS</a>
     <a class="interactive" href="#contact">CONTACT</a>
   </nav>
@@ -266,9 +318,104 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </a>
   </div>
 </section>
+<section class="game-showcase" id="game" aria-labelledby="game-title">
+  <div class="game-shell">
+    <div class="game-copy reveal">
+      <span class="label">02 · GAME PROJECT</span>
+      <h2 id="game-title">YOU<br>Graduation<br>Topic</h2>
+      <p>這是目前製作中的 Unity 畢業專題遊戲原型，玩家會在 VR 場景中進行採集、建造與環境抉擇，最後回到 MR 結算，看見自己的資源使用如何改變生態結果。</p>
+      <span class="game-status">IN DEVELOPMENT</span>
+      <div class="game-facts" aria-label="Game project details">
+        <div class="game-fact"><small>ENGINE</small><strong>Unity</strong></div>
+        <div class="game-fact"><small>PLATFORM</small><strong>VR / MR</strong></div>
+        <div class="game-fact"><small>GENRE</small><strong>Eco Simulation</strong></div>
+        <div class="game-fact"><small>FOCUS</small><strong>Cause & Effect</strong></div>
+      </div>
+    </div>
+    <div class="game-stage">
+      <article class="game-panel reveal">
+        <h3>遊戲概念</h3>
+        <p>作品以「發展與復育之間的選擇」作為核心。玩家可以砍樹、採礦、抽取油氣來累積資源，也能種下種子進行復育；每個行為都會被轉換成因果值，影響時間結束後的生態狀態。</p>
+      </article>
+      <div class="game-loop reveal" aria-label="Gameplay loop">
+        <div class="loop-step">
+          <span>STEP 01</span>
+          <strong>探索場景</strong>
+          <p>在森林、礦區、海洋與 MR 主場景之間切換，理解不同場域能取得的資源。</p>
+        </div>
+        <div class="loop-step">
+          <span>STEP 02</span>
+          <strong>採集資源</strong>
+          <p>使用斧頭、十字鎬與手部射線互動，收集木材、種子、礦物、石油與天然氣。</p>
+        </div>
+        <div class="loop-step">
+          <span>STEP 03</span>
+          <strong>製作建造</strong>
+          <p>把資源投入工具、房屋與工廠配方，形成更完整的資源循環與發展選擇。</p>
+        </div>
+        <div class="loop-step">
+          <span>STEP 04</span>
+          <strong>結算因果</strong>
+          <p>系統依照破壞、建造、復育與時間累積計算結果，導向共生、失衡或崩壞。</p>
+        </div>
+      </div>
+      <article class="game-panel reveal">
+        <h3>核心系統</h3>
+        <div class="system-grid">
+          <div class="system-card">
+            <span>INTERACTION</span>
+            <strong>VR 手部操作</strong>
+            <p>右手射線負責抓取與採集，左手可呼叫資源面板，讓玩家在沉浸場景中掌握狀態。</p>
+          </div>
+          <div class="system-card">
+            <span>RESOURCE</span>
+            <strong>採集與配方</strong>
+            <p>木材、砂、鐵礦、石灰岩、油氣等資源會進入背包，並可轉換成工具或建築。</p>
+          </div>
+          <div class="system-card">
+            <span>KARMA</span>
+            <strong>因果值累積</strong>
+            <p>開採與建造會提高環境壓力，種植與復育能抵消部分影響，讓玩法帶有取捨。</p>
+          </div>
+          <div class="system-card">
+            <span>ENDING</span>
+            <strong>多階段結局</strong>
+            <p>時間結束或因果值超過臨界點時，遊戲會判定 Stable、Stressed、Critical 或 Collapse。</p>
+          </div>
+        </div>
+      </article>
+      <article class="game-panel reveal">
+        <h3>資源與場景</h3>
+        <div class="resource-board" aria-label="Resource and scene mapping">
+          <div class="resource-row"><span>FOREST</span><strong>砍樹取得 Wood 與 Seed，種子可在 MR 場景進行復育。</strong></div>
+          <div class="resource-row"><span>ORE</span><strong>敲擊岩石取得 Sand、IronOre、Limestone 與 Marble。</strong></div>
+          <div class="resource-row"><span>OCEAN</span><strong>海洋設施產出 Oil 與 Gas，帶來高收益也提高環境壓力。</strong></div>
+          <div class="resource-row"><span>CRAFT</span><strong>資源可製作 Axe、Pick、House、Factory，形成發展路線。</strong></div>
+        </div>
+      </article>
+      <div class="status-list reveal" aria-label="Development status">
+        <div class="status-item"><span>DONE</span><strong>資源管理與背包更新</strong></div>
+        <div class="status-item"><span>WIP</span><strong>場景整合與操作手感</strong></div>
+        <div class="status-item"><span>NEXT</span><strong>實機影片與遊戲截圖補齊</strong></div>
+      </div>
+      <div class="video-placeholder reveal" aria-label="Gameplay video placeholder">
+        <div class="video-play">PLAY</div>
+        <div class="media-caption">
+          <span>VIDEO AREA</span>
+          <strong>Gameplay Demo</strong>
+        </div>
+      </div>
+      <div class="media-grid" aria-label="Game image placeholders">
+        <div class="media-slot reveal"><span>PHOTO 01</span><strong>World View</strong></div>
+        <div class="media-slot reveal"><span>PHOTO 02</span><strong>Interaction</strong></div>
+        <div class="media-slot reveal"><span>PHOTO 03</span><strong>UI / Items</strong></div>
+      </div>
+    </div>
+  </div>
+</section>
 <section class="tools" id="tools">
   <div class="tools-copy reveal">
-    <span class="label">02 · TOOLS</span>
+    <span class="label">03 · TOOLS</span>
     <h2>IMAGE<br>STUDIO</h2>
     <p>上傳圖片後，可以套用品牌背景色、圓角、留白與輸出尺寸，直接下載可用於作品集、社群或商品頁的 PNG。</p>
   </div>
@@ -348,7 +495,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   </div>
 </section>
 <section class="capabilities">
-  <span class="label reveal">03 · CAPABILITIES</span>
+  <span class="label reveal">04 · CAPABILITIES</span>
   <div class="cap-list reveal">
     <div class="cap">VR / XR <small>01</small><em>沉浸式場景、視線引導、互動節奏與使用者路徑。</em></div>
     <div class="cap">Spatial Design <small>02</small><em>把故事、動線與視覺焦點整理成可探索的空間。</em></div>
@@ -358,7 +505,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 </section>
 <section class="contact" id="contact">
   <div class="contact-ring" data-parallax="-.05"></div>
-  <span class="label reveal">04 · CONTACT</span>
+  <span class="label reveal">05 · CONTACT</span>
   <h2 class="reveal">LET'S MAKE<br><span>SOMETHING</span><br>MEMORABLE.</h2>
   <div class="contact-actions reveal">
     <a class="magnetic interactive" href="mailto:n0966785408@gmail.com">START A PROJECT</a>
