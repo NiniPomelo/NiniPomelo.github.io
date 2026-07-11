@@ -41,16 +41,20 @@ body{
 a{color:inherit}
 img{display:block;width:100%;height:100%;object-fit:cover}
 ::selection{background:var(--pink);color:#fff}
+.page-view[hidden]{display:none!important}
 .noise{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
 .progress{position:fixed;left:0;top:0;height:3px;width:0;background:var(--pink);z-index:1001}
 .cursor,.cursor-dot{position:fixed;left:0;top:0;z-index:1000;pointer-events:none;border-radius:50%;transform:translate(-50%,-50%)}
 .cursor{width:34px;height:34px;border:1px solid rgba(112,87,217,.48);background:rgba(255,255,255,.08);box-shadow:inset 0 0 14px rgba(255,119,204,.08),0 0 16px rgba(145,108,255,.06);backdrop-filter:blur(1px)}
 .cursor-dot{width:4px;height:4px;background:var(--pink);box-shadow:0 0 8px var(--pink)}
 body.hovering .cursor{width:44px;height:44px;background:rgba(255,98,176,.1)}
-header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,880px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;padding:13px 20px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:var(--paper);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
-.logo{font:600 14px "Space Grotesk";letter-spacing:.08em;text-decoration:none;color:var(--purple)}
-.menu{display:flex;gap:24px}
-.menu a{font-size:11px;letter-spacing:.14em;text-decoration:none}
+header{position:fixed;z-index:100;left:50%;top:16px;width:min(92%,920px);transform:translateX(-50%);display:flex;justify-content:space-between;align-items:center;gap:18px;padding:12px 18px;border:1px solid rgba(255,255,255,.72);border-radius:999px;background:rgba(255,255,255,.52);box-shadow:0 14px 45px rgba(87,58,124,.12);backdrop-filter:blur(22px)}
+.logo{flex:0 0 auto;font:600 15px "Space Grotesk";letter-spacing:.05em;text-decoration:none;color:var(--fg);white-space:nowrap}
+.logo::after{content:".";color:var(--pink)}
+.menu{display:flex;align-items:center;justify-content:flex-end;gap:8px}
+.menu a{display:inline-grid;place-items:center;min-height:40px;padding:0 16px;border:1px solid transparent;border-radius:999px;font-size:12px;font-weight:600;letter-spacing:.02em;text-decoration:none;color:var(--fg);transition:background .25s,border-color .25s,color .25s,box-shadow .25s,transform .25s}
+.menu a:hover,.menu a.active{border-color:rgba(145,108,255,.34);background:rgba(145,108,255,.17);color:var(--purple);box-shadow:inset 0 0 0 1px rgba(255,255,255,.52)}
+.menu a:hover{transform:translateY(-1px)}
 section{position:relative;padding:120px var(--pad)}
 .hero{height:100svh;min-height:660px;display:flex;flex-direction:column;justify-content:flex-end;padding-bottom:38px;overflow:hidden}
 .visual-cloud{position:absolute;inset:8% 8% 18%;z-index:1;perspective:1000px;pointer-events:auto}
@@ -191,10 +195,11 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 @keyframes marquee{to{transform:translateX(-50%)}}
 @media(max-width:800px){
   .cursor,.cursor-dot{display:none}
-  header{top:12px;width:calc(100% - 16px);padding:10px 12px}
-  .logo{font-size:11px;letter-spacing:.04em}
-  .menu{gap:8px}
-  .menu a{font-size:8px;letter-spacing:.08em}
+  header{top:12px;width:calc(100% - 16px);display:grid;grid-template-columns:1fr;gap:10px;padding:12px;border-radius:24px}
+  .logo{font-size:13px}
+  .menu{justify-content:flex-start;gap:8px;overflow-x:auto;padding-bottom:2px;scrollbar-width:none}
+  .menu::-webkit-scrollbar{display:none}
+  .menu a{flex:0 0 auto;min-height:34px;padding:0 12px;font-size:10px;letter-spacing:.02em}
   .hero{min-height:620px}
   .visual-cloud{inset:15% 3% 25%}
   .float-card{border-radius:16px}
@@ -235,17 +240,17 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 <div class="cursor"></div>
 <div class="cursor-dot"></div>
 <header>
-  <a class="logo interactive" href="#home">YU-YOU®</a>
+  <a class="logo interactive" href="#about">YU-YOU®</a>
   <nav class="menu" aria-label="Primary navigation">
     <a class="interactive" href="#about">ABOUT</a>
-    <a class="interactive" href="#work">WORK</a>
+    <a class="interactive" href="#projects">PROJECTS</a>
     <a class="interactive" href="#game">GAME</a>
     <a class="interactive" href="#tools">TOOLS</a>
     <a class="interactive" href="#contact">CONTACT</a>
   </nav>
 </header>
 <main>
-<section class="hero" id="home">
+<section class="hero page-view" id="home" data-route="about">
   <div class="visual-cloud interactive" role="button" tabindex="0" aria-label="互動作品視窗，點擊可重新排列">
     <div class="float-card" data-label="SPATIAL"></div>
     <div class="float-card" data-label="INTERACTION"></div>
@@ -259,13 +264,13 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     <span class="scroll-cue">SCROLL TO EXPLORE <i>↓</i></span>
   </div>
 </section>
-<div class="marquee" aria-hidden="true">
+<div class="marquee page-view" data-route="about" aria-hidden="true">
   <div class="marquee-track">
     <span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span>
     <span>VR / XR <b>✦</b> SPATIAL DESIGN <b>✦</b> INTERACTION <b>✦</b> VISUAL STORYTELLING <b>✦</b>&nbsp;</span>
   </div>
 </div>
-<section class="intro" id="about">
+<section class="intro page-view" id="about" data-route="about">
   <span class="label reveal">01 · ABOUT</span>
   <h2 class="big-copy reveal">I CREATE DIGITAL WORLDS <span class="dim">THAT FEEL ALIVE.</span></h2>
   <p class="intro-note reveal">我的工作橫跨概念發想、互動流程、空間節奏、視覺系統與快速原型。比起只做漂亮畫面，我更在意使用者進入體驗後，能不能自然理解、移動、停留，並記住那個瞬間。</p>
@@ -277,7 +282,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     <span class="pill">MOTION</span>
   </div>
 </section>
-<section id="work">
+<section class="page-view" id="projects" data-route="projects">
   <div class="work-head reveal">
     <h2>SELECTED<br>WORK</h2>
     <span class="counter">(03)</span>
@@ -318,7 +323,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </a>
   </div>
 </section>
-<section class="game-showcase" id="game" aria-labelledby="game-title">
+<section class="game-showcase page-view" id="game" data-route="game" aria-labelledby="game-title">
   <div class="game-shell">
     <div class="game-copy reveal">
       <span class="label">02 · GAME PROJECT</span>
@@ -413,7 +418,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </div>
   </div>
 </section>
-<section class="tools" id="tools">
+<section class="tools page-view" id="tools" data-route="tools">
   <div class="tools-copy reveal">
     <span class="label">03 · TOOLS</span>
     <h2>IMAGE<br>STUDIO</h2>
@@ -494,7 +499,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </div>
   </div>
 </section>
-<section class="capabilities">
+<section class="capabilities page-view" data-route="tools">
   <span class="label reveal">04 · CAPABILITIES</span>
   <div class="cap-list reveal">
     <div class="cap">VR / XR <small>01</small><em>沉浸式場景、視線引導、互動節奏與使用者路徑。</em></div>
@@ -503,7 +508,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     <div class="cap">Prototyping <small>04</small><em>快速測試互動想法，從概念推進到可展示的 demo。</em></div>
   </div>
 </section>
-<section class="contact" id="contact">
+<section class="contact page-view" id="contact" data-route="contact">
   <div class="contact-ring" data-parallax="-.05"></div>
   <span class="label reveal">05 · CONTACT</span>
   <h2 class="reveal">LET'S MAKE<br><span>SOMETHING</span><br>MEMORABLE.</h2>
@@ -522,6 +527,43 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine=matchMedia("(pointer:fine)").matches;
 document.getElementById("year").textContent=new Date().getFullYear();
+
+const navLinks=[...document.querySelectorAll(".menu a")];
+const pageViews=[...document.querySelectorAll(".page-view")];
+const routeAliases={home:"about",work:"projects",project:"projects"};
+function normalizeRoute(value){
+  const route=(value||"about").replace("#","").trim();
+  return routeAliases[route]||route||"about";
+}
+function setActiveNav(route){
+  navLinks.forEach(link=>{
+    link.classList.toggle("active",normalizeRoute(link.getAttribute("href"))===route);
+  });
+}
+function showRoute(route,scrollToTop=true){
+  const currentRoute=normalizeRoute(route);
+  document.body.dataset.page=currentRoute;
+  pageViews.forEach(view=>{
+    view.hidden=view.dataset.route!==currentRoute;
+  });
+  setActiveNav(currentRoute);
+  if(scrollToTop&&!reduce){
+    scrollTo({top:0,behavior:"smooth"});
+  }else if(scrollToTop){
+    scrollTo(0,0);
+  }
+}
+navLinks.forEach(link=>{
+  link.addEventListener("click",event=>{
+    const route=normalizeRoute(link.getAttribute("href"));
+    event.preventDefault();
+    history.pushState({route}, "", `#${route}`);
+    showRoute(route);
+  });
+});
+addEventListener("popstate",()=>showRoute(location.hash,false));
+addEventListener("hashchange",()=>showRoute(location.hash,false));
+showRoute(location.hash||"about",false);
 
 const cloud=document.querySelector(".visual-cloud");
 const cards=[...document.querySelectorAll(".float-card")];
