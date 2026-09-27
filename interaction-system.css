@@ -138,8 +138,14 @@ body[data-page="contact"] .interaction-dock {
 }
 
 .interaction-counter {
+  border: 0;
+  background: transparent;
+  color: inherit;
+  padding: 0;
   font: 600 13px "Space Grotesk", sans-serif;
   letter-spacing: 0;
+  text-align: left;
+  cursor: pointer;
 }
 
 .interaction-counter[aria-hidden="true"] {
@@ -177,6 +183,29 @@ body[data-page="contact"] .interaction-dock {
   background: linear-gradient(135deg, var(--secret-pink), var(--secret-purple));
   box-shadow: 0 0 22px rgba(255, 98, 176, .42);
 }
+
+.secret-collection {
+  position: absolute;
+  right: 0;
+  bottom: calc(100% + 10px);
+  width: 210px;
+  border: 1px solid rgba(255, 255, 255, .2);
+  border-radius: 14px;
+  background: rgba(23, 20, 45, .9);
+  box-shadow: 0 22px 60px rgba(23, 20, 45, .28);
+  padding: 12px;
+  color: #fff;
+  backdrop-filter: blur(22px);
+}
+
+.secret-collection[hidden] { display: none; }
+.secret-collection__label { display: block; margin: 2px 4px 10px; color: var(--secret-teal); font-size: 8px; font-weight: 700; letter-spacing: .16em; }
+.secret-collection__list { display: grid; gap: 4px; }
+.secret-collection__item { display: grid; grid-template-columns: 28px 1fr; gap: 8px; align-items: center; width: 100%; min-height: 32px; border: 0; border-radius: 7px; background: transparent; color: rgba(255,255,255,.38); padding: 0 8px; text-align: left; }
+.secret-collection__item span { color: rgba(255,255,255,.34); font-size: 9px; }
+.secret-collection__item strong { font: 600 10px "DM Sans", sans-serif; letter-spacing: .1em; }
+.secret-collection__item.is-found { color: #fff; cursor: pointer; }
+.secret-collection__item.is-found:hover { background: rgba(255,255,255,.1); }
 
 .secret-toast {
   position: fixed;
@@ -251,6 +280,8 @@ body[data-page="contact"] .interaction-dock {
   box-shadow: 0 20px 56px rgba(145, 108, 255, .3), 0 0 24px rgba(69, 229, 220, .18);
 }
 
+.secret-egg.attention-hint { animation: secret-attention .62s ease 1; }
+
 .secret-number__digit {
   font: 600 22px/1 "Space Grotesk", sans-serif;
   color: var(--secret-purple);
@@ -303,6 +334,21 @@ body[data-page="contact"] .interaction-dock {
 .secret-block {
   animation: secret-drop 1.5s cubic-bezier(.22, .8, .25, 1) infinite alternate;
 }
+
+.secret-mine__grid { display: grid; grid-template-columns: repeat(3, 8px); gap: 2px; }
+.secret-mine__grid i { width: 8px; height: 8px; border: 1px solid rgba(145,108,255,.32); border-radius: 2px; background: rgba(145,108,255,.12); }
+.secret-mine__grid i:nth-child(5) { border-radius: 50%; background: var(--secret-pink); box-shadow: 0 0 13px rgba(255,98,176,.5); animation: mine-pulse 1.3s ease-in-out infinite; }
+.secret-card__stack { position: relative; width: 31px; height: 36px; }
+.secret-card__stack i { position: absolute; display: grid; place-items: center; width: 24px; height: 32px; border: 1px solid rgba(255,255,255,.72); border-radius: 5px; background: rgba(255,255,255,.72); color: var(--secret-purple); font: 700 10px "Space Grotesk"; font-style: normal; box-shadow: 0 7px 16px rgba(54,38,89,.15); }
+.secret-card__stack i:first-child { left: 0; top: 3px; transform: rotate(-8deg); }
+.secret-card__stack i:last-child { right: 0; top: 0; color: var(--secret-pink); animation: card-slide 1.6s ease-in-out infinite alternate; }
+.secret-platform { position: relative; display: block; width: 34px; height: 38px; }
+.secret-platform i { position: absolute; left: 14px; width: 8px; height: 8px; border-radius: 50%; background: var(--secret-pink); box-shadow: 0 0 10px rgba(255,98,176,.45); }
+.secret-platform b { position: absolute; display: block; width: 23px; height: 4px; border-radius: 3px; background: var(--secret-teal); }
+.secret-platform b:nth-of-type(1) { left: 1px; top: 9px; }
+.secret-platform b:nth-of-type(2) { right: 0; bottom: 5px; }
+.secret-platform--down i { top: 5px; animation: platform-down 1.5s ease-in-out infinite; }
+.secret-platform--up i { bottom: 3px; animation: platform-up 1.5s ease-in-out infinite; }
 
 .game-overlay {
   position: fixed;
@@ -548,6 +594,33 @@ body[data-page="contact"] .interaction-dock {
   line-height: 1.6;
 }
 
+.game-ready,
+.game-end {
+  position: absolute;
+  inset: 0;
+  z-index: 7;
+  display: grid;
+  place-items: center;
+  background: rgba(13, 10, 30, .76);
+  color: #fff;
+  text-align: center;
+  backdrop-filter: blur(12px);
+}
+
+.game-ready { opacity: 0; visibility: hidden; transition: opacity .22s, visibility .22s; }
+.game-ready.is-visible { opacity: 1; visibility: visible; }
+.game-ready__content { display: grid; justify-items: center; gap: 12px; padding: 28px; }
+.game-ready__content span,.game-end__panel span { color: var(--secret-teal); font-size: 9px; font-weight: 700; letter-spacing: .18em; }
+.game-ready__content strong { font: 600 clamp(42px, 9vw, 92px)/.9 "Space Grotesk"; text-shadow: 0 0 30px rgba(145,108,255,.45); }
+.game-ready__content p { margin: 0; color: rgba(255,255,255,.62); font-size: 11px; font-weight: 700; letter-spacing: .12em; }
+.game-ready__count { animation: ready-count .6s ease both; }
+.game-ready__go { font-size: clamp(28px, 6vw, 56px) !important; }
+.game-end__panel { width: min(390px, calc(100% - 32px)); border: 1px solid var(--secret-line); border-radius: 18px; background: rgba(35,27,64,.94); box-shadow: 0 26px 80px rgba(0,0,0,.32); padding: 28px; }
+.game-end__panel h3 { margin: 10px 0 22px; font: 600 34px "Space Grotesk"; }
+.game-end__scores { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 20px; }
+.game-end__scores p { margin: 0; border: 1px solid var(--secret-line); border-radius: 10px; padding: 12px; color: rgba(255,255,255,.56); font-size: 9px; letter-spacing: .12em; }
+.game-end__scores strong { display: block; margin-top: 5px; color: #fff; font: 600 25px "Space Grotesk"; letter-spacing: 0; }
+
 .sudoku-board {
   display: grid;
   grid-template-columns: repeat(9, 1fr);
@@ -607,6 +680,57 @@ body[data-page="contact"] .interaction-dock {
   letter-spacing: .08em;
 }
 
+.mine-board {
+  display: grid;
+  grid-template-columns: repeat(9, 1fr);
+  width: min(100%, 520px);
+  aspect-ratio: 1;
+  border: 2px solid rgba(255,255,255,.6);
+  border-radius: 14px;
+  overflow: hidden;
+  background: rgba(255,255,255,.06);
+  box-shadow: 0 22px 64px rgba(0,0,0,.24);
+  touch-action: manipulation;
+}
+.mine-cell { display: grid; place-items: center; min-width: 0; border: 0; border-right: 1px solid rgba(255,255,255,.1); border-bottom: 1px solid rgba(255,255,255,.1); background: rgba(145,108,255,.09); color: var(--secret-teal); font: 700 clamp(12px,2.2vw,20px) "Space Grotesk"; cursor: pointer; user-select: none; -webkit-user-select: none; }
+.mine-cell:hover { background: rgba(255,255,255,.13); }
+.mine-cell.is-revealed { background: rgba(255,255,255,.025); cursor: default; }
+.mine-cell.is-flagged { color: var(--secret-pink); background: rgba(255,98,176,.14); }
+.mine-cell[data-count="1"] { color: #45e5dc; }
+.mine-cell[data-count="2"] { color: #a78bfa; }
+.mine-cell[data-count="3"],.mine-cell[data-count="4"],.mine-cell[data-count="5"] { color: #ff79b9; }
+.mine-dot { width: 38%; aspect-ratio: 1; border-radius: 50%; background: var(--secret-pink); box-shadow: 0 0 16px rgba(255,98,176,.65); }
+.game-control.is-active { border-color: var(--secret-pink); background: rgba(255,98,176,.22); }
+
+.game-overlay[data-game="solitaire"] .secret-game-shell { width: min(1240px, 100%); }
+.solitaire-layout { display: grid; grid-template-columns: minmax(0,1fr) 220px; gap: 22px; align-items: start; }
+.solitaire-board { --card-w: clamp(52px, 5.8vw, 74px); --card-h: calc(var(--card-w) * 1.38); min-width: 0; border: 1px solid var(--secret-line); border-radius: 16px; background: rgba(255,255,255,.035); padding: clamp(10px,2vw,18px); overflow: hidden; }
+.solitaire-top,.sol-tableau { display: grid; grid-template-columns: repeat(7,minmax(0,1fr)); gap: clamp(4px,1vw,10px); }
+.solitaire-top { margin-bottom: 20px; }
+.solitaire-spacer { grid-column: span 1; }
+.sol-pile,.sol-column { position: relative; width: 100%; min-width: 0; }
+.sol-pile { display: grid; place-items: center; width: var(--card-w); height: var(--card-h); border: 1px dashed rgba(255,255,255,.2); border-radius: 8px; color: rgba(255,255,255,.28); }
+.sol-stock { background: transparent; cursor: pointer; }
+.sol-stock.has-cards { border-style: solid; background: linear-gradient(135deg,rgba(255,98,176,.38),rgba(145,108,255,.42)); box-shadow: inset 0 0 0 3px rgba(255,255,255,.06); }
+.sol-stock span { color: #fff; font: 600 11px "Space Grotesk"; }
+.sol-foundation small { position: absolute; font-size: 20px; }
+.sol-column { display: flex; flex-direction: column; align-items: center; min-height: 330px; border-radius: 8px; background: rgba(255,255,255,.018); }
+.sol-card { position: relative; z-index: 1; flex: 0 0 auto; display: flex; justify-content: space-between; align-items: flex-start; width: var(--card-w); height: var(--card-h); border: 1px solid rgba(255,255,255,.72); border-radius: 8px; background: rgba(255,255,255,.9); padding: 7px; color: #19152f; font: 700 13px "Space Grotesk"; cursor: pointer; box-shadow: 0 6px 16px rgba(0,0,0,.16); }
+.sol-card b { align-self: flex-end; font-size: 20px; }
+.sol-card.is-red { color: #d9387e; }
+.sol-card.is-dark { color: #136b73; }
+.sol-card.is-back { background: linear-gradient(145deg,#916cff,#ff62b0); box-shadow: inset 0 0 0 4px rgba(255,255,255,.12); }
+.sol-card.is-selected { outline: 3px solid var(--secret-teal); outline-offset: -2px; transform: translateY(-4px); }
+.sol-column .sol-card + .sol-card { margin-top: calc(var(--card-h) * -.68); }
+.sol-pile .sol-card { position: absolute; inset: 0; }
+.solitaire-side { align-self: stretch; }
+
+.platform-canvas { width: min(100%,300px); aspect-ratio: 300 / 520; }
+.platform-controls { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.platform-controls .game-control { min-height: 58px; touch-action: none; }
+
+body[data-page="contact"] .secret-collection { top: calc(100% + 10px); bottom: auto; }
+
 @keyframes secret-crawl {
   from { transform: translateX(-5px); }
   to { transform: translateX(5px); }
@@ -622,11 +746,20 @@ body[data-page="contact"] .interaction-dock {
   75% { transform: translateX(2px); }
 }
 
+@keyframes secret-attention { 50% { transform: translate3d(var(--egg-x), calc(var(--egg-y) - 5px), 0) scale(1.08) rotate(2deg); } }
+@keyframes mine-pulse { 50% { transform: scale(.72); opacity: .58; } }
+@keyframes card-slide { to { transform: translateX(4px) rotate(4deg); } }
+@keyframes platform-down { 0% { transform: translateY(0); } 70%,100% { transform: translateY(23px); } }
+@keyframes platform-up { 0% { transform: translateY(0); } 70%,100% { transform: translateY(-23px); } }
+@keyframes ready-count { 0% { transform: scale(.55); opacity: 0; filter: blur(8px); } 45% { opacity: 1; filter: blur(0); } 100% { transform: scale(1.2); opacity: 0; } }
+
 @media (max-width: 800px) {
   body[data-page="contact"] .interaction-dock {
     top: auto;
     bottom: max(12px, env(safe-area-inset-bottom));
   }
+
+  body[data-page="contact"] .secret-collection { top: auto; bottom: calc(100% + 10px); }
 
   .interaction-dock {
     right: max(12px, env(safe-area-inset-right));
@@ -636,18 +769,13 @@ body[data-page="contact"] .interaction-dock {
   }
 
   .interaction-dock__meta {
-    max-width: 0;
-    overflow: hidden;
-    opacity: 0;
-    transition: max-width .25s, opacity .25s, margin .25s;
-  }
-
-  .interaction-dock:hover .interaction-dock__meta,
-  .interaction-dock:focus-within .interaction-dock__meta {
-    max-width: 88px;
-    margin-left: 8px;
+    min-width: 44px;
+    margin-left: 7px;
     opacity: 1;
   }
+
+  .interaction-dock__eyebrow { display: none; }
+  .interaction-counter { font-size: 11px; text-align: center; }
 
   .interaction-toggle {
     min-width: 40px;
@@ -750,6 +878,16 @@ body[data-page="contact"] .interaction-dock {
   .sudoku-cell {
     font-size: clamp(16px, 5vw, 24px);
   }
+
+  .mine-board { width: min(100%,430px); }
+  .solitaire-layout { grid-template-columns: 1fr; gap: 14px; }
+  .solitaire-board { --card-w: clamp(39px,10.5vw,54px); padding: 9px 6px; overflow-x: auto; }
+  .solitaire-top,.sol-tableau { gap: 3px; }
+  .sol-column { min-height: 245px; }
+  .sol-card { padding: 4px; font-size: 10px; border-radius: 6px; }
+  .sol-card b { font-size: 15px; }
+  .solitaire-side .game-side__copy { display: none; }
+  .platform-canvas { width: min(72vw,300px); }
 }
 
 @media (max-width: 430px) {
