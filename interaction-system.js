@@ -150,6 +150,7 @@
 
   const InteractionManager = (() => {
     let enabled = false;
+    let promptTimer = 0;
     const validSecrets = Object.keys(SecretRegistry);
     const storedFound = StorageManager.getFound();
     const found = new Set((Array.isArray(storedFound) ? storedFound : []).filter(id => validSecrets.includes(id)));
@@ -184,6 +185,12 @@
       else EasterEggSpawner.stop();
     };
 
+    const dismissPrompt = () => {
+      clearTimeout(promptTimer);
+      promptTimer = 0;
+      UIBridge.elements.prompt.hidden = true;
+    };
+
     const discover = id => {
       if (!SecretRegistry[id]) return false;
       const isNew = !found.has(id);
@@ -203,8 +210,11 @@
       const saved = StorageManager.getEnabled();
       updateUI();
       if (saved === null) {
-        UIBridge.elements.prompt.hidden = false;
         setEnabled(false, false);
+        promptTimer = setTimeout(() => {
+          promptTimer = 0;
+          if (StorageManager.getEnabled() === null) UIBridge.elements.prompt.hidden = false;
+        }, prefersReducedMotion.matches ? 800 : 2400);
       } else {
         setEnabled(saved, false);
       }
@@ -212,11 +222,14 @@
       UIBridge.elements.prompt.addEventListener("click", event => {
         const choice = event.target.closest("[data-interaction-choice]");
         if (!choice) return;
-        UIBridge.elements.prompt.hidden = true;
+        dismissPrompt();
         setEnabled(choice.dataset.interactionChoice === "on");
         UIBridge.elements.toggle.focus();
       });
-      UIBridge.elements.toggle.addEventListener("click", () => setEnabled(!enabled));
+      UIBridge.elements.toggle.addEventListener("click", () => {
+        dismissPrompt();
+        setEnabled(!enabled);
+      });
       UIBridge.elements.counter.addEventListener("click", () => {
         const open = UIBridge.elements.collection.hidden;
         UIBridge.elements.collection.hidden = !open;
@@ -736,220 +749,6 @@
     };
   };
 
-  const LegacySnakeGame = () => {
-    let root;
-    let canvas;
-    let context;
-    let readyFlow;
-    let snake;
-    let food;
-    let direction;
-    let nextDirection;
-    let score;
-    let best = StorageManager.getNumber(StorageManager.keys.snakeBest, 0);
-    let frame = 0;
-    let lastStep = 0;
-    let paused = false;
-    let started = false;
-    let gameOver = false;
-    let destroyed = false;
-    let swipeStart = null;
-    const cells = 20;
-    const size = 400;
-    const cell = size / cells;
-
-    const updateStats = () => GameManager.setStats([["SCORE", score], ["BEST", best]]);
-    const setStatus = message => { root.querySelector(".game-status-line").textContent = message; };
-
-    const placeFood = () => {
-      do {
-        food = { x: Math.floor(Math.random() * cells), y: Math.floor(Math.random() * cells) };
-      } while (snake.some(segment => segment.x === food.x && segment.y === food.y));
-    };
-
-    const draw = () => {
-      context.fillStyle = "#0d0c20";
-      context.fillRect(0, 0, size, size);
-      context.strokeStyle = "rgba(255,255,255,.045)";
-      context.lineWidth = 1;
-      for (let i = 1; i < cells; i += 1) {
-        context.beginPath();
-        context.moveTo(i * cell, 0);
-        context.lineTo(i * cell, size);
-        context.stroke();
-        context.beginPath();
-        context.moveTo(0, i * cell);
-        context.lineTo(size, i * cell);
-        context.stroke();
-      }
-      context.fillStyle = "#ff62b0";
-      context.shadowColor = "#ff62b0";
-      context.shadowBlur = 14;
-      context.fillRect(food.x * cell + 4, food.y * cell + 4, cell - 8, cell - 8);
-      context.shadowBlur = 0;
-      snake.forEach((segment, index) => {
-        context.fillStyle = index === 0 ? "#fff" : `hsl(${176 + index * 2} 72% ${58 - Math.min(index, 12)}%)`;
-        context.fillRect(segment.x * cell + 2, segment.y * cell + 2, cell - 4, cell - 4);
-      });
-    };
-
-    const stopLoop = () => {
-      cancelAnimationFrame(frame);
-      frame = 0;
-    };
-
-    const finish = () => {
-      gameOver = true;
-      stopLoop();
-      if (score > best) {
-        best = score;
-        StorageManager.setNumber(StorageManager.keys.snakeBest, best);
-      }
-      updateStats();
-      setStatus("Game over. Restart to try a new route.");
-    };
-
-    const step = () => {
-      direction = nextDirection;
-      const head = { x: snake[0].x + direction.x, y: snake[0].y + direction.y };
-      if (head.x < 0 || head.x >= cells || head.y < 0 || head.y >= cells || snake.some(segment => segment.x === head.x && segment.y === head.y)) {
-        finish();
-        return;
-      }
-      snake.unshift(head);
-      if (head.x === food.x && head.y === food.y) {
-        score += 1;
-        placeFood();
-        updateStats();
-      } else {
-        snake.pop();
-      }
-    };
-
-    const loop = timestamp => {
-      if (destroyed || paused || gameOver) return;
-      if (!lastStep) lastStep = timestamp;
-      if (timestamp - lastStep >= Math.max(72, 122 - score * 2)) {
-        step();
-        lastStep = timestamp;
-      }
-      draw();
-      frame = requestAnimationFrame(loop);
-    };
-
-    const startLoop = () => {
-      if (!frame && !paused && !gameOver && !destroyed) {
-        lastStep = 0;
-        frame = requestAnimationFrame(loop);
-      }
-    };
-
-    const setDirection = newDirection => {
-      if (newDirection.x + direction.x === 0 && newDirection.y + direction.y === 0) return;
-      nextDirection = newDirection;
-    };
-
-    const directions = {
-      up: { x: 0, y: -1 }, down: { x: 0, y: 1 }, left: { x: -1, y: 0 }, right: { x: 1, y: 0 }
-    };
-
-    const togglePause = () => {
-      if (gameOver) return;
-      paused = !paused;
-      if (paused) {
-        stopLoop();
-        setStatus("Paused. Press Space or PAUSE to continue.");
-      } else {
-        setStatus("Use arrow keys, WASD, swipe, or the touch pad.");
-        startLoop();
-      }
-    };
-
-    const keyHandler = event => {
-      const keyMap = {
-        ArrowUp: directions.up, w: directions.up, W: directions.up,
-        ArrowDown: directions.down, s: directions.down, S: directions.down,
-        ArrowLeft: directions.left, a: directions.left, A: directions.left,
-        ArrowRight: directions.right, d: directions.right, D: directions.right
-      };
-      if (keyMap[event.key]) {
-        event.preventDefault();
-        setDirection(keyMap[event.key]);
-      } else if (event.code === "Space") {
-        event.preventDefault();
-        togglePause();
-      }
-    };
-
-    const restart = () => {
-      stopLoop();
-      snake = [{ x: 10, y: 10 }, { x: 9, y: 10 }, { x: 8, y: 10 }];
-      direction = directions.right;
-      nextDirection = directions.right;
-      score = 0;
-      paused = false;
-      gameOver = false;
-      placeFood();
-      updateStats();
-      setStatus("Use arrow keys, WASD, swipe, or the touch pad.");
-      draw();
-      startLoop();
-    };
-
-    const pointerDown = event => { swipeStart = { x: event.clientX, y: event.clientY }; };
-    const pointerUp = event => {
-      if (!swipeStart) return;
-      const dx = event.clientX - swipeStart.x;
-      const dy = event.clientY - swipeStart.y;
-      swipeStart = null;
-      if (Math.max(Math.abs(dx), Math.abs(dy)) < 18) return;
-      setDirection(Math.abs(dx) > Math.abs(dy) ? (dx > 0 ? directions.right : directions.left) : (dy > 0 ? directions.down : directions.up));
-    };
-
-    const mount = mountRoot => {
-      root = mountRoot;
-      root.innerHTML = `
-        <div class="game-layout">
-          <div class="game-board-wrap"><canvas class="game-canvas" width="400" height="400" aria-label="Snake game board"></canvas></div>
-          <aside class="game-side">
-            <p class="game-side__copy">Guide the line toward each pink point without touching the edge or your own path.</p>
-            <div class="touch-pad" aria-label="Snake direction controls">
-              <button class="game-control up" type="button" data-direction="up" aria-label="Move up">&#8593;</button>
-              <button class="game-control left" type="button" data-direction="left" aria-label="Move left">&#8592;</button>
-              <button class="game-control down" type="button" data-direction="down" aria-label="Move down">&#8595;</button>
-              <button class="game-control right" type="button" data-direction="right" aria-label="Move right">&#8594;</button>
-            </div>
-            <div class="game-controls">
-              <button class="game-control" type="button" data-action="pause">PAUSE</button>
-              <button class="game-control game-control--accent" type="button" data-action="restart">RESTART</button>
-            </div>
-            <div class="game-status-line" role="status"></div>
-          </aside>
-        </div>`;
-      canvas = root.querySelector("canvas");
-      context = canvas.getContext("2d");
-      root.querySelectorAll("[data-direction]").forEach(button => button.addEventListener("click", () => setDirection(directions[button.dataset.direction])));
-      root.querySelector('[data-action="pause"]').addEventListener("click", togglePause);
-      root.querySelector('[data-action="restart"]').addEventListener("click", restart);
-      canvas.addEventListener("pointerdown", pointerDown);
-      canvas.addEventListener("pointerup", pointerUp);
-      addEventListener("keydown", keyHandler);
-      restart();
-    };
-
-    return {
-      mount,
-      pause: () => { if (!gameOver) { paused = true; stopLoop(); } },
-      resume: () => { if (!gameOver) { paused = false; startLoop(); } },
-      destroy: () => {
-        destroyed = true;
-        stopLoop();
-        removeEventListener("keydown", keyHandler);
-        canvas?.removeEventListener("pointerdown", pointerDown);
-        canvas?.removeEventListener("pointerup", pointerUp);
-      }
-    };
-  };
 
   const SnakeGame = () => {
     let root;
@@ -1993,6 +1792,35 @@
     let previousFocus = null;
     let closingTimer = 0;
     let transitionRevision = 0;
+    let surfaceStates = [];
+
+    const setBackgroundInert = inert => {
+      if (inert) {
+        const surfaces = [
+          document.querySelector("header"),
+          document.querySelector("main"),
+          document.querySelector("footer"),
+          UIBridge.elements.dock,
+          UIBridge.elements.prompt
+        ].filter(Boolean);
+        surfaceStates = surfaces.map(node => ({
+          node,
+          inert: node.inert,
+          ariaHidden: node.getAttribute("aria-hidden")
+        }));
+        surfaceStates.forEach(({ node }) => {
+          node.inert = true;
+          node.setAttribute("aria-hidden", "true");
+        });
+        return;
+      }
+      surfaceStates.forEach(({ node, inert: wasInert, ariaHidden }) => {
+        node.inert = wasInert;
+        if (ariaHidden === null) node.removeAttribute("aria-hidden");
+        else node.setAttribute("aria-hidden", ariaHidden);
+      });
+      surfaceStates = [];
+    };
 
     const setStats = items => {
       UIBridge.elements.gameStats.innerHTML = items.map(([label, value]) => `<span>${label}<strong>${value}</strong></span>`).join("");
@@ -2007,6 +1835,7 @@
       document.body.style.right = "0";
       document.body.style.width = "100%";
       document.body.classList.add("game-mode");
+      setBackgroundInert(true);
     };
 
     const unlockPage = () => {
@@ -2016,6 +1845,7 @@
       document.body.style.left = "";
       document.body.style.right = "";
       document.body.style.width = "";
+      setBackgroundInert(false);
       if (location.hash !== savedRoute) history.replaceState(history.state, "", savedRoute || location.pathname);
       scrollTo(0, savedScroll);
     };

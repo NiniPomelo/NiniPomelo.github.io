@@ -5,13 +5,20 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="description" content="YU-YOU CHOU 的 Unity、Meta Quest、MR／VR／XR、多人遊戲與互動系統作品集。">
 <meta name="theme-color" content="#ffe6f0">
+<meta name="robots" content="index,follow">
 <meta property="og:title" content="YU-YOU CHOU | Immersive Designer">
 <meta property="og:description" content="Unity、MR／VR／XR 與空間互動作品集。">
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="YU-YOU CHOU Portfolio">
+<meta property="og:url" content="https://ninipomelo.github.io/">
 <meta property="og:image" content="assets/brawl-hero.jpg">
 <meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="YU-YOU CHOU | Immersive Designer">
+<meta name="twitter:description" content="Unity、MR／VR／XR 與空間互動作品集。">
+<meta name="twitter:image" content="assets/brawl-hero.jpg">
 <title>YU-YOU CHOU | Immersive Designer</title>
-<link rel="icon" href="assets/brawl-hero.jpg">
+<link rel="canonical" href="https://ninipomelo.github.io/">
+<link rel="icon" href="assets/favicon.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600&family=Space+Grotesk:wght@400;500;600&display=swap" rel="stylesheet">
@@ -41,6 +48,8 @@ body{
 }
 a{color:inherit}
 img{display:block;width:100%;height:100%;object-fit:cover}
+button,a,input,select,textarea{font:inherit}
+:focus-visible{outline:3px solid var(--teal);outline-offset:4px}
 ::selection{background:var(--pink);color:#fff}
 .page-view[hidden]{display:none!important}
 .noise{position:fixed;inset:0;z-index:20;pointer-events:none;opacity:.07;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.22'/%3E%3C/svg%3E")}
@@ -134,6 +143,10 @@ section{position:relative;padding:120px var(--pad)}
 .project-meta{display:flex;justify-content:space-between;gap:14px;color:var(--dim);font-size:12px;letter-spacing:.08em}
 .project-card h3{margin:0;font:500 clamp(24px,3vw,38px)/1.05 "Space Grotesk";letter-spacing:0}
 .project-card p{margin:0;color:var(--dim);font-size:13px;line-height:1.65}
+.project-summary{display:grid;gap:8px;margin:0;padding-top:2px;border-top:1px solid var(--line)}
+.project-summary div{display:grid;grid-template-columns:58px 1fr;gap:12px;padding-top:8px}
+.project-summary dt{color:var(--teal);font-size:9px;font-weight:700;letter-spacing:.12em}
+.project-summary dd{margin:0;color:var(--fg);font-size:11px;line-height:1.5}
 .detail-top{display:flex;justify-content:space-between;align-items:center;gap:18px;margin-bottom:28px;color:var(--dim);font-size:12px;letter-spacing:.12em}
 .back-link{display:inline-flex;align-items:center;gap:8px;text-decoration:none;color:var(--dim);font-weight:700}
 .back-link:hover{color:var(--purple)}
@@ -274,6 +287,34 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 .future-copy span{color:var(--purple)}
 .detail-hero{overflow:hidden;border:1px solid rgba(255,255,255,.72);border-radius:24px;aspect-ratio:16/10;background:rgba(255,255,255,.24);box-shadow:0 28px 70px rgba(90,65,130,.13)}
 .detail-hero img{object-fit:cover}
+.media-section-head{display:flex;justify-content:space-between;gap:24px;align-items:end;padding:12px 0 2px;border-bottom:1px solid var(--line)}
+.media-section-head h3{margin:0;font:500 32px/1 "Space Grotesk";letter-spacing:0}
+.media-section-head span{color:var(--teal);font-size:10px;letter-spacing:.14em;text-align:right}
+.media-gallery{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.media-card{overflow:hidden;margin:0;border:1px solid rgba(255,255,255,.72);border-radius:18px;background:rgba(255,255,255,.28);box-shadow:0 24px 60px rgba(90,65,130,.11)}
+.media-card[data-span="wide"]{grid-column:1/-1}
+.media-expand{position:relative;display:grid;width:100%;min-height:220px;border:0;background:rgba(255,255,255,.22);padding:0;cursor:zoom-in}
+.media-expand::after{content:"+";position:absolute;right:14px;top:14px;display:grid;place-items:center;width:38px;height:38px;border:1px solid rgba(255,255,255,.72);border-radius:50%;background:rgba(23,20,45,.72);color:#fff;font:500 20px/1 "Space Grotesk";opacity:.78;transition:transform .25s,opacity .25s}
+.media-expand:hover::after,.media-expand:focus-visible::after{opacity:1;transform:scale(1.08)}
+.media-card img{width:100%;height:auto;max-height:680px;object-fit:contain;background:rgba(255,255,255,.26)}
+.media-card figcaption,.video-frame figcaption{display:flex;justify-content:space-between;gap:18px;padding:14px 16px;color:var(--dim);font-size:12px;line-height:1.5}
+.media-card figcaption span,.video-frame figcaption span{color:var(--teal);font-size:9px;letter-spacing:.12em;white-space:nowrap}
+.video-frame{overflow:hidden;margin:0;border:1px solid rgba(255,255,255,.72);border-radius:24px;background:rgba(23,20,45,.88);box-shadow:0 28px 70px rgba(90,65,130,.16)}
+.video-frame video{display:block;width:100%;height:auto;max-height:min(74vh,760px);background:#111;object-fit:contain}
+.course-media-group{display:grid;gap:18px;padding-top:10px}
+.course-source{margin:0;color:var(--dim);font-size:13px;line-height:1.7}
+.media-missing{display:flex;justify-content:space-between;gap:18px;align-items:center;border:1px dashed rgba(145,108,255,.42);border-radius:16px;background:rgba(145,108,255,.08);padding:16px 18px;color:var(--dim);font-size:12px;line-height:1.55}
+.media-missing strong{color:var(--purple);font-size:10px;letter-spacing:.14em;white-space:nowrap}
+.media-lightbox{width:min(94vw,1280px);max-width:none;border:1px solid rgba(255,255,255,.24);border-radius:20px;background:rgba(17,14,34,.96);color:#fff;padding:0;box-shadow:0 32px 120px rgba(23,20,45,.64)}
+.media-lightbox::backdrop{background:rgba(15,12,28,.82);backdrop-filter:blur(14px)}
+.lightbox-stage{position:relative;display:grid;place-items:center;min-height:min(78vh,820px);padding:58px 72px 24px}
+.lightbox-stage img{width:auto;height:auto;max-width:100%;max-height:72vh;object-fit:contain}
+.lightbox-close,.lightbox-nav{position:absolute;z-index:2;display:grid;place-items:center;border:1px solid rgba(255,255,255,.28);border-radius:50%;background:rgba(255,255,255,.1);color:#fff;cursor:pointer}
+.lightbox-close{right:18px;top:18px;width:42px;height:42px;font-size:20px}
+.lightbox-nav{top:50%;width:46px;height:46px;transform:translateY(-50%);font-size:24px}
+.lightbox-prev{left:16px}.lightbox-next{right:16px}
+.lightbox-caption{display:flex;justify-content:space-between;gap:20px;width:100%;padding-top:18px;color:rgba(255,255,255,.72);font-size:12px;line-height:1.5}
+.lightbox-count{color:#78eee7;letter-spacing:.12em;white-space:nowrap}
 .detail-columns{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
 .detail-columns .game-panel{height:100%}
 .flow-gallery{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}
@@ -315,6 +356,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .hero-bottom{align-items:start}
   .scroll-cue{display:none}
   .intro,.capabilities,.tools,.game-shell{grid-template-columns:1fr;gap:35px}
+  .game-copy{position:static}
 
   .hero h1{font-size:64px}
   .big-copy{font-size:46px}
@@ -331,7 +373,16 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .section-heading h2{font-size:46px}
   .timeline-item{grid-template-columns:1fr;gap:12px}
   .timeline-index{display:none}
-  .skill-groups,.detail-columns,.flow-gallery,.result-gallery,.challenge-grid{grid-template-columns:1fr}
+  .skill-groups,.detail-columns,.flow-gallery,.result-gallery,.challenge-grid,.media-gallery{grid-template-columns:1fr}
+  .media-card[data-span="wide"]{grid-column:auto}
+  .media-section-head{display:grid;align-items:start}
+  .media-section-head span{text-align:left}
+  .media-expand{min-height:0}
+  .media-card figcaption,.video-frame figcaption,.media-missing{display:grid}
+  .lightbox-stage{min-height:70vh;padding:58px 14px 20px}
+  .lightbox-stage img{max-height:62vh}
+  .lightbox-nav{top:auto;bottom:64px}
+  .lightbox-prev{left:16px}.lightbox-next{right:16px}
   .future-copy{font-size:36px}
   .camp-note{grid-template-columns:100px 1fr}
   .intro-note,.intro-meta{grid-column:1}
@@ -364,7 +415,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   .reveal{opacity:1;transform:none}
 }
 </style>
-<link rel="stylesheet" href="interaction-system.css">
+<link rel="stylesheet" href="interaction-system.css?v=20260927-1">
 </head>
 <body>
 <div class="noise"></div>
@@ -402,7 +453,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     <span>UNITY <b>✦</b> META QUEST <b>✦</b> MR / VR / XR <b>✦</b> MULTIPLAYER <b>✦</b> SPATIAL INTERACTION <b>✦</b>&nbsp;</span>
   </div>
 </div>
-<section class="intro page-view" id="about" data-route="about">
+<section class="intro page-view" id="about-profile" data-route="about">
   <span class="label reveal">01 · ABOUT</span>
   <h2 class="big-copy reveal">I BUILD INTERACTIONS <span class="dim">YOU CAN STEP INTO.</span></h2>
   <div class="intro-note reveal">
@@ -437,9 +488,9 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   </div>
   <div class="timeline reveal">
     <article class="timeline-item"><small>UNIVERSITY</small><div><h3>程式設計與人工智慧</h3><p>在人工智慧應用學系的課程中建立程式邏輯、資料處理與問題拆解經驗。</p></div><span class="timeline-index">01</span></article>
-    <article class="timeline-item"><small>COURSEWORK</small><div><h3>3D、動畫與互動媒體</h3><p>分別在 3D 動畫設計、3D 電腦動畫（二）、互動媒體設計與遊戲程式設計中使用 Maya、p5.js 與 Adobe Animate 製作課程作品。</p></div><span class="timeline-index">02</span></article>
+    <article class="timeline-item"><small>COURSEWORK</small><div><h3>3D、動畫與互動媒體</h3><p>在「3D動畫設計」與「3D電腦動畫（二）」中分別進行 3D 課程練習；「互動媒體設計」使用 p5.js，「遊戲程式設計」則使用 Adobe Animate 製作作品。</p></div><span class="timeline-index">02</span></article>
     <article class="timeline-item"><small>UNITY PRACTICE</small><div><h3>Unity 語音西洋棋</h3><p>在程式設計（四）中以 Unity 結合 OpenAI Whisper，嘗試用語音移動棋子，並整合棋盤規則與簡單 AI 對戰。</p></div><span class="timeline-index">03</span></article>
-    <article class="timeline-item"><small>CAPSTONE</small><div><h3>Brawl & Turn</h3><p>畢業專題聚焦 Meta Quest、MR／VR、手部互動、角色戰鬥、多人同步與 Same Room 空間定位測試。</p></div><span class="timeline-index">04</span></article>
+    <article class="timeline-item"><small>CAPSTONE</small><div><h3>Brawl & Qualifying</h3><p>畢業專題聚焦 Meta Quest、MR／VR、手部互動、角色戰鬥、多人同步與 Same Room 空間定位測試。</p></div><span class="timeline-index">04</span></article>
     <article class="timeline-item"><small>2025 SUMMER</small><div><h3>AI 與機器人暑期課程暨競賽營隊</h3><p>使用 Docker 執行 RoboCasa，接觸虛擬機器人訓練環境與 AI 在模擬場景中的應用方式。</p></div><span class="timeline-index">05</span></article>
   </div>
 </section>
@@ -455,7 +506,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 <section class="future-section page-view" data-route="journey">
   <div class="section-heading reveal"><h2>Future / Next</h2><p>研究所階段希望補強的方向。</p></div>
   <p class="future-copy reveal">從「功能能不能運作」再往前一步，持續學習 <span>game design、player experience、XR interaction</span> 與玩家測試方法，讓技術真正成為容易理解、值得投入的互動體驗。</p>
-  <div class="camp-note reveal"><img src="assets/ai-camp.png" alt="2025 AI 與機器人暑期課程暨競賽營隊活動看板" loading="lazy"><p>不同領域的實作經驗也提醒我，AI、機器人與沉浸式互動可以互相啟發，但作品仍需要回到明確的使用情境、操作流程與測試結果。</p></div>
+  <div class="camp-note reveal"><img src="assets/ai-camp.png" alt="2025 AI 與機器人暑期課程暨競賽營隊活動看板" width="480" height="640" loading="lazy" decoding="async"><p>不同領域的實作經驗也提醒我，AI、機器人與沉浸式互動可以互相啟發，但作品仍需要回到明確的使用情境、操作流程與測試結果。</p></div>
 </section>
 <section class="projects-hub page-view" id="projects" data-route="projects">
   <div class="hub-head reveal">
@@ -478,25 +529,25 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   </div>
   <div class="project-grid reveal" aria-label="Project list">
     <a class="project-card featured interactive" href="#project-you-graduation-topic" data-categories="game unity vrmr">
-      <div class="project-card-media" data-label="FEATURED"><img src="assets/brawl-hero.jpg" alt="Brawl & Turn MR 戰鬥與手部操作畫面" loading="eager"></div>
-      <div class="project-card-body"><div class="project-tags"><span>UNITY</span><span>META QUEST</span><span>MR / VR</span><span>MULTIPLAYER</span></div><div class="project-meta"><span>CAPSTONE · TESTING</span><span>P01</span></div><h3>Brawl & Turn</h3><p>以 Meta Quest 為平台，整合手部互動、角色戰鬥、多人同步與共享空間測試的畢業專題。</p></div>
+      <div class="project-card-media" data-label="FEATURED"><img src="assets/brawl-hero.jpg" alt="Brawl & Qualifying MR 戰鬥與手部操作畫面" width="714" height="589" loading="eager" decoding="async"></div>
+      <div class="project-card-body"><div class="project-tags"><span>UNITY</span><span>META QUEST</span><span>MR / VR</span><span>MULTIPLAYER</span></div><div class="project-meta"><span>WAITING FOR UPDATED ASSETS</span><span>P01</span></div><h3>Brawl & Qualifying</h3><p>以 Meta Quest 為平台，整合手部互動、角色戰鬥、多人同步與共享空間測試的畢業專題。</p><dl class="project-summary"><div><dt>WHAT</dt><dd>多人 XR 角色對戰原型</dd></div><div><dt>MY ROLE</dt><dd>XR、遊戲流程與多人系統整合</dd></div><div><dt>TYPE</dt><dd>畢業專題／等待新版素材</dd></div></dl></div>
     </a>
     <a class="project-card interactive" href="#project-voice-chess" data-categories="game unity">
-      <div class="project-card-media" data-label="UNITY"><img src="assets/voice-chess.png" alt="Unity 語音西洋棋執行畫面" loading="lazy"></div>
-      <div class="project-card-body"><div class="project-tags"><span>UNITY</span><span>C#</span><span>VOICE</span><span>AI</span></div><div class="project-meta"><span>COURSE PROJECT</span><span>P02</span></div><h3>Unity 語音西洋棋</h3><p>結合 OpenAI Whisper、棋盤規則與簡單 AI，讓語音成為主要操作輸入。</p></div>
+      <div class="project-card-media" data-label="UNITY"><img src="assets/media/p02-voice-chess/chess-overview.png" alt="Unity 語音西洋棋執行畫面" width="1466" height="937" loading="lazy" decoding="async"></div>
+      <div class="project-card-body"><div class="project-tags"><span>UNITY</span><span>C#</span><span>VOICE</span><span>AI</span></div><div class="project-meta"><span>COURSE PROJECT</span><span>P02</span></div><h3>Unity 語音西洋棋</h3><p>結合 OpenAI Whisper、棋盤規則與簡單 AI，讓語音成為主要操作輸入。</p><dl class="project-summary"><div><dt>WHAT</dt><dd>以語音操作的西洋棋遊戲</dd></div><div><dt>MY ROLE</dt><dd>Unity 程式與輸入流程整合</dd></div><div><dt>TYPE</dt><dd>「程式設計（四）」課程作品</dd></div></dl></div>
     </a>
     <a class="project-card interactive" href="#project-p5js-creative-sketch" data-categories="interaction p5">
-      <div class="project-card-media" data-label="P5.JS"><img src="assets/lacquer-fan.png" alt="數位漆扇工坊 p5.js 操作畫面" loading="lazy"></div>
-      <div class="project-card-body"><div class="project-tags"><span>P5.JS</span><span>INTERACTION</span><span>CRAFT</span></div><div class="project-meta"><span>INTERACTIVE MEDIA</span><span>P03</span></div><h3>數位漆扇工坊</h3><p>以滴色、攪拌與扇面拓印，把漆扇工藝轉化成可以操作的數位互動。</p></div>
+      <div class="project-card-media" data-label="P5.JS"><img src="assets/media/p03-lacquer-fan/lacquer-interface.png" alt="數位漆扇工坊 p5.js 操作畫面" width="1917" height="768" loading="lazy" decoding="async"></div>
+      <div class="project-card-body"><div class="project-tags"><span>P5.JS</span><span>INTERACTION</span><span>CRAFT</span></div><div class="project-meta"><span>INTERACTIVE MEDIA</span><span>P03</span></div><h3>數位漆扇工坊</h3><p>以滴色、攪拌與扇面拓印，把漆扇工藝轉化成可以操作的數位互動。</p><dl class="project-summary"><div><dt>WHAT</dt><dd>可操作的數位水拓染體驗</dd></div><div><dt>MY ROLE</dt><dd>p5.js 互動與視覺行為實作</dd></div><div><dt>TYPE</dt><dd>「互動媒體設計」課程作品</dd></div></dl></div>
     </a>
-    <article class="project-card is-static" data-categories="game animation">
-      <div class="project-card-media" data-label="ADOBE ANIMATE"><img src="assets/animate-game.png" alt="遊戲程式設計 Adobe Animate 課程作品" loading="lazy"></div>
-      <div class="project-card-body"><div class="project-tags"><span>ADOBE ANIMATE</span><span>GAME FLOW</span></div><div class="project-meta"><span>GAME PROGRAMMING</span><span>P04</span></div><h3>Adobe Animate 遊戲</h3><p>包含故事開場、角色介紹、關卡、提示與勝負結果的課程遊戲作品。</p></div>
-    </article>
-    <article class="project-card is-static" data-categories="animation interaction">
-      <div class="project-card-media" data-label="MAYA"><img src="assets/maya-scene.jpg" alt="3D 電腦動畫二森林場景作品" loading="lazy"></div>
-      <div class="project-card-body"><div class="project-tags"><span>MAYA</span><span>3D</span><span>ANIMATION</span></div><div class="project-meta"><span>COURSE ARCHIVE</span><span>P05</span></div><h3>3D / Animation Studies</h3><p>分別整理 3D 動畫設計與 3D 電腦動畫（二）的動畫、材質、燈光與場景練習。</p></div>
-    </article>
+    <a class="project-card interactive" href="#project-undead-rush" data-categories="game animation">
+      <div class="project-card-media" data-label="ADOBE ANIMATE"><img src="assets/media/p04-undead-rush/undead-gameplay.png" alt="亡靈衝刺 Adobe Animate 遊戲畫面" width="1312" height="692" loading="lazy" decoding="async"></div>
+      <div class="project-card-body"><div class="project-tags"><span>ADOBE ANIMATE</span><span>GAME FLOW</span></div><div class="project-meta"><span>GAME PROGRAMMING</span><span>P04</span></div><h3>亡靈衝刺</h3><p>包含故事開場、角色介紹、關卡、提示與勝負結果的課程遊戲作品。</p><dl class="project-summary"><div><dt>WHAT</dt><dd>橫向角色冒險遊戲</dd></div><div><dt>MEDIA</dt><dd>Gameplay 影片與五張流程畫面</dd></div><div><dt>TYPE</dt><dd>「遊戲程式設計」課程作品</dd></div></dl></div>
+    </a>
+    <a class="project-card interactive" href="#project-3d-animation" data-categories="animation interaction">
+      <div class="project-card-media" data-label="MAYA"><img src="assets/media/p05-3d-animation/3d-computer-animation-2/forest-scene.jpg" alt="3D 電腦動畫（二）森林場景作品" width="772" height="472" loading="lazy" decoding="async"></div>
+      <div class="project-card-body"><div class="project-tags"><span>MAYA</span><span>3D</span><span>ANIMATION</span></div><div class="project-meta"><span>TWO COURSE ARCHIVES</span><span>P05</span></div><h3>3D / Animation</h3><p>分開整理「3D動畫設計」與「3D電腦動畫（二）」的 Maya 課程作品，不混用兩門課的素材。</p><dl class="project-summary"><div><dt>COURSE A</dt><dd>3D動畫設計／2 張畫面</dd></div><div><dt>COURSE B</dt><dd>3D電腦動畫（二）／4 張作品</dd></div><div><dt>MEDIA</dt><dd>原始動畫影片尚未提供</dd></div></dl></div>
+    </a>
   </div>
 </section>
 <section class="game-showcase page-view" id="project-you-graduation-topic" data-route="project-you-graduation-topic" aria-labelledby="game-title">
@@ -504,10 +555,10 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <div class="game-shell">
     <div class="game-copy reveal">
       <span class="label">02 · FEATURED PROJECT</span>
-      <h2 id="game-title">Brawl<br>& Turn</h2>
+      <h2 id="game-title">Brawl<br>& Qualifying</h2>
       <p>以 Meta Quest 為平台的虛實共域手勢互動系統，整合 MR／VR、角色戰鬥、空間 UI、多人體驗與 Same Room 定位測試。</p>
       <span class="game-status">PROTOTYPE / TESTING</span>
-      <div class="game-facts" aria-label="Brawl and Turn details">
+      <div class="game-facts" aria-label="Brawl and Qualifying details">
         <div class="game-fact"><small>ENGINE</small><strong>Unity / C#</strong></div>
         <div class="game-fact"><small>DEVICE</small><strong>Quest 3 / 3S</strong></div>
         <div class="game-fact"><small>MODE</small><strong>MR / VR</strong></div>
@@ -515,21 +566,21 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
       </div>
     </div>
     <div class="game-stage">
-      <figure class="detail-hero reveal"><img src="assets/brawl-hero.jpg" alt="Brawl & Turn MR 戰鬥畫面，包含遊戲地圖、空間介面與手部操作"></figure>
+      <figure class="detail-hero reveal"><img src="assets/brawl-hero.jpg" alt="Brawl & Qualifying MR 戰鬥畫面，包含遊戲地圖、空間介面與手部操作" width="714" height="589" decoding="async"></figure>
       <div class="detail-columns">
         <article class="game-panel reveal"><h3>Overview</h3><p>專題包含 BRAWL、QUALIFYING、Online 與 Same Room 等模式方向。玩家在頭戴裝置中選擇房間、地圖與角色，進入戰鬥後操作移動、跳躍、攻擊與防禦，最後由系統判定勝負。</p></article>
         <article class="game-panel reveal"><h3>Problem / Motivation</h3><p>目標不只是讓功能可以執行，而是把 XR 操作、遊戲流程與多人狀態放進同一套體驗，處理玩家是否看得懂介面、不同裝置是否能看到一致狀態，以及共享空間定位是否合理。</p></article>
       </div>
-      <div class="game-loop reveal" aria-label="Brawl and Turn player flow">
+      <div class="game-loop reveal" aria-label="Brawl and Qualifying player flow">
         <div class="loop-step"><span>01 · SETUP</span><strong>模式與房間</strong><p>選擇模式、建立或加入房間，並確認玩家人數。</p></div>
         <div class="loop-step"><span>02 · SELECT</span><strong>地圖與角色</strong><p>透過空間介面選擇地圖、角色與進入條件。</p></div>
         <div class="loop-step"><span>03 · PLAY</span><strong>倒數與戰鬥</strong><p>整合移動、跳躍、攻擊、防禦、血量與動畫狀態。</p></div>
         <div class="loop-step"><span>04 · RESULT</span><strong>勝負結果</strong><p>同步遊戲狀態，顯示 Victory 或 Defeat 結果。</p></div>
       </div>
-      <div class="flow-gallery" aria-label="Brawl and Turn player flow screenshots">
-        <figure class="gallery-item reveal"><img src="assets/brawl-room.jpg" alt="Brawl & Turn 房間與玩家人數選擇"><figcaption>ROOM · 房間與玩家人數</figcaption></figure>
-        <figure class="gallery-item reveal"><img src="assets/brawl-map.jpg" alt="Brawl & Turn 地圖選擇"><figcaption>MAP · 地圖選擇</figcaption></figure>
-        <figure class="gallery-item reveal"><img src="assets/brawl-role.jpg" alt="Brawl & Turn Wendy 角色選擇"><figcaption>ROLE · 角色選擇</figcaption></figure>
+      <div class="flow-gallery" aria-label="Brawl and Qualifying player flow screenshots">
+         <figure class="gallery-item reveal"><img src="assets/brawl-room.jpg" alt="Brawl & Qualifying 房間與玩家人數選擇" width="412" height="600" loading="lazy" decoding="async"><figcaption>ROOM · 房間與玩家人數</figcaption></figure>
+         <figure class="gallery-item reveal"><img src="assets/brawl-map.jpg" alt="Brawl & Qualifying 地圖選擇" width="525" height="512" loading="lazy" decoding="async"><figcaption>MAP · 地圖選擇</figcaption></figure>
+         <figure class="gallery-item reveal"><img src="assets/brawl-role.jpg" alt="Brawl & Qualifying Wendy 角色選擇" width="569" height="831" loading="lazy" decoding="async"><figcaption>ROLE · 角色選擇</figcaption></figure>
       </div>
       <article class="game-panel reveal">
         <h3>Technology / Implementation</h3>
@@ -550,9 +601,11 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
           <div class="challenge-card"><h4>VR 新手操作</h4><p><b>問題：</b>第一次接觸的玩家可能看不懂提示或移動方向。<br><b>調整：</b>重新安排面板位置、提示方式、操作順序與角色移動方向。</p></div>
         </div>
       </article>
-      <div class="result-gallery" aria-label="Brawl and Turn match results">
-        <figure class="gallery-item reveal"><img src="assets/brawl-defeat.jpg" alt="Brawl & Turn Defeat 對戰結果"><figcaption>RESULT · Defeat</figcaption></figure>
-        <figure class="gallery-item reveal"><img src="assets/brawl-victory.jpg" alt="Brawl & Turn Victory 對戰結果"><figcaption>RESULT · Victory</figcaption></figure>
+      <article class="game-panel reveal"><h3>Result / Current Status</h3><div class="status-list"><div class="status-item"><span>PLAYABLE FLOW</span><strong>已有模式、房間、地圖、角色、戰鬥與結果等流程畫面</strong></div><div class="status-item"><span>MULTIPLAYER</span><strong>持續測試玩家、動作與遊戲狀態同步</strong></div><div class="status-item"><span>SHARED SPACE</span><strong>Same Room 定位仍在比較與調整</strong></div></div></article>
+      <article class="game-panel reveal"><h3>Waiting for Updated Assets</h3><div class="status-list"><div class="status-item"><span>STATUS</span><strong>WAITING FOR USER ASSETS</strong></div><div class="status-item"><span>STILL NEEDED</span><strong>Gameplay / Quest 實機影片與最新專案截圖</strong></div><div class="status-item"><span>FINAL PASS</span><strong>圖片 Caption 與最終 Media Selection</strong></div></div></article>
+      <div class="result-gallery" aria-label="Brawl and Qualifying match results">
+        <figure class="gallery-item reveal"><img src="assets/brawl-defeat.jpg" alt="Brawl & Qualifying Defeat 對戰結果" width="586" height="375" loading="lazy" decoding="async"><figcaption>RESULT · Defeat</figcaption></figure>
+        <figure class="gallery-item reveal"><img src="assets/brawl-victory.jpg" alt="Brawl & Qualifying Victory 對戰結果" width="582" height="359" loading="lazy" decoding="async"><figcaption>RESULT · Victory</figcaption></figure>
       </div>
       <article class="game-panel reveal"><h3>What I Learned</h3><p>從單一功能實作進一步學習整合角色控制、戰鬥、UI 與多人同步，也在實機測試中理解空間定位、操作方式與玩家體驗之間的關係。成功連線只是第一步，完整體驗還需要讓玩家在正確時間看到一致狀態，並能自然理解操作。</p></article>
     </div>
@@ -568,10 +621,12 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
       <div class="game-facts"><div class="game-fact"><small>ENGINE</small><strong>Unity</strong></div><div class="game-fact"><small>LANGUAGE</small><strong>C#</strong></div><div class="game-fact"><small>INPUT</small><strong>Voice</strong></div><div class="game-fact"><small>AI</small><strong>Simple Opponent</strong></div></div>
     </div>
     <div class="game-stage">
-      <figure class="detail-hero reveal"><img src="assets/voice-chess.png" alt="Unity 語音西洋棋執行與除錯畫面"></figure>
+      <div class="media-gallery reveal" aria-label="Unity 語音西洋棋圖片">
+        <figure class="media-card" data-span="wide"><button class="media-expand interactive" type="button" data-media-title="「程式設計（四）」課程作品－Unity 語音西洋棋執行與除錯畫面"><img src="assets/media/p02-voice-chess/chess-overview.png" alt="Unity 語音西洋棋執行與除錯畫面" width="1466" height="937" decoding="async"></button><figcaption><span>COURSE · 程式設計（四）</span>Unity 場景、棋盤、語音控制與 AI 行動紀錄</figcaption></figure>
+      </div>
       <article class="game-panel reveal"><h3>Overview</h3><p>語音不是附加功能，而是主要輸入方式。系統需要把語音辨識結果轉換成棋子與目標位置，再交由棋盤規則、回合狀態與簡單 AI 流程處理。</p></article>
+      <figure class="video-frame reveal"><video controls preload="metadata" playsinline poster="assets/media/p02-voice-chess/chess-overview.png"><source src="assets/media/p02-voice-chess/chess-gameplay.mp4" type="video/mp4">您的瀏覽器不支援影片播放。</video><figcaption><span>GAMEPLAY · 01:12</span>Unity 語音西洋棋操作與 AI 對戰錄影</figcaption></figure>
       <article class="game-panel reveal"><h3>Implementation</h3><div class="system-grid"><div class="system-card"><span>VOICE</span><strong>語音輸入</strong><p>使用 OpenAI Whisper 取得玩家指令。</p></div><div class="system-card"><span>PARSE</span><strong>指令解析</strong><p>將辨識文字對應到棋子與棋盤位置。</p></div><div class="system-card"><span>RULES</span><strong>棋盤規則</strong><p>讓移動結果配合西洋棋規則與回合流程。</p></div><div class="system-card"><span>AI FLOW</span><strong>簡單對戰</strong><p>整合玩家操作與簡單 AI 的行動順序。</p></div></div></article>
-      <figure class="detail-hero reveal"><img src="assets/voice-chess-flow.png" alt="Unity 語音西洋棋介面與程式執行畫面" loading="lazy"></figure>
       <article class="game-panel reveal"><h3>What I Learned</h3><p>這項作品讓我練習把語音輸入、遊戲規則、物件控制與 AI 流程整合到同一個 Unity 專案，也看見辨識結果如何影響操作是否清楚、穩定。</p></article>
     </div>
   </div>
@@ -579,11 +634,11 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 <section class="game-showcase page-view" id="project-p5js-creative-sketch" data-route="project-p5js-creative-sketch" aria-labelledby="p5-title">
   <div class="detail-top reveal">
     <a class="back-link interactive" href="#projects">← 返回專案列表</a>
-    <span>PROJECT / P02</span>
+    <span>PROJECT / P03</span>
   </div>
   <div class="game-shell">
     <div class="game-copy reveal">
-      <span class="label">02 · PROJECT DETAIL</span>
+      <span class="label">03 · PROJECT DETAIL</span>
       <h2 id="p5-title">數位漆扇<br>工坊</h2>
       <p>《數位漆扇工坊》是一個以傳統漆扇與水拓染為靈感的 p5.js 互動作品。使用者可以選色、拖曳滴管在水面滴入顏料，再用攪拌棒推動顏色流動，最後把扇面拖入水中完成拓印。</p>
       <span class="game-status">LIVE SKETCH</span>
@@ -611,10 +666,82 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
         <div class="status-item"><span>PRINT</span><strong>將扇面拖入水中完成拓印</strong></div>
         <div class="status-item"><span>SAVE</span><strong>完成後可下載 PNG</strong></div>
       </div>
-      <div class="flow-gallery" aria-label="p5.js related works">
-        <figure class="gallery-item reveal"><img src="assets/lacquer-fan-result.png" alt="數位漆扇工坊扇面拓印結果" loading="lazy"><figcaption>OUTPUT · 扇面拓印結果</figcaption></figure>
-        <figure class="gallery-item reveal"><img src="assets/emotion-spectrum.png" alt="Emotion Spectrum 情緒光譜互動作品" loading="lazy"><figcaption>RELATED · Emotion Spectrum</figcaption></figure>
-        <figure class="gallery-item reveal"><img src="assets/gravity-garden.png" alt="Gravity Garden 互動作品" loading="lazy"><figcaption>RELATED · Gravity Garden</figcaption></figure>
+      <div class="media-section-head reveal"><h3>Project Gallery</h3><span>ORIGINAL RATIO · CLICK TO ENLARGE</span></div>
+      <div class="media-gallery" aria-label="數位漆扇工坊作品圖片">
+        <figure class="media-card reveal" data-span="wide"><button class="media-expand interactive" type="button" data-media-title="「互動媒體設計」作品－數位漆扇工坊操作介面"><img src="assets/media/p03-lacquer-fan/lacquer-interface.png" alt="數位漆扇工坊 p5.js 操作介面" width="1917" height="768" loading="lazy" decoding="async"></button><figcaption><span>INTERFACE</span>滴色、攪拌與扇面拓印操作畫面</figcaption></figure>
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「互動媒體設計」作品－數位漆扇工坊拓印成品"><img src="assets/media/p03-lacquer-fan/lacquer-result.png" alt="數位漆扇工坊扇面拓印結果" width="570" height="493" loading="lazy" decoding="async"></button><figcaption><span>OUTPUT</span>完成拓印後的扇面與 PNG 下載介面</figcaption></figure>
+      </div>
+      <div class="media-section-head reveal"><h3>Same Course / Other Works</h3><span>SOURCE · 互動媒體設計</span></div>
+      <p class="course-source reveal">以下是同一門「互動媒體設計」課程中的其他 p5.js 作品，與《數位漆扇工坊》分開標示。</p>
+      <div class="media-gallery" aria-label="互動媒體設計其他作品">
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「互動媒體設計」作品－Emotion Spectrum 情緒光譜"><img src="assets/media/p03-lacquer-fan/emotion-spectrum.png" alt="Emotion Spectrum 情緒光譜 p5.js 作品" width="1912" height="832" loading="lazy" decoding="async"></button><figcaption><span>OTHER WORK</span>Emotion Spectrum 情緒光譜</figcaption></figure>
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「互動媒體設計」作品－Gravity Garden"><img src="assets/media/p03-lacquer-fan/gravity-garden.png" alt="Gravity Garden p5.js 作品" width="1917" height="731" loading="lazy" decoding="async"></button><figcaption><span>OTHER WORK</span>Gravity Garden</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="game-showcase page-view" id="project-undead-rush" data-route="project-undead-rush" aria-labelledby="undead-title">
+  <div class="detail-top reveal"><a class="back-link interactive" href="#projects">← 返回專案列表</a><span>PROJECT / P04</span></div>
+  <div class="game-shell">
+    <div class="game-copy reveal">
+      <span class="label">04 · COURSE PROJECT</span><h2 id="undead-title">亡靈<br>衝刺</h2>
+      <p>「遊戲程式設計」課程中使用 Adobe Animate Tutorials 製作的遊戲作品。現有資料包含故事開場、角色登場、關卡遊玩、進階提示與勝負結果。</p>
+      <span class="game-status">GAMEPLAY AVAILABLE</span>
+      <div class="game-facts"><div class="game-fact"><small>SOFTWARE</small><strong>Adobe Animate</strong></div><div class="game-fact"><small>TYPE</small><strong>Course Game</strong></div><div class="game-fact"><small>FLOW</small><strong>Intro to Result</strong></div><div class="game-fact"><small>MEDIA</small><strong>Video + Stills</strong></div></div>
+    </div>
+    <div class="game-stage">
+      <figure class="video-frame reveal"><video controls preload="metadata" playsinline poster="assets/media/p04-undead-rush/undead-gameplay.png"><source src="assets/media/p04-undead-rush/undead-gameplay.mp4" type="video/mp4">您的瀏覽器不支援影片播放。</video><figcaption><span>GAMEPLAY · 02:09</span>「遊戲程式設計」課程作品完整操作錄影</figcaption></figure>
+      <div class="detail-columns">
+        <article class="game-panel reveal"><h3>Overview</h3><p>作品以森林與亡靈題材串接遊戲流程。從文字開場與角色介紹進入關卡，再以角色移動、敵人追逐、階段提示和勝負畫面構成完整體驗。</p></article>
+        <article class="game-panel reveal"><h3>Available Evidence</h3><p>資料夾中的五張截圖與 Gameplay 影片都來自「遊戲程式設計」，可以確認作品包含開場、角色、遊玩、Level 3 提示與 Victory 等畫面；未從其他課程補入素材。</p></article>
+      </div>
+      <div class="game-loop reveal" aria-label="亡靈衝刺遊戲流程">
+        <div class="loop-step"><span>01 · INTRO</span><strong>故事開場</strong><p>以場景和文字建立森林與亡靈背景。</p></div>
+        <div class="loop-step"><span>02 · CHARACTER</span><strong>角色登場</strong><p>介紹玩家角色與冒險目標。</p></div>
+        <div class="loop-step"><span>03 · PLAY</span><strong>關卡遊玩</strong><p>角色與幽靈在不同森林場景中移動。</p></div>
+        <div class="loop-step"><span>04 · RESULT</span><strong>勝負結果</strong><p>依遊玩結果顯示 Victory 或 Defeat。</p></div>
+      </div>
+      <div class="media-section-head reveal"><h3>Gameplay Gallery</h3><span>COURSE · 遊戲程式設計</span></div>
+      <div class="media-gallery" aria-label="亡靈衝刺作品圖片">
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「遊戲程式設計」作品－亡靈衝刺故事開場"><img src="assets/media/p04-undead-rush/undead-intro.png" alt="亡靈衝刺故事開場畫面" width="1318" height="692" loading="lazy" decoding="async"></button><figcaption><span>INTRO</span>森林故事開場</figcaption></figure>
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「遊戲程式設計」作品－亡靈衝刺角色介紹"><img src="assets/media/p04-undead-rush/undead-character.png" alt="亡靈衝刺角色介紹畫面" width="1315" height="695" loading="lazy" decoding="async"></button><figcaption><span>CHARACTER</span>玩家角色與任務介紹</figcaption></figure>
+        <figure class="media-card reveal" data-span="wide"><button class="media-expand interactive" type="button" data-media-title="「遊戲程式設計」作品－亡靈衝刺關卡遊玩"><img src="assets/media/p04-undead-rush/undead-gameplay.png" alt="亡靈衝刺關卡遊玩畫面" width="1312" height="692" loading="lazy" decoding="async"></button><figcaption><span>GAMEPLAY</span>玩家角色與幽靈的關卡畫面</figcaption></figure>
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「遊戲程式設計」作品－亡靈衝刺 Level 3 提示"><img src="assets/media/p04-undead-rush/undead-level.png" alt="亡靈衝刺 Level 3 提示畫面" width="1313" height="693" loading="lazy" decoding="async"></button><figcaption><span>LEVEL 3</span>幽靈加速移動提示</figcaption></figure>
+        <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「遊戲程式設計」作品－亡靈衝刺 Victory 畫面"><img src="assets/media/p04-undead-rush/undead-victory.png" alt="亡靈衝刺 Victory 畫面" width="1317" height="670" loading="lazy" decoding="async"></button><figcaption><span>RESULT</span>Victory 與再次挑戰</figcaption></figure>
+      </div>
+    </div>
+  </div>
+</section>
+<section class="game-showcase page-view" id="project-3d-animation" data-route="project-3d-animation" aria-labelledby="animation-title">
+  <div class="detail-top reveal"><a class="back-link interactive" href="#projects">← 返回專案列表</a><span>PROJECT / P05</span></div>
+  <div class="game-shell">
+    <div class="game-copy reveal">
+      <span class="label">05 · COURSE ARCHIVE</span><h2 id="animation-title">3D /<br>Animation</h2>
+      <p>此頁整理兩門彼此獨立的 Maya 課程資料。每張圖都依原始第一層資料夾標示來源，不把「3D動畫設計」與「3D電腦動畫（二）」的作品合併描述。</p>
+      <span class="game-status">SOURCES SEPARATED</span>
+      <div class="game-facts"><div class="game-fact"><small>COURSE A</small><strong>3D動畫設計</strong></div><div class="game-fact"><small>COURSE B</small><strong>3D電腦動畫（二）</strong></div><div class="game-fact"><small>SOFTWARE</small><strong>Maya</strong></div><div class="game-fact"><small>MEDIA</small><strong>6 Stills</strong></div></div>
+    </div>
+    <div class="game-stage">
+      <article class="game-panel reveal"><h3>Source Rule</h3><p>本頁只依各課程資料夾中實際存在的文字與圖片說明。兩門課都使用 Maya，但作品、課程目的與媒體來源維持分開；未提供的原始影片不以其他圖片替代。</p></article>
+      <div class="course-media-group">
+        <div class="media-section-head reveal"><h3>3D動畫設計</h3><span>SOURCE · 自傳/3D動畫設計</span></div>
+        <p class="course-source reveal">資料說明為「用 Maya 剪出來的影片」；目前資料夾中可確認兩張期末作品畫面，內容為飲料罐、地形與文字編排。</p>
+        <div class="media-gallery" aria-label="3D動畫設計課程作品">
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D動畫設計」期末作品－地形與飲料罐遠景"><img src="assets/media/p05-3d-animation/3d-animation-design/redbull-terrain-wide.png" alt="3D動畫設計期末作品地形與飲料罐遠景" width="1017" height="596" loading="lazy" decoding="async"></button><figcaption><span>3D動畫設計</span>期末作品畫面 1</figcaption></figure>
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D動畫設計」期末作品－飲料罐近景"><img src="assets/media/p05-3d-animation/3d-animation-design/redbull-terrain-close.png" alt="3D動畫設計期末作品飲料罐近景" width="1017" height="593" loading="lazy" decoding="async"></button><figcaption><span>3D動畫設計</span>期末作品畫面 2</figcaption></figure>
+        </div>
+        <div class="media-missing reveal"><strong>MISSING MEDIA</strong><span>原始 Maya 動畫／輸出影片目前未在此課程資料夾中提供。</span></div>
+      </div>
+      <div class="course-media-group">
+        <div class="media-section-head reveal"><h3>3D電腦動畫（二）</h3><span>SOURCE · 自傳/3D電腦動畫（二）</span></div>
+        <p class="course-source reveal">資料說明為透過 Maya 製作高渲染作品與動畫；目前可確認的圖像包含賽車軌道、室內燈光場景與森林場景。</p>
+        <div class="media-gallery" aria-label="3D電腦動畫（二）課程作品">
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D電腦動畫（二）」期中作品－賽車軌道近景"><img src="assets/media/p05-3d-animation/3d-computer-animation-2/race-track-close.png" alt="3D電腦動畫二賽車軌道近景" width="1445" height="837" loading="lazy" decoding="async"></button><figcaption><span>3D電腦動畫（二）</span>期中作品－賽車軌道近景</figcaption></figure>
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D電腦動畫（二）」期中作品－賽車軌道俯視"><img src="assets/media/p05-3d-animation/3d-computer-animation-2/race-track-overview.png" alt="3D電腦動畫二賽車軌道俯視" width="1445" height="842" loading="lazy" decoding="async"></button><figcaption><span>3D電腦動畫（二）</span>期中作品－賽車軌道俯視</figcaption></figure>
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D電腦動畫（二）」作業－室內燈光場景"><img src="assets/media/p05-3d-animation/3d-computer-animation-2/lighting-scene.png" alt="3D電腦動畫二室內燈光場景" width="960" height="540" loading="lazy" decoding="async"></button><figcaption><span>3D電腦動畫（二）</span>作業 1－室內燈光場景</figcaption></figure>
+          <figure class="media-card reveal"><button class="media-expand interactive" type="button" data-media-title="「3D電腦動畫（二）」作業－森林場景"><img src="assets/media/p05-3d-animation/3d-computer-animation-2/forest-scene.jpg" alt="3D電腦動畫二森林場景" width="772" height="472" loading="lazy" decoding="async"></button><figcaption><span>3D電腦動畫（二）</span>作業 2－森林場景</figcaption></figure>
+        </div>
+        <div class="media-missing reveal"><strong>MISSING MEDIA</strong><span>資料提到動畫，但原始動畫檔目前未在此課程資料夾中提供。</span></div>
       </div>
     </div>
   </div>
@@ -716,6 +843,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <div class="contact-actions reveal">
     <a class="magnetic interactive" href="mailto:n0966785408@gmail.com">START A PROJECT</a>
     <a class="secondary-link interactive" href="mailto:n0966785408@gmail.com?subject=Portfolio%20Inquiry">EMAIL ME</a>
+    <a class="secondary-link interactive" href="https://github.com/NiniPomelo/NiniPomelo.github.io" target="_blank" rel="noopener">GITHUB</a>
   </div>
 </section>
 </main>
@@ -724,6 +852,15 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
   <span>TAIPEI · TAIWAN</span>
   <span>© <b id="year"></b></span>
 </footer>
+<dialog class="media-lightbox" id="mediaLightbox" aria-label="作品圖片放大檢視">
+  <div class="lightbox-stage">
+    <button class="lightbox-close interactive" id="lightboxClose" type="button" aria-label="關閉圖片檢視">×</button>
+    <button class="lightbox-nav lightbox-prev interactive" id="lightboxPrev" type="button" aria-label="上一張圖片">‹</button>
+    <img id="lightboxImage" alt="">
+    <button class="lightbox-nav lightbox-next interactive" id="lightboxNext" type="button" aria-label="下一張圖片">›</button>
+    <div class="lightbox-caption"><span id="lightboxTitle"></span><span class="lightbox-count" id="lightboxCount"></span></div>
+  </div>
+</dialog>
 <script>
 const reduce=matchMedia("(prefers-reduced-motion: reduce)").matches;
 const fine=matchMedia("(pointer:fine)").matches;
@@ -752,6 +889,7 @@ function showRoute(route,scrollToTop=true){
     view.hidden=view.dataset.route!==currentRoute;
   });
   setActiveNav(currentRoute);
+  dispatchEvent(new CustomEvent("portfolio:routechange",{detail:{route:currentRoute}}));
   if(scrollToTop&&!reduce){
     scrollTo({top:0,behavior:"smooth"});
   }else if(scrollToTop){
@@ -807,6 +945,43 @@ if(filterButton&&filterMenu){
 }
 applyProjectFilter("all");
 
+const lightbox=document.getElementById("mediaLightbox");
+const lightboxImage=document.getElementById("lightboxImage");
+const lightboxTitle=document.getElementById("lightboxTitle");
+const lightboxCount=document.getElementById("lightboxCount");
+const mediaTriggers=[...document.querySelectorAll(".media-expand")];
+let activeMediaTriggers=[];
+let lightboxIndex=0;
+function renderLightbox(index){
+  if(!activeMediaTriggers.length) return;
+  lightboxIndex=(index+activeMediaTriggers.length)%activeMediaTriggers.length;
+  const trigger=activeMediaTriggers[lightboxIndex];
+  const source=trigger.querySelector("img");
+  lightboxImage.src=source.currentSrc||source.src;
+  lightboxImage.alt=source.alt;
+  lightboxTitle.textContent=trigger.dataset.mediaTitle||source.alt;
+  lightboxCount.textContent=`${lightboxIndex+1} / ${activeMediaTriggers.length}`;
+}
+mediaTriggers.forEach((trigger,index)=>trigger.addEventListener("click",()=>{
+  const projectView=trigger.closest(".page-view");
+  activeMediaTriggers=[...(projectView||document).querySelectorAll(".media-expand")];
+  renderLightbox(activeMediaTriggers.indexOf(trigger));
+  lightbox.showModal();
+}));
+document.getElementById("lightboxClose").addEventListener("click",()=>lightbox.close());
+document.getElementById("lightboxPrev").addEventListener("click",()=>renderLightbox(lightboxIndex-1));
+document.getElementById("lightboxNext").addEventListener("click",()=>renderLightbox(lightboxIndex+1));
+lightbox.addEventListener("click",event=>{
+  if(event.target===lightbox) lightbox.close();
+});
+lightbox.addEventListener("keydown",event=>{
+  if(event.key==="ArrowLeft") renderLightbox(lightboxIndex-1);
+  if(event.key==="ArrowRight") renderLightbox(lightboxIndex+1);
+});
+addEventListener("portfolio:routechange",()=>{
+  if(lightbox.open) lightbox.close();
+});
+
 const cloud=document.querySelector(".visual-cloud");
 const cards=[...document.querySelectorAll(".float-card")];
 const scatter=()=>cloud.classList.toggle("scattered");
@@ -821,9 +996,14 @@ cloud.addEventListener("keydown",e=>{
 if(!reduce){
   const physics=cards.map(()=>({x:0,y:0,vx:0,vy:0}));
   let pointer={x:-9999,y:-9999};
+  let heroFrame=0;
   cloud.addEventListener("pointermove",e=>{pointer={x:e.clientX,y:e.clientY}});
   cloud.addEventListener("pointerleave",()=>{pointer={x:-9999,y:-9999}});
-  (function animateCards(){
+  const animateCards=()=>{
+    if(document.hidden||document.body.dataset.page!=="about"){
+      heroFrame=0;
+      return;
+    }
     const cr=cloud.getBoundingClientRect();
     const inside=pointer.x>cr.left&&pointer.x<cr.right&&pointer.y>cr.top&&pointer.y<cr.bottom;
     const nx=inside?(pointer.x-cr.left)/cr.width-.5:0;
@@ -854,8 +1034,19 @@ if(!reduce){
       card.style.setProperty("--tx",`${p.x}px`);
       card.style.setProperty("--ty",`${p.y}px`);
     });
-    requestAnimationFrame(animateCards);
-  })();
+    heroFrame=requestAnimationFrame(animateCards);
+  };
+  const syncHeroMotion=()=>{
+    const shouldRun=!document.hidden&&document.body.dataset.page==="about";
+    if(shouldRun&&!heroFrame) heroFrame=requestAnimationFrame(animateCards);
+    if(!shouldRun&&heroFrame){
+      cancelAnimationFrame(heroFrame);
+      heroFrame=0;
+    }
+  };
+  addEventListener("portfolio:routechange",syncHeroMotion);
+  document.addEventListener("visibilitychange",syncHeroMotion);
+  syncHeroMotion();
 }
 
 const reveals=document.querySelectorAll(".reveal");
@@ -1067,15 +1258,23 @@ tool.reset.addEventListener("click",()=>{
 });
 drawImageTool();
 
-addEventListener("scroll",()=>{
+const progressBar=document.querySelector(".progress");
+const parallaxElements=[...document.querySelectorAll("[data-parallax]")];
+let scrollFrame=0;
+const updateScrollEffects=()=>{
+  scrollFrame=0;
   const max=document.documentElement.scrollHeight-innerHeight;
-  document.querySelector(".progress").style.width=`${max>0?scrollY/max*100:0}%`;
+  progressBar.style.width=`${max>0?scrollY/max*100:0}%`;
   if(!reduce){
-    document.querySelectorAll("[data-parallax]").forEach(el=>{
+    parallaxElements.forEach(el=>{
       el.style.marginTop=`${scrollY*Number(el.dataset.parallax)}px`;
     });
   }
+};
+addEventListener("scroll",()=>{
+  if(!scrollFrame) scrollFrame=requestAnimationFrame(updateScrollEffects);
 },{passive:true});
+updateScrollEffects();
 
 if(fine&&!reduce){
   const cursor=document.querySelector(".cursor");
@@ -1107,6 +1306,6 @@ if(fine&&!reduce){
   magnet.addEventListener("pointerleave",()=>magnet.style.transform="");
 }
 </script>
-<script src="interaction-system.js"></script>
+<script src="interaction-system.js?v=20260927-1"></script>
 </body>
 </html>

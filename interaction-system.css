@@ -25,12 +25,12 @@ body.game-mode {
   right: max(18px, env(safe-area-inset-right));
   bottom: max(18px, env(safe-area-inset-bottom));
   z-index: 1200;
-  width: min(360px, calc(100vw - 36px));
+  width: min(320px, calc(100vw - 36px));
   border: 1px solid rgba(255, 255, 255, .74);
   border-radius: 18px;
   background: rgba(255, 255, 255, .76);
   box-shadow: 0 24px 70px rgba(54, 38, 89, .22);
-  padding: 18px;
+  padding: 15px;
   color: var(--secret-dark);
   backdrop-filter: blur(24px);
   transition: opacity .3s, transform .3s;
@@ -53,7 +53,7 @@ body.game-mode {
 
 .interaction-prompt h2 {
   margin: 0 0 8px;
-  font: 600 24px/1.05 "Space Grotesk", sans-serif;
+  font: 600 20px/1.08 "Space Grotesk", sans-serif;
   letter-spacing: 0;
 }
 
@@ -68,11 +68,11 @@ body.game-mode {
   display: grid;
   grid-template-columns: 1fr 1fr;
   gap: 10px;
-  margin-top: 16px;
+  margin-top: 13px;
 }
 
 .secret-button {
-  min-height: 42px;
+  min-height: 40px;
   border: 1px solid rgba(92, 69, 142, .24);
   border-radius: 10px;
   background: rgba(255, 255, 255, .56);
@@ -120,6 +120,11 @@ body.game-mode {
 
 .interaction-dock[hidden] {
   display: none;
+}
+
+body[data-page="about"] .interaction-dock,
+body[data-page="about"] .interaction-prompt {
+  bottom: max(86px, calc(68px + env(safe-area-inset-bottom)));
 }
 
 body[data-page="contact"] .interaction-dock {
@@ -754,6 +759,11 @@ body[data-page="contact"] .secret-collection { top: calc(100% + 10px); bottom: a
 @keyframes ready-count { 0% { transform: scale(.55); opacity: 0; filter: blur(8px); } 45% { opacity: 1; filter: blur(0); } 100% { transform: scale(1.2); opacity: 0; } }
 
 @media (max-width: 800px) {
+  body[data-page="about"] .interaction-dock,
+  body[data-page="about"] .interaction-prompt {
+    bottom: max(12px, env(safe-area-inset-bottom));
+  }
+
   body[data-page="contact"] .interaction-dock {
     top: auto;
     bottom: max(12px, env(safe-area-inset-bottom));
