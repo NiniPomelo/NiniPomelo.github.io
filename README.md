@@ -7,6 +7,8 @@ Static GitHub Pages portfolio focused on Unity, Meta Quest, MR / VR / XR, game s
 - `index.html`: portfolio content, hash routing, Image Studio, and primary page interactions.
 - `interaction-system.css`: optional hidden-interaction and mini-game presentation.
 - `interaction-system.js`: secret discovery, local storage, game manager, and seven mini games.
+- `lab-system.css`: shared LAB index, workspace, controls, responsive, and experiment styles.
+- `lab-system.js`: LAB registry, lazy experiment lifecycle, Image Studio, Motion, Spatial UI, Interaction, Material, and Generative systems.
 - `assets/media/p02-voice-chess/`: Unity voice chess screenshot and optimized gameplay video.
 - `assets/media/p03-lacquer-fan/`: Digital Lacquer Fan interface and output images.
 - `assets/media/p04-undead-rush/`: Undead Rush gameplay video and course screenshots.
@@ -19,6 +21,18 @@ Static GitHub Pages portfolio focused on Unity, Meta Quest, MR / VR / XR, game s
 - `#project-p5js-creative-sketch`: P03 Digital Lacquer Fan Workshop.
 - `#project-undead-rush`: P04 Undead Rush.
 - `#project-3d-animation`: P05 3D / Animation course archive.
+
+## LAB routes
+
+- `#lab`: public experiment index with six live previews.
+- `#lab-image`: Image Studio with aspect presets, background modes, frame styles, white-edge removal, and PNG / WebP export.
+- `#lab-motion`: motion timing, custom cubic bezier, spring feel, and side-by-side comparison.
+- `#lab-spatial`: draggable CSS 3D panels, depth, comfort area, focus mode, and spatial presets.
+- `#lab-interaction`: magnetic, tilt, follow, drag, spring drag, repulse, trail, and split comparison modes.
+- `#lab-material`: glass, glow, border, shadow, light position, presets, and CSS output.
+- `#lab-generative`: limited-particle Canvas experiments for field, garden, flow, orbit, and ripple behavior.
+
+LAB experiments are independent from Hidden Interaction Mode. `lab-system.js` initializes only the active experiment and calls its cleanup function when the route changes; Canvas and pointer animation loops are not kept running in the background.
 
 ## Local preview
 

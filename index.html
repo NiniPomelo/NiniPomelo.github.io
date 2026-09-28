@@ -416,6 +416,7 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
 }
 </style>
 <link rel="stylesheet" href="interaction-system.css?v=20260927-1">
+<link rel="stylesheet" href="lab-system.css?v=20260928-1">
 </head>
 <body>
 <div class="noise"></div>
@@ -746,96 +747,20 @@ footer{display:flex;justify-content:space-between;gap:20px;padding:30px var(--pa
     </div>
   </div>
 </section>
-<section class="tools page-view" id="lab" data-route="lab">
-  <div class="tools-copy reveal">
-    <span class="label">04 · LAB</span>
-    <h2>IMAGE<br>STUDIO</h2>
-    <p>上傳圖片後，可以套用品牌背景色、圓角、留白與輸出尺寸，直接下載可用於作品集、社群或商品頁的 PNG。</p>
+<section class="lab-index page-view" id="lab" data-route="lab" aria-labelledby="lab-index-title">
+  <div class="lab-index-head reveal">
+    <span class="label">04 · LAB / EXPERIMENTS</span>
+    <h2 id="lab-index-title">PLAY WITH<br><span>THE SYSTEM.</span></h2>
+    <p>Small systems I build to explore motion, space and interaction. Choose a live experiment, adjust its behavior and learn through response.</p>
   </div>
-  <div class="tool-panel reveal">
-    <div class="tool-preview">
-      <canvas id="imageToolCanvas" width="1200" height="900" hidden></canvas>
-      <div class="tool-empty" id="imageToolEmpty">UPLOAD IMAGE</div>
-    </div>
-    <div class="tool-controls">
-      <div class="tool-control">
-        <label for="toolUpload">IMAGE</label>
-        <input class="interactive" id="toolUpload" type="file" accept="image/*">
-      </div>
-      <div class="tool-control">
-        <label for="toolFit">FIT</label>
-        <select class="interactive" id="toolFit">
-          <option value="contain">CONTAIN</option>
-          <option value="cover">COVER</option>
-        </select>
-      </div>
-      <div class="tool-control">
-        <label for="toolTarget">ROUND TARGET</label>
-        <select class="interactive" id="toolTarget">
-          <option value="image">IMAGE ITSELF</option>
-          <option value="canvas">CANVAS FRAME</option>
-        </select>
-      </div>
-      <div class="tool-control">
-        <label for="toolColor">BACKGROUND</label>
-        <div class="color-row">
-          <input class="interactive" id="toolColor" type="color" value="#ffe6f0">
-          <input class="interactive" id="toolColorText" type="text" value="#ffe6f0" maxlength="7" aria-label="Background color hex">
-        </div>
-      </div>
-      <div class="tool-control">
-        <label for="toolSize">OUTPUT SIZE</label>
-        <select class="interactive" id="toolSize">
-          <option value="1200x900">1200 x 900</option>
-          <option value="1080x1080">1080 x 1080</option>
-          <option value="1200x1600">1200 x 1600</option>
-          <option value="1600x900">1600 x 900</option>
-        </select>
-      </div>
-      <div class="tool-control">
-        <label for="toolReplaceWhite">WHITE BACKGROUND</label>
-        <label class="toggle-row">
-          <input class="interactive" id="toolReplaceWhite" type="checkbox" checked>
-          REPLACE WHITE AREA
-        </label>
-      </div>
-      <div class="tool-control">
-        <div class="range-readout">
-          <label for="toolRadius">RADIUS</label>
-          <output id="toolRadiusValue">72 px</output>
-        </div>
-        <input class="interactive" id="toolRadius" type="range" min="0" max="260" value="72">
-      </div>
-      <div class="tool-control">
-        <div class="range-readout">
-          <label for="toolPadding">PADDING</label>
-          <output id="toolPaddingValue">64 px</output>
-        </div>
-        <input class="interactive" id="toolPadding" type="range" min="0" max="220" value="64">
-      </div>
-      <div class="tool-control">
-        <div class="range-readout">
-          <label for="toolTolerance">TOLERANCE</label>
-          <output id="toolToleranceValue">38</output>
-        </div>
-        <input class="interactive" id="toolTolerance" type="range" min="0" max="90" value="38">
-      </div>
-      <div class="tool-actions">
-        <button class="tool-button interactive" id="toolDownload" type="button" disabled>DOWNLOAD PNG</button>
-        <button class="tool-button secondary interactive" id="toolReset" type="button">RESET</button>
-      </div>
-    </div>
-  </div>
+  <div class="lab-index-grid" id="labIndexGrid" aria-label="Interactive lab experiments"></div>
 </section>
-<section class="capabilities page-view" data-route="lab">
-  <span class="label reveal">LAB · CAPABILITIES</span>
-  <div class="cap-list reveal">
-    <div class="cap">VR / XR <small>01</small><em>沉浸式場景、視線引導、互動節奏與使用者路徑。</em></div>
-    <div class="cap">Spatial Design <small>02</small><em>把故事、動線與視覺焦點整理成可探索的空間。</em></div>
-    <div class="cap">Visual Direction <small>03</small><em>建立適合數位體驗的色彩、動態、構圖與情緒。</em></div>
-    <div class="cap">Prototyping <small>04</small><em>快速測試互動想法，從概念推進到可展示的 demo。</em></div>
-  </div>
-</section>
+<section class="lab-workspace-page page-view" data-route="lab-image" aria-label="Image Studio"><div id="lab-image-mount"></div></section>
+<section class="lab-workspace-page page-view" data-route="lab-motion" aria-label="Motion Lab"><div id="lab-motion-mount"></div></section>
+<section class="lab-workspace-page page-view" data-route="lab-spatial" aria-label="Spatial UI Lab"><div id="lab-spatial-mount"></div></section>
+<section class="lab-workspace-page page-view" data-route="lab-interaction" aria-label="Interaction Playground"><div id="lab-interaction-mount"></div></section>
+<section class="lab-workspace-page page-view" data-route="lab-material" aria-label="Material Lab"><div id="lab-material-mount"></div></section>
+<section class="lab-workspace-page page-view" data-route="lab-generative" aria-label="Generative Playground"><div id="lab-generative-mount"></div></section>
 <section class="contact page-view" id="contact" data-route="contact">
   <div class="contact-ring" data-parallax="-.05"></div>
   <span class="label reveal">05 · CONTACT</span>
@@ -874,7 +799,9 @@ function normalizeRoute(value){
   return routeAliases[route]||route||"about";
 }
 function getNavRoute(route){
-  return route.startsWith("project-") ? "projects" : route;
+  if(route.startsWith("project-")) return "projects";
+  if(route.startsWith("lab-")) return "lab";
+  return route;
 }
 function setActiveNav(route){
   const activeRoute=getNavRoute(route);
@@ -906,7 +833,7 @@ document.querySelectorAll('a[href^="#"]').forEach(link=>{
   });
 });
 addEventListener("popstate",()=>showRoute(location.hash,false));
-addEventListener("hashchange",()=>showRoute(location.hash,false));
+addEventListener("hashchange",()=>showRoute(location.hash,true));
 showRoute(location.hash||"about",false);
 
 const filterButton=document.getElementById("projectFilterButton");
@@ -1060,204 +987,6 @@ const observer=new IntersectionObserver(entries=>{
 },{threshold:.12});
 reveals.forEach(el=>observer.observe(el));
 
-const tool={
-  upload:document.getElementById("toolUpload"),
-  canvas:document.getElementById("imageToolCanvas"),
-  empty:document.getElementById("imageToolEmpty"),
-  color:document.getElementById("toolColor"),
-  colorText:document.getElementById("toolColorText"),
-  size:document.getElementById("toolSize"),
-  fit:document.getElementById("toolFit"),
-  target:document.getElementById("toolTarget"),
-  replaceWhite:document.getElementById("toolReplaceWhite"),
-  radius:document.getElementById("toolRadius"),
-  radiusValue:document.getElementById("toolRadiusValue"),
-  padding:document.getElementById("toolPadding"),
-  paddingValue:document.getElementById("toolPaddingValue"),
-  tolerance:document.getElementById("toolTolerance"),
-  toleranceValue:document.getElementById("toolToleranceValue"),
-  download:document.getElementById("toolDownload"),
-  reset:document.getElementById("toolReset"),
-  image:null
-};
-
-function roundedRect(ctx,x,y,w,h,r){
-  const radius=Math.min(r,w/2,h/2);
-  ctx.beginPath();
-  ctx.moveTo(x+radius,y);
-  ctx.lineTo(x+w-radius,y);
-  ctx.quadraticCurveTo(x+w,y,x+w,y+radius);
-  ctx.lineTo(x+w,y+h-radius);
-  ctx.quadraticCurveTo(x+w,y+h,x+w-radius,y+h);
-  ctx.lineTo(x+radius,y+h);
-  ctx.quadraticCurveTo(x,y+h,x,y+h-radius);
-  ctx.lineTo(x,y+radius);
-  ctx.quadraticCurveTo(x,y,x+radius,y);
-  ctx.closePath();
-}
-
-function hexToRgb(hex){
-  const value=hex.replace("#","");
-  return {
-    r:parseInt(value.slice(0,2),16),
-    g:parseInt(value.slice(2,4),16),
-    b:parseInt(value.slice(4,6),16)
-  };
-}
-
-function processedImageCanvas(){
-  const source=document.createElement("canvas");
-  const sourceCtx=source.getContext("2d");
-  source.width=tool.image.width;
-  source.height=tool.image.height;
-  sourceCtx.drawImage(tool.image,0,0);
-  if(!tool.replaceWhite.checked)return source;
-  const imageData=sourceCtx.getImageData(0,0,source.width,source.height);
-  const data=imageData.data;
-  const bg=hexToRgb(tool.color.value);
-  const tolerance=Number(tool.tolerance.value);
-  const min=255-tolerance;
-  const width=source.width;
-  const height=source.height;
-  const seen=new Uint8Array(width*height);
-  const queue=[];
-  const isNearWhite=index=>{
-    const offset=index*4;
-    const r=data[offset],g=data[offset+1],b=data[offset+2],a=data[offset+3];
-    return a>0&&r>=min&&g>=min&&b>=min&&Math.max(r,g,b)-Math.min(r,g,b)<=tolerance;
-  };
-  const push=index=>{
-    if(index<0||index>=seen.length||seen[index]||!isNearWhite(index))return;
-    seen[index]=1;
-    queue.push(index);
-  };
-  for(let x=0;x<width;x++){
-    push(x);
-    push((height-1)*width+x);
-  }
-  for(let y=0;y<height;y++){
-    push(y*width);
-    push(y*width+width-1);
-  }
-  for(let q=0;q<queue.length;q++){
-    const index=queue[q];
-    const offset=index*4;
-    data[offset]=bg.r;
-    data[offset+1]=bg.g;
-    data[offset+2]=bg.b;
-    data[offset+3]=255;
-    const x=index%width;
-    const y=Math.floor(index/width);
-    if(x>0)push(index-1);
-    if(x<width-1)push(index+1);
-    if(y>0)push(index-width);
-    if(y<height-1)push(index+width);
-  }
-  sourceCtx.putImageData(imageData,0,0);
-  return source;
-}
-
-function drawImageTool(){
-  const [width,height]=tool.size.value.split("x").map(Number);
-  const radius=Number(tool.radius.value);
-  const padding=Number(tool.padding.value);
-  const canvas=tool.canvas;
-  const ctx=canvas.getContext("2d");
-  canvas.width=width;
-  canvas.height=height;
-  tool.radiusValue.textContent=`${radius} px`;
-  tool.paddingValue.textContent=`${padding} px`;
-  tool.toleranceValue.textContent=tool.tolerance.value;
-  ctx.clearRect(0,0,width,height);
-  if(tool.target.value==="canvas"){
-    roundedRect(ctx,0,0,width,height,radius);
-    ctx.save();
-    ctx.clip();
-    ctx.fillStyle=tool.color.value;
-    ctx.fillRect(0,0,width,height);
-  }else{
-    ctx.fillStyle="rgba(255,255,255,0)";
-    ctx.fillRect(0,0,width,height);
-  }
-  if(tool.image){
-    const areaW=Math.max(1,width-padding*2);
-    const areaH=Math.max(1,height-padding*2);
-    const image=processedImageCanvas();
-    const scale=tool.fit.value==="cover"
-      ? Math.max(areaW/image.width,areaH/image.height)
-      : Math.min(areaW/image.width,areaH/image.height);
-    const drawW=image.width*scale;
-    const drawH=image.height*scale;
-    const drawX=(width-drawW)/2;
-    const drawY=(height-drawH)/2;
-    if(tool.target.value==="image"){
-      roundedRect(ctx,drawX,drawY,drawW,drawH,radius);
-      ctx.save();
-      ctx.clip();
-      ctx.drawImage(image,drawX,drawY,drawW,drawH);
-      ctx.restore();
-    }else{
-      ctx.drawImage(image,drawX,drawY,drawW,drawH);
-    }
-  }
-  if(tool.target.value==="canvas")ctx.restore();
-}
-
-function setToolImage(file){
-  if(!file)return;
-  const reader=new FileReader();
-  reader.onload=()=>{
-    const image=new Image();
-    image.onload=()=>{
-      tool.image=image;
-      tool.canvas.hidden=false;
-      tool.empty.hidden=true;
-      tool.download.disabled=false;
-      drawImageTool();
-    };
-    image.src=reader.result;
-  };
-  reader.readAsDataURL(file);
-}
-
-tool.upload.addEventListener("change",e=>setToolImage(e.target.files[0]));
-tool.color.addEventListener("input",()=>{
-  tool.colorText.value=tool.color.value;
-  drawImageTool();
-});
-tool.colorText.addEventListener("input",()=>{
-  if(/^#[0-9a-f]{6}$/i.test(tool.colorText.value)){
-    tool.color.value=tool.colorText.value;
-    drawImageTool();
-  }
-});
-[tool.size,tool.fit,tool.target,tool.replaceWhite,tool.radius,tool.padding,tool.tolerance].forEach(input=>input.addEventListener("input",drawImageTool));
-tool.download.addEventListener("click",()=>{
-  if(!tool.image)return;
-  const link=document.createElement("a");
-  link.download="yu-you-image-studio.png";
-  link.href=tool.canvas.toDataURL("image/png");
-  link.click();
-});
-tool.reset.addEventListener("click",()=>{
-  tool.upload.value="";
-  tool.image=null;
-  tool.color.value="#ffe6f0";
-  tool.colorText.value="#ffe6f0";
-  tool.size.value="1200x900";
-  tool.fit.value="contain";
-  tool.target.value="image";
-  tool.replaceWhite.checked=true;
-  tool.radius.value="72";
-  tool.padding.value="64";
-  tool.tolerance.value="38";
-  tool.canvas.hidden=true;
-  tool.empty.hidden=false;
-  tool.download.disabled=true;
-  drawImageTool();
-});
-drawImageTool();
-
 const progressBar=document.querySelector(".progress");
 const parallaxElements=[...document.querySelectorAll("[data-parallax]")];
 let scrollFrame=0;
@@ -1306,6 +1035,7 @@ if(fine&&!reduce){
   magnet.addEventListener("pointerleave",()=>magnet.style.transform="");
 }
 </script>
+<script src="lab-system.js?v=20260928-1"></script>
 <script src="interaction-system.js?v=20260927-1"></script>
 </body>
 </html>
